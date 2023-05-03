@@ -1,3 +1,9 @@
+<?php
+session_start();
+  $identificacion = $_SESSION['identificacion'];
+  echo $identificacion;
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,6 +18,7 @@
 <!--Font awesome-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="../css/Styles.css"/>
+<link rel="stylesheet" href="../css/usuario.css"/>
 
 </head>
 <body class="" >
@@ -34,9 +41,9 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">Mis grupos</a>
               </li>
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown  administrador">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administrador</a>
-                <div class="dropdown-menu desaparece administrador">
+                <div class="dropdown-menu">
                   <a class="dropdown-item" href="#">Usuarios</a>
                   <a class="dropdown-item" href="#">Proyectos</a>
                   <div class="dropdown-divider"></div>
