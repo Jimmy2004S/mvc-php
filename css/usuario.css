@@ -1,0 +1,13 @@
+.add-project{
+    border-radius: 1px solid rgb(6, 123, 240);
+}
+    .add-project a{
+        text-decoration: none;
+        font-size: 30px;
+        margin-left: 30px;
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+    .add-project i{
+        width: 35px;
+    }
