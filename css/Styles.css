@@ -1,14 +1,68 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+html{
+    height: 100%;
+}
+.cont{
+    padding: 0px;
+    margin: 0px;
+}
+
 /*Index*/
     /*Body*/
-
 
 /*Footer*/
 .footer{
     background-color: black;
     color: white;
+    width: 100%;
 }
 
 /*Login*/
 .desaparece{
     display: none;
 }
+
+/*Navegacion*/
+.nav-user{
+    margin: 0px 20px 0px 10px;
+}
+
+/*Proyectos*/
+#boton-like {
+    background-color: grey;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+  }
+  
+  #boton-like.liked {
+    background-color: blue;
+  }
+  
+        #form-add-project{
+            display: flex;
+            justify-content: center;
+            align-content: center;
+        }
+
+		#formulario {
+			position: absolute;
+			top: 0;
+			left: 20px;
+			width: 40%; /* ancho del formulario */
+			height: 100%; /* altura del formulario */
+			background-color: #f2f2f2;
+			padding: 20px;
+			box-sizing: border-box;
+		}
+
+		#proyectos {
+			margin-right: 100px; /* para dejar espacio al formulario */
+			padding: 20px;
+			box-sizing: border-box;
+            width: 40%;
+		}

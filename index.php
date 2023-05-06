@@ -1,3 +1,10 @@
+<?php
+session_start();
+if(isset($_SESSION['error_login']) && $_SESSION['error_login']) {
+    echo '<script>alert("Datos de inicio de sesión incorrectos")</script>';
+    unset($_SESSION['error_login']);
+}
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -12,14 +19,14 @@
 <body>
     <form action="login.php" method="post">
         <h2>Login</h2>
-        <p>Inicia sesión y administrar tus proyectos pendientes</p>
+        <p>Inicia sesión </p>
         <label for="email">Codigo</label>
         <input type="text" name="email" id="email">
         <label for="contrasenia">Contraseña</label>
         <input type="password" name="contrasenia" id="contrasenia">
         <button>Login</button>
         <hr>
-        <p>¿No tienes una cuenta?<a href="register.php" target="_blank">Register</a></p>
+        <p>¿No tienes una cuenta?<a href="register.php">Register</a></p>
     </form>
 
 </body>
