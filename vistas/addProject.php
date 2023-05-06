@@ -1,35 +1,3 @@
-<?php 
-    include_once("../Datos/conexion.php");
-    $accion = (isset($_POST["accion"]))? $_POST["accion"]: "";
-    $id = (isset($_POST["id"]))? $_POST["id"]: "";
-    $codigoProyecto = null;
-    $nombre = "";
-    $descripcion = "";
-    $codigoGrupo = "";
-    $archivo = "";
-
-    switch($accion){
-        case "Registrar":
-            include("../Datos/proyectos/agregar.php");
-            break;
-        case "Eliminar":
-            break;
-        case "Seleccionar":
-            include("../Datos/proyectos/listar‼Codigo.php");
-            $codigo = $ProyectoXcodigo["codigo"];
-            $nombre = $ProyectoXcodigo["nombre"];
-            $descripcion = $ProyectoXcodigo["descripcion"];
-            $archivo = $ProyectoXcodigo["archivo"];
-            $codigoGrupo = $ProyectoXcodigo["codigo_grupo"];
-            break;
-        case "Modificar":
-            include("modificar.php");
-            break;
-        case "Like":
-            include("../Datos/proyectos/actualizar_likes.php");
-            break;
-    }  
-?>
 
 <?php  include("../Datos/proyectos/listar.php") ?>
 <?php  include("../Datos/grupos/listar.php") ?>
@@ -40,7 +8,7 @@
                                 <form method="POST" enctype="multipart/form-data">
                                         <legend><h3>Administrar proyectos</h3></legend>
                                         <input type="hidden" name="codigoProyecto" value="<?php echo $codigoProyecto; ?>" placeholder="Codigo Proyecto">
-                                        <input type="text" name="codigoPersona" value=" <?php echo $codigoPersonaLogin; ?> ">
+                                        <input type="hidden" name="codigoPersona" value=" <?php echo $codigoPersonaLogin; ?> ">
                                         <input type="hidden" name="fecha" value=" <?php echo date("d-m-Y") ?>">
                                         <input type="text" value="<?php echo $nombre; ?>" name="nombre" required placeholder="Nombre de proyecto..." ><br> <br>
                                         <input type="text" value="<?php echo $descripcion; ?>" name="descripcion" placeholder="Descripcion"><br> <br>
@@ -70,7 +38,7 @@
                                         <div class="card-body" id="proyecto_<?php echo $proyectos['codigo']; ?>">
                                             <p class="card-text"><?php echo $proyectos['descripcion'] ?></p>
                                             <div class="d-flex">
-                                                <form action="" method="post">
+                                                <form method="POST">
                                                     <input type="hidden" name="codigo" value="<?php echo $proyectos['codigo']; ?>" >
                                                     <input type="submit" class="btn btn-secondary" name="accion" value="Eliminar">
                                                     <input type="submit" class="btn btn-danger" name="accion" value="Selecionar">

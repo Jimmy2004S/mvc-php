@@ -1,7 +1,7 @@
 <?php
 include("../Datos/conexion.php");
 
-
+$fecha = new DateTime();
 try {
 
     // Preparar la consulta SQL
@@ -21,19 +21,15 @@ try {
     $descripcion = $_POST['descripcion'];
     $codigoGrupo = $_POST['codigoGrupo'];
     $codigoPersona = $_POST['codigoPersona'];
-
-
-    // Ejecutar la consulta
-    $stmt->execute();
-
     $archivo = $_FILES['archivo']['name'];
-    $fecha = new DateTime();
     $nomarchivo = ($archivo != "") ? $fecha -> getTimestamp()."_".$_FILES["archivo"]["name"] : "imagen.jpg";
-
     $tmpImagen = $_FILES["archivo"]["tmp_name"];
     if($tmpImagen != ""){
         move_uploaded_file($tmpImagen,"../Archivos/".$nomarchivo);
     }
+
+    // Ejecutar la consulta
+    $stmt->execute();
 
     // Verificar si la consulta se ha ejecutado correctamente
     if($stmt->rowCount() > 0){
@@ -43,7 +39,7 @@ try {
     }
     // Cerrar la conexión con la base de datos
     $conexion = null;
-    header("Location: ../../vistas/inicio.php");
+    header("Location: ../vistas/inicio.php");
 } catch (PDOException $e) {
     echo "Error: " . $e->getMessage();
 }

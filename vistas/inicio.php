@@ -21,8 +21,6 @@
                                         <div class="d-flex">
                                             <form action="" method="post">
                                                 <input type="hidden" name="codigo" value="<?php echo $proyectos['codigo']; ?>" >
-                                                <input type="submit" class="btn btn-secondary" name="accion" value="Eliminar">
-                                                <input type="submit" class="btn btn-danger" name="accion" value="Modificar">
                                                     <input class="btn btn-primary" type="submit" name="accion" value="Like">
                                                 </form>
                                         </div>

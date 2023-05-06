@@ -6,6 +6,41 @@ session_start();
 
 ?>
 
+<?php 
+    include_once("../Datos/conexion.php");
+    $accion = (isset($_POST["accion"]))? $_POST["accion"]: "";
+    $id = (isset($_POST["id"]))? $_POST["id"]: "";
+    $codigoProyecto = null;
+    $nombre = "";
+    $descripcion = "";
+    $codigoGrupo = "";
+    $archivo = "";
+    $fecha = "";
+
+    switch($accion){
+        case "Registrar":
+            include("../Datos/proyectos/agregar.php");
+            break;
+        case "Eliminar":
+            break;
+        case "Seleccionar":
+            include("../Datos/proyectos/listar‼Codigo.php");
+            $codigo = $ProyectoXcodigo["codigo"];
+            $nombre = $ProyectoXcodigo["nombre"];
+            $descripcion = $ProyectoXcodigo["descripcion"];
+            $archivo = $ProyectoXcodigo["archivo"];
+            $codigoGrupo = $ProyectoXcodigo["codigo_grupo"];
+            $fecha = $ProyectoXcodigo["fecha_inicio"];
+            break;
+        case "Modificar":
+            include("modificar.php");
+            break;
+        case "Like":
+            include("../Datos/proyectos/actualizar_likes.php");
+            break;
+    }  
+?>
+
 <?php include("../Datos/proyectos/listar.php"); ?>
 <?php include("../Datos/grupos/listar.php"); ?>
 
