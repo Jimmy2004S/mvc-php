@@ -1,3 +1,138 @@
+$(document).ready(function(){
+      console.log('Hellow word');
+
+      listarProyectos();
+      listarMisProyectos();
+      //Devolver busqueda
+    $('#search').keyup(function() {
+        let search = $('#search').val();
+        $.ajax({
+          url: '../Datos/persona/filtrarPersona.php',
+          type: 'POST',
+          data: {
+            search: search
+          },
+          dataType: 'json',
+          success: function(response) {
+            console.log(response);
+          },
+          error: function(xhr, status, error) {
+            console.log("Error:", xhr.responseText);
+          }
+        });
+    });
+      
+      
+    //Agregar al grupo
+    $(document).ready(function() {
+      $('#form-addGrupo').submit(function(e){
+        e.preventDefault();
+        console.log("Hola")
+        const postDATA = {
+          name: $('#nombreGrupo').val()
+        };
+        console.log(postDATA);
+      });
+    });    
+
+    //Listar todos los proyectos
+    function listarProyectos(){
+      $.ajax({
+        url: '../Datos/proyectos/listar.php',
+        type: 'GET',
+        success: function(response){
+            console.log(response);
+            let proyectos = JSON.parse(response);
+            let template ='';
+            proyectos.forEach(element => {
+                template +=  `
+                  <div class="col-sm-12 col-md-6">
+                    <div codigo-proyecto="${element.codigo}" class="card border-primary mb-3">
+                      <div class="card-header">
+                        <h4 class="card-title">${element.nombre}</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">${element.fecha_inicio}</h6>
+                      </div>
+                      <div class="card-body">
+                        <p class="card-text">${element.descripcion}</p>
+                        <a href="#" class="card-link">${element.archivo}</a>
+                        <a href="#" class="card-link">Another link</a>
+                        <div class="d-flex justify-content-end mt-3">
+                          <p> ${element.likes} likes </p>
+                          <button class="btn btn-success ms-2">
+                            <i class="like fa-sharp fa-regular fa-heart"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `
+            });
+            $('#allproject').html(template);
+        }
+      })
+    }
+    //Dar like a proyecto
+    $(document).on('click' , '.like' , function(){
+      let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
+      let codigo =  $(element).attr('codigo-proyecto');
+      $.post('../Datos/proyectos/actualizar_likes.php' , {codigo} , function(response) {
+        listarProyectos();
+      })
+       
+    });
+    
+    function listarMisProyectos(){
+      $.ajax({
+        url: '../Datos/proyectos/listarXPersona.php',
+        type: 'GET',
+        success: function(response){
+            console.log(response);
+            let proyectos = JSON.parse(response);
+            let template ='';
+            proyectos.forEach(element => {
+                template +=  `
+                  <div class="col-sm-12 col-md-6">
+                    <div codigo-proyecto="${element.codigo}" class="card border-primary mb-3">
+                      <div class="card-header">
+                        <h4 class="card-title">${element.nombre}</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">${element.fecha_inicio}</h6>
+                      </div>
+                      <div class="card-body">
+                        <p class="card-text">${element.descripcion}</p>
+                        <a href="#" class="card-link">${element.archivo}</a>
+                        <a href="#" class="card-link">Another link</a>
+                        <div class="d-flex justify-content-end mt-3">
+                          <button class="btn btn-secondary">
+                            <i class="eliminar fa-solid fa-trash"></i>
+                          </button>
+                          <button class="ms-2 seleccionar btn btn-danger">
+                            <i class="seleccionar fa-solid fa-hand-pointer"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `
+            });
+            $('#my-projects').html(template);
+        }
+      })
+    }
+
+    
+    $(document).on('click' , '.eliminar' , function(){
+      let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
+      let codigo =  $(element).attr('codigo-proyecto');
+      $.post('../Datos/proyectos/eliminar.php' {codigo} , function(response){
+
+      });
+      
+    });
+
+    
+});
+
+
 function accion(){
     var ancla = document.getElementsByClassName('ancla-nav');
     for(var i=0 ; i < ancla.length; i++){
@@ -5,12 +140,6 @@ function accion(){
     }
 }
 
-function loginUsuario(){
-    var administrador = document.getElementsByClassName('administrador');
-    for(var i=0 ; i < administrador.length; i++){
-        administrador[i].classList.toggle('desaparece')
-    }
-}
 
 function mostrarAlerta(mensaje, encabezado) {
     if (encabezado == null) {
@@ -38,12 +167,6 @@ function mostrarAlerta(mensaje, encabezado) {
         }
       }
  
-    function like(){
-        var botonLike = document.getElementById("boton-like");
-        botonLike.addEventListener("click", function() {
-        botonLike.classList.toggle("liked");
-      });
-    }
 
     function buscarTabla() {
       // Obtener el valor del campo de búsqueda
@@ -79,22 +202,7 @@ function mostrarAlerta(mensaje, encabezado) {
       }
     }
     
-    function enviarLike() {
-      $(document).ready(function() {
-        $('.btn-like').click(function() {
-          var proyecto_id = $(this).data('proyecto-id');
-          var url = '../Datos/proyectos/actualizar_likes.php';
-          var data = {
-            proyecto_id: proyecto_id
-          };
-          $.post(url, data, function(response) {
-            // Actualiza la UI para mostrar el nuevo número de likes
-            $('.proyecto[data-proyecto-id="' + proyecto_id + '"] .num-likes').text(response.likes);
-          });
-        });
-      });      
-    }
-    
+
     
     
     

@@ -1,8 +1,13 @@
 <?php
 session_start();
-  $identificacion = $_SESSION['identificacion'];
-  $codigoPersona = $_SESSION['codigo'];
-  $tipo_persona = $_SESSION['tipo_persona'];
+error_reporting(0);
+$identificacion = $_SESSION['identificacion'];
+$codigoPersonaLogin = $_SESSION['codigo'];
+$tipo_persona = $_SESSION['tipo_persona'];
+  if($identificacion == null || $identificacion == ""){
+      echo 'Error sesion';
+      die();
+  }
 
 ?>
 
@@ -29,9 +34,9 @@ session_start();
                 <div class="nav-user">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-user"></i> </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="">Cerrar sesion</a>
+                            <a class="dropdown-item" href="">Administrar</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="../index.php">Cerrar sesion</a>
+                            <a class="dropdown-item" href="../cerrarSesion.php">Cerrar sesion</a>
                         </div>
                 </div>
                

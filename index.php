@@ -12,6 +12,7 @@ if(isset($_SESSION['error_login']) && $_SESSION['error_login']) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="multimedia/img-login.jpg" />
     <title>Register</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!--CSS-->
@@ -32,32 +33,4 @@ if(isset($_SESSION['error_login']) && $_SESSION['error_login']) {
                 <p>¿No tienes una cuenta?<a href="register.php">Register</a></p>
             </form>
         </main>
-        <footer class="footer container-fluid m-0 row">
-                    <div class="col-4 d-flex justify-content-center align-items-center flex-column">
-                        <div class="h-100">
-                            <p>Lorem ipsum dolor sit.</p>
-                            <p>Derechos reservados</p>
-                            <p>Lorem ipsum dolor sit.</p>
-                        </div>
-                    </div>
-                    <div class="col-4 d-flex justify-content-center align-items-center flex-column">
-                        <div class="h-100">
-                            <p>Lorem ipsum dolor sit.</p>
-                            <p>Lorem ipsum dolor sit.</p>
-                            <p>Lorem ipsum dolor sit.</p>
-                        </div>
-                    </div>
-                    <div class="col-4 d-flex justify-content-center align-items-center flex-column">
-                        <div class="h-100">
-                            <p>Lorem ipsum dolor sit.</p>
-                            <p>Derechos reservados</p>
-                            <p>Lorem ipsum dolor sit.</p>
-                        </div>
-                    </div>       
-        </footer>
-        <!--SCRIPTS-->
-        <script src="script/script.js"></script>  
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    </div>
-</body>
-</html>
+<?php include("template/footer.php") ?>

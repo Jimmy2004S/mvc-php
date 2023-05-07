@@ -1,4 +1,3 @@
-<?php  include("../Datos/persona/ListarPersonas.php");?>
 
 <?php 
     $accion = (isset($_POST["accion"]))? $_POST["accion"]: "";
@@ -30,24 +29,7 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php foreach($listaPersonas as $lista) { ?>
-                    <tr>
-                        <td> <?php  echo $lista['codigo'] ?> </td>
-                        <td> <?php  echo $lista['nombre'] . ' ' . $lista['apellido'] ?> </td>
-                        <td> <?php  echo $lista['tipo_persona'] ?></td>
-                        <td> <?php  echo $lista['email'] ?> </td>
-                        <td> <?php  echo $lista['telefono'] ?> </td>
-                        <td> <?php  echo $lista['estado'] ?> </td>
-                        <td>
-                        <form method="POST">
-                            <input type="hidden" name="codigo" value="<?php echo $lista['codigo']?>">
-                            <input type="submit" class="btn btn-danger" name="accion" value="Activar">
-                            <input type="submit" class="btn btn-primary" name="accion" value="Desactivar">
-                        </form>
-                        </td>
-                    </tr>
-                    <?php } ?>
+                <tbody id="personasINadmin">
                 </tbody>
                 </table>
         </div> 
