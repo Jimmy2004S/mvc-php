@@ -1,14 +1,14 @@
-<?php 
-    try{
+<?php
+$codigoPersonaLogin = $_SESSION['codigo'];
+
+try{
         $codigo = (isset($_POST["codigo"]))? $_POST["codigo"]: "";
         include("../Datos/conexion.php");
-        $stmt = $conexion -> prepare("SELECT * FROM proyectos WHERE codigo=:codigo");
-        $stmt ->bindParam(':codigo', $codigo, PDO::PARAM_INT);
+        $stmt = $conexion -> prepare("SELECT * FROM proyectos WHERE codigo_lider_proyecto=20222");
         $stmt -> execute();
-        $ProyectoXcodigo =  $stmt-> fetch(PDO::FETCH_ASSOC);
+        $proyectoXpersona = $stmt -> fetchAll(PDO::FETCH_ASSOC);   
 
         $conexion = null;
-
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }

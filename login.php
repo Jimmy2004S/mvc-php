@@ -4,7 +4,7 @@ session_start();
 
 $conex = mysqli_connect("localhost", "root", "", "proyectosi");
 
-$identificacion = $_POST['email'];
+$identificacion = $_POST['identificacion'];
 $clave = $_POST['contrasenia'];
 
 $consulta = "SELECT * FROM persona WHERE identificacion='$identificacion' and clave= '$clave'";

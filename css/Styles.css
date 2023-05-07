@@ -6,22 +6,108 @@
 html{
     height: 100%;
 }
-.cont{
-    padding: 0px;
-    margin: 0px;
-}
 
-/*Index*/
-    /*Body*/
-
-/*Footer*/
-.footer{
-    background-color: black;
-    color: white;
-    width: 100%;
+body{
+    height: 100%;
 }
 
 /*Login*/
+.main{
+    font-family: sans-serif;
+    background-color: #e5e5f7;
+    opacity: 0.8;
+    background-image: radial-gradient(#C657D8 0.5px, transparent 0.5px), radial-gradient(#C657D8 0.5px, #e5e5f7 0.5px);
+    background-position: 0 0, 10px 10px;
+    margin: 0;
+    padding: 0;
+}
+    .form{
+        max-width: 50%;
+        height: 80%;
+        margin: 5rem auto 5rem auto;
+        padding: 5rem;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+        border-radius: 0.5rem;
+    }
+
+        .form span{
+            color: #575DFB;
+        }
+
+        .form #login{
+            margin-bottom: 3rem;
+        }
+            
+        .form label{
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form input{
+            max-width: 60%;
+            height: 40px;
+            margin-bottom: 1.4rem;
+            font-size: 1.1em;
+        }
+        
+        .form label, input{
+            margin-left: 7rem;
+        }
+        
+        .form button{
+            background-color: #575DFB;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            width: 50%;
+            margin: 1rem auto;
+            border-radius: 1rem;
+            font-size: 1em;
+            transition: 0.4s;
+        }
+        
+        .form button:hover{
+            background-color: #464CEA;
+        }
+        
+        .form a{
+            text-decoration: none;
+            color: #575DFB;
+            font-weight: 500;
+            transition: 0.4s;
+        
+        }
+        
+        .form a:hover{
+            color: #464CEA;
+        }
+        
+        .form select{
+            width: 50%;
+            height: 30px;
+            margin-left: 7rem;
+            margin-bottom: 1.5rem;
+            font-size: 1em;
+        }
+        
+        @media only screen and (max-width: 992px){
+            .form label, input, select{
+                margin-left: 4rem;
+            }
+        
+            .form input{
+                width: 90%;
+            }
+        }
+            
+        
 .desaparece{
     display: none;
 }
@@ -43,26 +129,54 @@ html{
     background-color: blue;
   }
   
-        #form-add-project{
-            display: flex;
-            justify-content: center;
-            align-content: center;
+
+/*Usuario*/
+  .add-project{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin: 0px auto auto auto;
+    }
+    .add-project{
+        border-radius: 1px solid rgb(6, 123, 240);
+    }
+        .add-project a{
+            text-decoration: none;
+            font-size: 30px;
+            margin-left: 30px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .add-project i{
+            width: 35px;
         }
 
-		#formulario {
-			position: absolute;
-			top: 0;
-			left: 20px;
-			width: 40%; /* ancho del formulario */
-			height: 100%; /* altura del formulario */
-			background-color: #f2f2f2;
-			padding: 20px;
-			box-sizing: border-box;
-		}
+    .formulario-project{
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            margin-bottom: 2rem;
+    }
+        
+        .formulario-project *{
+                margin: 10px auto;
+        }
+                .form-btn{
+                    width: 100%;
+                }
+                .form-btn input{
+                    width: 50%;
+                    padding: 10px;
+                    margin-bottom: 0px;
+                }
 
-		#proyectos {
-			margin-right: 100px; /* para dejar espacio al formulario */
-			padding: 20px;
-			box-sizing: border-box;
-            width: 40%;
-		}
+
+/*Footer*/
+.footer{
+    background-color: black;
+    color: white;
+    width: 100%;
+}
+

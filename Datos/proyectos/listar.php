@@ -1,5 +1,5 @@
 <?php 
-    include_once("../Datos/conexion.php");
+    include("../Datos/conexion.php");
     //LISTAR
     $sentenciaSQL = $conexion -> prepare("SELECT * FROM proyectos");
     $sentenciaSQL -> execute();

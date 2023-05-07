@@ -1,17 +1,13 @@
 <?php include("../template/navegacion.php"); ?>
-        <div class="col-12 mb-3 d-flex">
-                <div class="add-project p-2 w-100">
-                    <a href="addProject.php"> <i class="fa-solid fa-square-plus"></i> New proyect </a>
-                </div>
-        </div>
-        <div class="col-12">
-                    <div class="container-fluid mt-2">
+
+        <div class="col-12 mt-5">
+                    <div class="container mt-2">
                         <div class="row">
                             <?php foreach ($lista as $proyectos) { ?>
-                            <div class="col-sm-12 col-md-6 ">
+                            <div class="col-sm-12 col-md-6">
                                 <div class="card mb-3">
                                     <div class="card-header d-flex">
-                                        <div class="p-2 w-100">
+                                        <div class="p-2 w-80">
                                             <h5 class="card-title"><?php echo $proyectos['nombre']?></h5>
                                             <p class="text-secondary"><?php echo $proyectos['fecha_inicio'] ?></p>
                                         </div>     

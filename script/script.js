@@ -23,8 +23,8 @@ function mostrarAlerta(mensaje, encabezado) {
     function inforTipoPersona() {
         var select = document.getElementById("tipous");
         var opcionSeleccionada = select.options[select.selectedIndex].value;
-        var informacion1 = document.getElementById("informacion1");
-        var informacion2 = document.getElementById("informacion2");
+        var informacion1 = document.getElementById("estudiante");
+        var informacion2 = document.getElementById("profesor");
         
         if (opcionSeleccionada == "Estudiante") {
           informacion1.style.display = "block";

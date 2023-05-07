@@ -9,7 +9,6 @@ session_start();
 <?php 
     include_once("../Datos/conexion.php");
     $accion = (isset($_POST["accion"]))? $_POST["accion"]: "";
-    $id = (isset($_POST["id"]))? $_POST["id"]: "";
     $codigoProyecto = null;
     $nombre = "";
     $descripcion = "";
@@ -25,7 +24,7 @@ session_start();
             break;
         case "Seleccionar":
             include("../Datos/proyectos/listar‼Codigo.php");
-            $codigo = $ProyectoXcodigo["codigo"];
+            $codigoProyecto = $ProyectoXcodigo["codigo"];
             $nombre = $ProyectoXcodigo["nombre"];
             $descripcion = $ProyectoXcodigo["descripcion"];
             $archivo = $ProyectoXcodigo["archivo"];
@@ -33,7 +32,7 @@ session_start();
             $fecha = $ProyectoXcodigo["fecha_inicio"];
             break;
         case "Modificar":
-            include("modificar.php");
+            include("../Datos/proyectos/modificar.php");
             break;
         case "Like":
             include("../Datos/proyectos/actualizar_likes.php");
@@ -41,6 +40,8 @@ session_start();
     }  
 ?>
 
+<?php include("../Datos/proyectos/listarXPersona.php"); ?>
+<?php include("../Datos/proyectos/listar‼Codigo.php"); ?>
 <?php include("../Datos/proyectos/listar.php"); ?>
 <?php include("../Datos/grupos/listar.php"); ?>
 
@@ -60,9 +61,9 @@ session_start();
 <link rel="stylesheet" href="../sass/custom.css"/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </head>
-<body class="no-padding">
+<body class="no-padding container-fluid m-0 p-0">
     <div class="container-fluid px-0">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <nav class="navbar w-100 container-fluid navbar-expand-lg navbar-dark bg-primary">
             <div class="container-fluid">
                 <div class="nav-user">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-user"></i> </a>
@@ -85,7 +86,7 @@ session_start();
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Mi portafoloio</a>
+                            <a class="nav-link" href="../vistas/misProject.php">Mi portafoloio</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Mis grupos</a>
