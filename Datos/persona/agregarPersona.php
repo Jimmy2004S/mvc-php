@@ -57,7 +57,7 @@ try {
   
     // Confirmar transacción
     $conexion->commit();
-    echo '<script>window.alert("Registrado..."); window.location.href = "../../index.php";</script>';
+    echo '<script>window.alert("Registrado..."); window.location.href = "../../vistas/misProject.php";</script>';
 
 } catch (PDOException $e) {
     // Cancelar transacción en caso de error

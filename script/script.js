@@ -27,7 +27,6 @@ $(document).ready(function(){
     $(document).ready(function() {
       $('#form-addGrupo').submit(function(e){
         e.preventDefault();
-        console.log("Hola")
         const postDATA = {
           name: $('#nombreGrupo').val()
         };
@@ -41,7 +40,6 @@ $(document).ready(function(){
         url: '../Datos/proyectos/listar.php',
         type: 'GET',
         success: function(response){
-            console.log(response);
             let proyectos = JSON.parse(response);
             let template ='';
             proyectos.forEach(element => {
@@ -54,8 +52,7 @@ $(document).ready(function(){
                       </div>
                       <div class="card-body">
                         <p class="card-text">${element.descripcion}</p>
-                        <a href="#" class="card-link">${element.archivo}</a>
-                        <a href="#" class="card-link">Another link</a>
+                        <a href="../Archivos/${element.archivo}" target="blank" class="card-link">${element.archivo}</a>
                         <div class="d-flex justify-content-end mt-3">
                           <p> ${element.likes} likes </p>
                           <button class="btn btn-success ms-2">
@@ -77,8 +74,7 @@ $(document).ready(function(){
       let codigo =  $(element).attr('codigo-proyecto');
       $.post('../Datos/proyectos/actualizar_likes.php' , {codigo} , function(response) {
         listarProyectos();
-      })
-       
+      });
     });
     
     function listarMisProyectos(){
@@ -86,7 +82,6 @@ $(document).ready(function(){
         url: '../Datos/proyectos/listarXPersona.php',
         type: 'GET',
         success: function(response){
-            console.log(response);
             let proyectos = JSON.parse(response);
             let template ='';
             proyectos.forEach(element => {
@@ -99,13 +94,12 @@ $(document).ready(function(){
                       </div>
                       <div class="card-body">
                         <p class="card-text">${element.descripcion}</p>
-                        <a href="#" class="card-link">${element.archivo}</a>
-                        <a href="#" class="card-link">Another link</a>
+                        <a href="../Archivos/${element.archivo}" target="_blank" class="card-link">${element.archivo}</a>
                         <div class="d-flex justify-content-end mt-3">
                           <button class="btn btn-secondary">
                             <i class="eliminar fa-solid fa-trash"></i>
                           </button>
-                          <button class="ms-2 seleccionar btn btn-danger">
+                          <button class="ms-2 btn btn-danger">
                             <i class="seleccionar fa-solid fa-hand-pointer"></i>
                           </button>
                         </div>
@@ -118,17 +112,55 @@ $(document).ready(function(){
         }
       })
     }
-
-    
+    //Eliminar proyecto
     $(document).on('click' , '.eliminar' , function(){
       let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
       let codigo =  $(element).attr('codigo-proyecto');
-      $.post('../Datos/proyectos/eliminar.php' {codigo} , function(response){
-
+      $.post('../Datos/proyectos/eliminar.php' , {codigo} , function(response){
+        console.log(response);
+        listarMisProyectos();
       });
-      
     });
+    //Seleccionar proyecto
+    $(document).on('click' , '.seleccionar' , function(){
+      let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
+      let codigo =  $(element).attr('codigo-proyecto');
+      $.post('../Datos/proyectos/listar‼Codigo.php' , {codigo} , function(response){
+          let proyecto = JSON.parse(response);
+          console.log(proyecto);
+          // Actualizar IU
+          $('#codigoProyecto').val(proyecto.codigo);
+          $('#nombreProyecto').val(proyecto.nombre);
+          $('#descripcion').val(proyecto.descripcion);
+          $('#miSelectGrupo').val(proyecto.codigo_grupo);
+          $('#codigoPersona').val(proyecto.codigo_lider_proyecto);
+          $('#nombreArchivo').text(proyecto.archivo);
+      }); 
+    });
+    
+    /*
+   $('#form-addProject').submit(function(e){
+      e.preventDefault();
+        // Crea un objeto FormData
+      const formData = {
+        nombre: $('#nombreProyecto').val(),
+        archivo: $('#archivo')[0].files[0]
+      }
 
+      console.log(formData);
+      // Envía la petición AJAX
+      $.ajax({
+          url: '../Datos/proyectos/agregar.php',
+          method: 'POST',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+          console.log(response);
+        }
+      });
+   });
+   */
     
 });
 

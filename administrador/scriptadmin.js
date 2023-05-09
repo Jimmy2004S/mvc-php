@@ -7,14 +7,11 @@ $(document).ready(function(){
             url: '../Datos/persona/ListarPersonas.php',
             type: 'GET',
             success: function(response){
-                console.log(response);
                 let personas = JSON.parse(response);
                 let template ='';
                 personas.forEach(element => {
-
                     let activarButton = '';
                     let desactivarButton = '';
-                
                     if (element.estado === 'Activo') {
                         desactivarButton = `
                             <button class="desactivar btn btn-primary w-80">
@@ -28,7 +25,6 @@ $(document).ready(function(){
                             </button>
                         `;
                     }
-
                     template +=  `
                         <tr persona-codigo="${element.codigo}">
                             <td> ${element.codigo}</td>

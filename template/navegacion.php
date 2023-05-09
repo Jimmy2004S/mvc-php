@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting(0);
+//error_reporting(0);
   $identificacion = $_SESSION['identificacion'];
   $codigoPersonaLogin = $_SESSION['codigo'];
   $tipo_persona = $_SESSION['tipo_persona'];
@@ -11,42 +11,21 @@ error_reporting(0);
 ?>
 
 <?php 
-    include_once("../Datos/conexion.php");
     $accion = (isset($_POST["accion"]))? $_POST["accion"]: "";
-    $codigoProyecto = null;
-    $nombre = "";
-    $descripcion = "";
-    $codigoGrupo = "";
-    $archivo = "";
-    $fecha = "";
-
     switch($accion){
         case "Registrar":
             include("../Datos/proyectos/agregar.php");
             break;
-        case "Eliminar":
-            break;
-        case "Seleccionar":
-            include("../Datos/proyectos/listar‼Codigo.php");
-            $codigoProyecto = $ProyectoXcodigo["codigo"];
-            $nombre = $ProyectoXcodigo["nombre"];
-            $descripcion = $ProyectoXcodigo["descripcion"];
-            $archivo = $ProyectoXcodigo["archivo"];
-            $codigoGrupo = $ProyectoXcodigo["codigo_grupo"];
-            $fecha = $ProyectoXcodigo["fecha_inicio"];
-            break;
         case "Modificar":
             include("../Datos/proyectos/modificar.php");
-            break;
-        case "Like":
-            include("../Datos/proyectos/actualizar_likes.php");
             break;
     }  
 ?>
 
 
-<?php include("../Datos/proyectos/listar‼Codigo.php"); ?>
-
+<?php 
+    include("../Datos/grupos/listar.php"); 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
