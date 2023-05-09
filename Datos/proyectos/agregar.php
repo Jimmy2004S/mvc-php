@@ -42,12 +42,12 @@ $fecha = new DateTime();
 
         $tmpImagen = $_FILES["archivo"]["tmp_name"];
         if($tmpImagen != ""){
-            move_uploaded_file($tmpImagen,"../Archivos/".$nomarchivo);
+            move_uploaded_file($tmpImagen,"../../Archivos/".$nomarchivo);
         }
 
         // Ejecutar la consulta
         $stmt->execute();
-        echo '<script>window.alert("Registrado..."); window.location.href = "../vistas/misProject.php";</script>';
+        echo 'Agregado';
         
         // Cerrar la conexión con la base de datos
     } catch (PDOException $e) {

@@ -10,11 +10,12 @@
         die('Error listar personas');
     }
 
+    
 
     $json = array();
     foreach ($listaPersonas as $row) {
       $json[] = array(
-        'codigo' => $row['codigo'],
+        'codigo' => $row['codigo_persona'],
         'nombre' => $row['nombre'],
         'apellido' => $row['apellido'],
         'tipo_persona' => $row['tipo_persona'],

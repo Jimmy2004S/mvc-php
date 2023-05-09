@@ -138,29 +138,26 @@ $(document).ready(function(){
       }); 
     });
     
-    /*
+  
    $('#form-addProject').submit(function(e){
       e.preventDefault();
         // Crea un objeto FormData
-      const formData = {
-        nombre: $('#nombreProyecto').val(),
-        archivo: $('#archivo')[0].files[0]
-      }
-
-      console.log(formData);
+      var parametros = new FormData($('#form-addProject')[0]);
+      
       // Envía la petición AJAX
       $.ajax({
           url: '../Datos/proyectos/agregar.php',
           method: 'POST',
-          data: formData,
+          data: parametros,
           processData: false,
           contentType: false,
           success: function(response) {
           console.log(response);
         }
       });
+      listarMisProyectos();
    });
-   */
+  
 
    function listarMisGrupos(){
     $.ajax({

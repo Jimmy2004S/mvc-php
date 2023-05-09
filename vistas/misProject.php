@@ -13,7 +13,7 @@
                                         <select name="codigoGrupo" id="miSelectGrupo">
                                             <option selected="true" disabled="disabled">seleccione un grupo</option>
                                             <?php foreach ($listaCodigoGrupo as $grupos) {?>
-                                                <option value="<?php echo $grupos['codigo_grupo']; ?>"> <?php echo $grupos['codigo']; ?> </option>
+                                                <option value="<?php echo $grupos['codigo_grupo']; ?>"> <?php echo $grupos['codigo_grupo']; ?> </option>
                                             <?php } ?>
                                         </select>
                                         <div class="p-0">
@@ -21,7 +21,7 @@
                                             <input class="mt-0 p-0" type="file" value="<?php echo $archivo ?>" name="archivo">
                                         </div>
                                         <div class="form-btn d-flex flex-column">
-                                            <input type="submit" name="accion" class="btn btn-danger" value="Registrar">
+                                            <input type="submit" class="btn btn-danger" value="Registrar">
                                             <input type="submit" name="accion" class="btn btn-success" value="Modificar">
                                         </div>
                                 </form>

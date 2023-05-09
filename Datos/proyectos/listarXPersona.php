@@ -2,8 +2,8 @@
 session_start();
 $codigoPersonaLogin = $_SESSION['codigo'];
 
+
 try{
-        $codigo = (isset($_POST["codigo"]))? $_POST["codigo"]: "";
         include("../conexion.php");
         $stmt = $conexion -> prepare("SELECT * FROM proyectos WHERE codigo_lider_proyecto=:codigo");
         $stmt ->bindParam(':codigo', $codigoPersonaLogin, PDO::PARAM_INT);

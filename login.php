@@ -14,7 +14,7 @@ $personas = mysqli_fetch_array($resultado);
 
 if($personas != null){
     if($personas['estado'] == 'Activo'){
-        $_SESSION['codigo'] = $personas['codigo'];
+        $_SESSION['codigo'] = $personas['codigo_persona'];
         $_SESSION['identificacion'] = $personas['identificacion'];
         $_SESSION['nombre'] = $personas['nombre'];
         $_SESSION['apellido'] = $personas['apellido'];
