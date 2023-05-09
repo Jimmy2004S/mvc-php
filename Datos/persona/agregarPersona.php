@@ -32,7 +32,7 @@ try {
   
     // Segunda consulta SQL
     if($tipo_persona == 'Estudiante'){
-        $sql2 = "INSERT INTO `estudiante`(`codigo`, `carrera`, `semestre`) VALUES (:codigoPersona, :carrera , :semestre)";
+        $sql2 = "INSERT INTO `estudiante`(`codigo_persona`, `carrera`, `semestre`) VALUES (:codigoPersona, :carrera , :semestre)";
         $stmt2 = $conexion->prepare($sql2);
       
         $carrera = $_POST['carrera'];
@@ -44,7 +44,7 @@ try {
 
         $stmt2->execute();
     }else if($tipo_persona == 'Profesor'){
-        $sql3 = "INSERT INTO `profesor`(`codigo`, `departamento`) VALUES (:codigoPersona,:departamento)";
+        $sql3 = "INSERT INTO `profesor`(`codigo_persona`, `departamento`) VALUES (:codigoPersona,:departamento)";
         $stmt3 = $conexion->prepare($sql3);
       
         $departamento = $_POST['departamento'];

@@ -39,7 +39,7 @@ try{
     
     if($archivo != null){
         $fecha = new DateTime();
-        $nomarchivo = ($archivo != "") ? $fecha -> getTimestamp()."_".$_FILES["archivo"]["name"] : "imagen.jpg";
+        $nomarchivo = ($archivo != "") ? $fecha->format('d-m-Y-H-i')."_".$_FILES["archivo"]["name"] : "imagen.jpg";
         $tmpImagen = $_FILES["archivo"]["tmp_name"];
         move_uploaded_file($tmpImagen,"../Archivos/".$nomarchivo);
         

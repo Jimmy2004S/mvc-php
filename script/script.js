@@ -161,6 +161,42 @@ $(document).ready(function(){
       });
    });
    */
+
+   function listarMisGrupos(){
+    $.ajax({
+      url: '../Datos/grupos/listar.php',
+      type: 'GET',
+      success: function(response){
+          let proyectos = JSON.parse(response);
+          let template ='';
+          proyectos.forEach(element => {
+              template +=  `
+                <div class="col-sm-12 col-md-6">
+                  <div codigo-grupo="${element.codigo}" class="card border-primary mb-3">
+                    <div class="card-header">
+                      <h4 class="card-title">${element.nombre}</h4>
+                      <h6 class="card-subtitle mb-2 text-muted">${element.fecha_inicio}</h6>
+                    </div>
+                    <div class="card-body">
+                      <p class="card-text">${element.descripcion}</p>
+                      <a href="../Archivos/${element.archivo}" target="_blank" class="card-link">${element.archivo}</a>
+                      <div class="d-flex justify-content-end mt-3">
+                        <button class="btn btn-secondary">
+                          <i class="eliminar fa-solid fa-trash"></i>
+                        </button>
+                        <button class="ms-2 btn btn-danger">
+                          <i class="ver fa-solid fa-hand-pointer"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `
+          });
+          $('#my-projects').html(template);
+      }
+    })
+  }
     
 });
 

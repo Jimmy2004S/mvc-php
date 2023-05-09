@@ -28,7 +28,7 @@ $(document).ready(function(){
                     template +=  `
                         <tr persona-codigo="${element.codigo}">
                             <td> ${element.codigo}</td>
-                            <td>${element.nombre} .' '. ${element.apellido}</td>
+                            <td>${element.nombre}  ${element.apellido}</td>
                             <td>${element.tipo_persona}</td>
                             <td>${element.email}</td>
                             <td>${element.telefono}</td>

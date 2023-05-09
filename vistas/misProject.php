@@ -13,7 +13,7 @@
                                         <select name="codigoGrupo" id="miSelectGrupo">
                                             <option selected="true" disabled="disabled">seleccione un grupo</option>
                                             <?php foreach ($listaCodigoGrupo as $grupos) {?>
-                                                <option value="<?php echo $grupos['codigo']; ?>"> <?php echo $grupos['codigo']; ?> </option>
+                                                <option value="<?php echo $grupos['codigo_grupo']; ?>"> <?php echo $grupos['codigo']; ?> </option>
                                             <?php } ?>
                                         </select>
                                         <div class="p-0">
