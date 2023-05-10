@@ -6,7 +6,7 @@
                                 <form class="formulario-project" id="form-addProject" method="POST" enctype="multipart/form-data">
                                         <legend><h3>Administrar proyectos</h3></legend>
                                         <input type="hidden" readonly name="codigoProyecto" id="codigoProyecto" placeholder="Codigo Proyecto">
-                                        <input type="text" readonly name="codigoPersona"id="codigoPersona" value="<?php echo $codigoPersonaLogin ?>">
+                                        <input type="hidden" readonly name="codigoPersona"id="codigoPersona" value="<?php echo $codigoPersonaLogin ?>">
                                         <input type="hidden" readonly name="fecha_inicio">
                                         <input type="text" id="nombreProyecto" name="nombreProyecto" required placeholder="Nombre de proyecto..." >
                                         <input type="text" name="descripcion" id="descripcion" placeholder="Descripcion...">
@@ -20,9 +20,9 @@
                                             <p class="mb-0 p-0" id="nombreArchivo"> </p></br>
                                             <input class="mt-0 p-0" type="file" value="<?php echo $archivo ?>" name="archivo">
                                         </div>
-                                        <div class="form-btn d-flex flex-column">
-                                            <input type="submit" class="btn btn-danger" value="Registrar">
-                                            <input type="submit" name="accion" class="btn btn-success" value="Modificar">
+                                        <div class="form-btn d-flex flex-column" id="acciones-formProyect">
+                                            <input type="submit" name="accion" id="btn-registrar" class="btn btn-danger" value="Registrar">
+                                            <input type="submit" name="accion" id="btn-modificar" class="desaparece" value="Modificar">
                                         </div>
                                 </form>
                     </div>

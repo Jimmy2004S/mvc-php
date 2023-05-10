@@ -41,7 +41,7 @@ try{
         $fecha = new DateTime();
         $nomarchivo = ($archivo != "") ? $fecha->format('d-m-Y-H-i')."_".$_FILES["archivo"]["name"] : "imagen.jpg";
         $tmpImagen = $_FILES["archivo"]["tmp_name"];
-        move_uploaded_file($tmpImagen,"../Archivos/".$nomarchivo);
+        move_uploaded_file($tmpImagen,"../../Archivos/".$nomarchivo);
         
           //Buscar el proyectp
           $sentencia = $conexion -> prepare("SELECT * FROM proyectos WHERE codigo=:codigo");
@@ -51,8 +51,8 @@ try{
   
           //Eliminar el archivo
           if(isset($lista["archivo"]) &&  ($lista["archivo"] != "imagen.jpg")){
-              if(file_exists("../Archivos/".$lista["archivo"])){
-                  unlink("../Archivos/".$lista["archivo"]);
+              if(file_exists("../../Archivos/".$lista["archivo"])){
+                  unlink("../../Archivos/".$lista["archivo"]);
               }
           }
 

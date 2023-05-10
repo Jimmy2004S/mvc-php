@@ -11,15 +11,7 @@ session_start();
 ?>
 
 <?php 
-    $accion = (isset($_POST["accion"]))? $_POST["accion"]: "";
-    switch($accion){
-        case "Registrar":
-            include("../Datos/proyectos/agregar.php");
-            break;
-        case "Modificar":
-            include("../Datos/proyectos/modificar.php");
-            break;
-    }  
+
 ?>
 
 

@@ -95,11 +95,11 @@ $(document).ready(function(){
                       <div class="card-body">
                         <p class="card-text">${element.descripcion}</p>
                         <a href="../Archivos/${element.archivo}" target="_blank" class="card-link">${element.archivo}</a>
-                        <div class="d-flex justify-content-end mt-3">
+                        <div id="container-select" class=" d-flex justify-content-end mt-3">
                           <button class="btn btn-secondary">
                             <i class="eliminar fa-solid fa-trash"></i>
                           </button>
-                          <button class="ms-2 btn btn-danger">
+                          <button type="button" class="ms-3 btn btn-outline-dark">
                             <i class="seleccionar fa-solid fa-hand-pointer"></i>
                           </button>
                         </div>
@@ -123,11 +123,22 @@ $(document).ready(function(){
     });
     //Seleccionar proyecto
     $(document).on('click' , '.seleccionar' , function(){
+      //Tomar el elemento y su atributo codigo proyecto
       let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
+
       let codigo =  $(element).attr('codigo-proyecto');
-      $.post('../Datos/proyectos/listar‼Codigo.php' , {codigo} , function(response){
+      $('#btn-modificar').toggleClass("btn btn-success");
+
+      if ($('#codigoProyecto').val().length > 0) {
+        $('#codigoProyecto').val("");
+        $('#nombreProyecto').val("");
+        $('#descripcion').val("");
+        $('#miSelectGrupo').val("");
+        $('#codigoPersona').val("");
+        $('#nombreArchivo').text("");
+      } else {
+        $.post('../Datos/proyectos/listar‼Codigo.php', { codigo }, function(response) {
           let proyecto = JSON.parse(response);
-          console.log(proyecto);
           // Actualizar IU
           $('#codigoProyecto').val(proyecto.codigo);
           $('#nombreProyecto').val(proyecto.nombre);
@@ -135,29 +146,48 @@ $(document).ready(function(){
           $('#miSelectGrupo').val(proyecto.codigo_grupo);
           $('#codigoPersona').val(proyecto.codigo_lider_proyecto);
           $('#nombreArchivo').text(proyecto.archivo);
-      }); 
+        });
+      }
+      
+      
     });
     
-  
-   $('#form-addProject').submit(function(e){
+
+    $('#form-addProject input[type="submit"]').click(function(e) {
       e.preventDefault();
-        // Crea un objeto FormData
+      var accion = $(this).val();
+      console.log("acción seleccionada: " + accion);
+  
+      // Crea un objeto FormData
       var parametros = new FormData($('#form-addProject')[0]);
-      
+      // Seleccionar URL según la acción
+      var url = "";
+      if (accion === 'Registrar') {
+          url = '../Datos/proyectos/agregar.php';
+      } else if (accion === 'Modificar') {
+          url = '../Datos/proyectos/modificar.php';
+      } else {
+          console.log("Error: Acción no reconocida");
+          return;
+      }
+  
       // Envía la petición AJAX
       $.ajax({
-          url: '../Datos/proyectos/agregar.php',
+          url: url,
           method: 'POST',
           data: parametros,
           processData: false,
           contentType: false,
           success: function(response) {
-          console.log(response);
-        }
+              console.log(response);
+              listarMisProyectos();
+          }
       });
-      listarMisProyectos();
-   });
+      
+    });
   
+  
+
 
    function listarMisGrupos(){
     $.ajax({
@@ -201,7 +231,7 @@ $(document).ready(function(){
 function accion(){
     var ancla = document.getElementsByClassName('ancla-nav');
     for(var i=0 ; i < ancla.length; i++){
-        ancla[i].classList.toggle('desaparece')
+        ancla[i].classList.toggle('desaparece');
     }
 }
 
