@@ -41,8 +41,23 @@ $(document).ready(function(){
         type: 'GET',
         success: function(response){
             let proyectos = JSON.parse(response);
+            console.log(proyectos);
+            like = '';
             let template ='';
             proyectos.forEach(element => {
+              if(element.dio_like == 1){
+                like =`
+                <button type="button" class="btn btn-danger ms-2">
+                  <i class="nolike fa-sharp fa-regular fa-heart"></i>
+                </button>
+                `
+              }else{
+                like =`
+                <button type="button" class="btn btn-outline-secondary ms-2">
+                  <i class="like fa-sharp fa-regular fa-heart"></i>
+                </button>
+                `            
+              }
                 template +=  `
                   <div class="col-sm-12 col-md-6">
                     <div codigo-proyecto="${element.codigo}" class="card border-primary mb-3">
@@ -53,11 +68,9 @@ $(document).ready(function(){
                       <div class="card-body">
                         <p class="card-text">${element.descripcion}</p>
                         <a href="../Archivos/${element.archivo}" target="blank" class="card-link">${element.archivo}</a>
-                        <div class="d-flex justify-content-end mt-3">
+                        <div  class="d-flex justify-content-end mt-3">
                           <p> ${element.likes} likes </p>
-                          <button class="btn btn-success ms-2">
-                            <i class="like fa-sharp fa-regular fa-heart"></i>
-                          </button>
+                          ${like}
                         </div>
                       </div>
                     </div>
@@ -68,15 +81,27 @@ $(document).ready(function(){
         }
       })
     }
+
     //Dar like a proyecto
     $(document).on('click' , '.like' , function(){
       let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
       let codigo =  $(element).attr('codigo-proyecto');
       $.post('../Datos/proyectos/actualizar_likes.php' , {codigo} , function(response) {
+        console.log(response);
         listarProyectos();
       });
     });
     
+      //Quitar like a proyecto
+      $(document).on('click' , '.nolike' , function(){
+        let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
+        let codigo =  $(element).attr('codigo-proyecto');
+        $.post('../Datos/proyectos/quitarLike.php' , {codigo} , function(response) {
+          console.log(response);
+          listarProyectos();
+        });
+      });
+
     function listarMisProyectos(){
       $.ajax({
         url: '../Datos/proyectos/listarXPersona.php',
@@ -112,6 +137,7 @@ $(document).ready(function(){
         }
       })
     }
+
     //Eliminar proyecto
     $(document).on('click' , '.eliminar' , function(){
       let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
@@ -121,6 +147,7 @@ $(document).ready(function(){
         listarMisProyectos();
       });
     });
+
     //Seleccionar proyecto
     $(document).on('click' , '.seleccionar' , function(){
       //Tomar el elemento y su atributo codigo proyecto
@@ -186,8 +213,6 @@ $(document).ready(function(){
       
     });
   
-  
-
 
    function listarMisGrupos(){
     $.ajax({

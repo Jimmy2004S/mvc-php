@@ -50,6 +50,7 @@ $(document).ready(function(){
         let element = $(this)[0].parentElement.parentElement;
         let codigo =  $(element).attr('persona-codigo');
         $.post('datos/activarPersona.php' , {codigo} , function(response) {
+            console.log(response);
             listarPersonas();
         })
     });
@@ -59,6 +60,7 @@ $(document).ready(function(){
         let element = $(this)[0].parentElement.parentElement;
         let codigo =  $(element).attr('persona-codigo');
         $.post('datos/desactivarPersona.php' , {codigo} , function(response){
+            console.log(response);
             listarPersonas();
         });
     });

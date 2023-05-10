@@ -9,18 +9,17 @@ try {
     $codigo_proyecto = $_POST['codigo'];
 
     // Crear registro del like en la tabla proyectos_likes
-    $stmt = $conexion->prepare("INSERT INTO proyectos_likes (proyecto_id, usuario_id) VALUES (:codigo_proyecto, :codigo_persona)");
-    $stmt->bindParam(":codigo_proyecto", $codigo_proyecto);
-    $stmt->bindParam(":codigo_persona", $codigoPersonaLogin);
+    $stmt = $conexion->prepare("DELETE FROM `proyectos_likes` WHERE proyecto_id =:codigo");
+    $stmt->bindParam(":codigo", $codigo_proyecto);
     $stmt->execute();
 
     // Actualizar el número de likes en la tabla proyectos
-    $stmt = $conexion->prepare("UPDATE proyectos SET likes = likes + 1 WHERE codigo = :codigo");
+    $stmt = $conexion->prepare("UPDATE proyectos SET likes = likes - 1 WHERE codigo = :codigo");
     $stmt->bindParam(":codigo", $codigo_proyecto);
     $stmt->execute();
 
     // Devolver respuesta al cliente
-    echo "Like";
+    echo "Quitar like";
 
     $conexion->commit();
 } catch (Exception $e) {
@@ -31,4 +30,3 @@ try {
     $stmt = null;
     $conexion = null;
 }
-

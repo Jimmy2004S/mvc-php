@@ -1,16 +1,24 @@
 <?php 
 include("../../Datos/conexion.php");
 
+
 if(isset($_POST['codigo'])){
     $codigo =  $_POST['codigo'];
+    try{
+        $sentencia = $conexion -> prepare ("UPDATE `persona` SET `estado`='Inhabilitado' WHERE codigo_persona =:codigo;");
+        $sentencia -> bindParam(":codigo" , $codigo);
+        $sentencia -> execute();
 
-    $sentencia = $conexion -> prepare ("UPDATE `persona` SET `estado`='Inhabilitado' WHERE codigo =:codigo;");
-    $sentencia -> bindParam(":codigo" , $codigo);
-    $sentencia -> execute();
+        if(!$sentencia){
+            die('Fallido Desactivar');
+        }
 
-    if(!$sentencia){
-        die('Fallido Desactivar');
+        echo 'Desactivado';
+    }catch (PDOException $e) {
+        // Cancelar transacción en caso de error
+        echo "Error al desactivar: " . $e->getMessage();
     }
-
-    echo 'Activado';
+    
+}else{
+    echo 'Codigo vacio';
 }
