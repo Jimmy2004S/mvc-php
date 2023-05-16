@@ -36,6 +36,9 @@ $(document).ready(function(){
                             <td>
                                 ${desactivarButton}
                                 ${activarButton}
+                                <button type="button" class="ms-3 btn btn-outline-dark">
+                                    <i class="selecciona fa-solid fa-hand-pointer"></i>
+                                </button>
                             </td>
                         </tr>
                     `
@@ -44,6 +47,27 @@ $(document).ready(function(){
             }
         })
     }
+
+        //Seleccionar persona
+        $(document).on('click' , '.selecciona' , function(){
+            //Tomar el elemento y su atributo codigo proyecto
+            let element = $(this)[0].parentElement.parentElement.parentElement;
+            let codigo =  $(element).attr('persona-codigo');
+            //Preparar el formulario para modificar
+
+              $.post('../Datos/persona/ListarPersonas.php', { codigo }, function(response) {
+                let persona = JSON.parse(response);
+                console.log(persona)
+                // Actualizar IU
+                $('#nombre').val(persona.codigo);
+                $('#apellido').val(persona.nombre);
+                $('#descripcion').val(persona.apellido);
+                $('#miSelectGrupo').val(persona.codigo_grupo);
+                $('#codigoPersona').val(persona.codigo_lider_persona);
+                $('#nombreArchivo').text(persona.archivo);
+              });
+              $('#miModalA').modal('show');
+          });
 
     //Activar persona
     $(document).on('click' , '.activar' , function(){

@@ -17,11 +17,6 @@ try{
                 unlink("../../Archivos/".$lista["archivo"]);
             }
         }
-        
-        $archivo = $lista['archivo'];
-        echo "<script>console.log('archivo a eliminar'. $archivo);</script>";
-
-
 
         $sql = "DELETE FROM `proyectos` WHERE codigo=:codigo";
         $stmt = $conexion->prepare($sql);

@@ -1,31 +1,30 @@
 <?php
 session_start();
 $codigoPersonaLogin = $_SESSION['codigo'];
+include("../conexion.php");
 
     try{
         //LISTAR
-        $sentenciaSQL = $conexion -> prepare("SELECT g.codigo_grupo, g.nombre, p.nombre as nombre_persona , p.apellido , gp.codigo_persona
+        $stmt = $conexion -> prepare("SELECT g.codigo_grupo, g.nombre
         FROM grupo_persona gp
         JOIN grupo g ON gp.codigo_grupo = g.codigo_grupo
-        JOIN persona p ON gp.codigo_persona = p.codigo_persona
-        WHERE gp.codigo_persona = 20222;");
-        $sentenciaSQL -> bindParam(":codigo" , $codigoPersonaLogin);
-        $sentenciaSQL -> execute();
-        $listaMisGrupos = $sentenciaSQL -> fetchAll(PDO::FETCH_ASSOC);       
-
+        WHERE gp.codigo_persona = :codigo;");
+        $stmt -> bindParam(":codigo" , $codigoPersonaLogin);
+        $stmt -> execute();
+        $listaMisGrupos = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $json = array();
-        foreach ($listaPersonas as $row) {
+        foreach ($listaMisGrupos as $row) {
           $json[] = array(
             'codigo_grupo' => $row['codigo_grupo'],
-            'nombre' => $row['codigo_grupo'],
+            'nombre' => $row['nombre']
           );
         }
-          // Convertir a JSON y enviar respuesta al cliente
+        // Convertir a JSON y enviar respuesta al cliente
         $jsonstring = json_encode($json);
         echo $jsonstring;
     
         $conexion = null;
-    } catch (PDOException $e) {
+    } catch (Exception $e) {
         echo "Error: " . $e->getMessage();
     } 
 ?>

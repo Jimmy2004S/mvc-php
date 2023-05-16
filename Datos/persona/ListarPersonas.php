@@ -1,16 +1,10 @@
 <?php 
+
+  try{
     include("../conexion.php");
-    //LISTAR
-    $sentenciaSQL = $conexion -> prepare("SELECT * FROM persona
-    ");
+    $sentenciaSQL = $conexion -> prepare("SELECT * FROM persona");
     $sentenciaSQL -> execute();
     $listaPersonas = $sentenciaSQL -> fetchAll(PDO::FETCH_ASSOC);      
-
-    if(!$listaPersonas){
-        die('Error listar personas');
-    }
-
-    
 
     $json = array();
     foreach ($listaPersonas as $row) {
@@ -21,12 +15,17 @@
         'tipo_persona' => $row['tipo_persona'],
         'telefono' => $row['telefono'],
         'email' => $row['email'],
-        'estado' => $row['estado']
+        'estado' => $row['estado'],
+        'clave' => $row['clave']
       );
     }
-      // Convertir a JSON y enviar respuesta al cliente
+    // Convertir a JSON y enviar respuesta al cliente
     $jsonstring = json_encode($json);
     echo $jsonstring;
+  }catch(Exception $e){
+    echo $e->getMessagge();
+  }
+    
 
 ?>
 

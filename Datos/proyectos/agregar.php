@@ -1,20 +1,5 @@
 <?php
-try {
-    $host = 'localhost'; // dirección del servidor de base de datos
-    $bd = 'proyectosi'; // nombre de la base de datos
-    $user = 'root'; // usuario de la base de datos
-    $clave = ''; // contraseña de la base de datos
 
-    $conexion = new PDO("mysql:host=$host; dbname=$bd", $user, $clave);
-    // aquí se realiza la conexión y se almacena en la variable $conexion
-
-    if ($conexion) {
-        // si la conexión fue exitosa, se puede realizar alguna operación
-    }
-} catch (PDOException $ex) {
-    // si hubo algún error en la conexión, se captura la excepción y se muestra un mensaje de error
-    echo 'Error al conectar a la base de datos: ' . $ex->getMessage();
-}
 
 date_default_timezone_set('America/Bogota');
 $fecha = new DateTime();
@@ -28,7 +13,7 @@ $fecha = new DateTime();
  $nomarchivo = ($archivo != "") ? $fecha->format('d-m-Y-H-i')."_".$_FILES["archivo"]["name"] : "imagen.jpg";
  
     try {
-
+        include("../conexion.php");
         // Preparar la consulta SQL
         $stmt = $conexion->prepare("INSERT INTO `proyectos`(`nombre`, `descripcion`, `fecha_inicio`, `codigo_grupo`, `codigo_lider_proyecto` , archivo) VALUES (:nombre,:descripcion,:fecha ,:codigoGrupo,:codigoPersona , :archivo)");
 

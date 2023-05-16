@@ -1,7 +1,5 @@
 <?php
 session_start();
-
-
 $conex = mysqli_connect("localhost", "root", "", "proyectosi");
 
 $identificacion = $_POST['identificacion'];
@@ -30,7 +28,7 @@ if($personas != null){
     }
 }else{
     $_SESSION['error_login'] = true;
-    header("location:/index.php");
+    header("location: index.php");
 }
 
 

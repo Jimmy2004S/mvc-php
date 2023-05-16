@@ -3,4 +3,4 @@
 
     
 
-<?php include("../template/footer.php");
+<?php include("templateAdmin/footteer.php");

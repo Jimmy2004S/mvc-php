@@ -16,7 +16,7 @@ try {
     $tipo_persona = $_POST['tipoUsuario'];
     $email = $_POST['email'];
     $telefono = $_POST['telefono'];
-    $clave = $identificacion; // Clave por defecto es la identificación
+    $clave = $_POST['contrasenia']; // Clave por defecto es la identificación
   
     $stmt1->bindParam(':nombre', $nombre);
     $stmt1->bindParam(':apellido', $apellido);
@@ -32,27 +32,27 @@ try {
   
     // Segunda consulta SQL
     if($tipo_persona == 'Estudiante'){
-        $sql2 = "INSERT INTO `estudiante`(`codigo_persona`, `carrera`, `semestre`) VALUES (:codigoPersona, :carrera , :semestre)";
-        $stmt2 = $conexion->prepare($sql2);
+        $sql2 = "INSERT INTO `estudiante`(`codigo`, `carrera`, `semestre`) VALUES (:codigoPersona, :carrera , :semestre)";
+        $stmt = $conexion->prepare($sql2);
       
         $carrera = $_POST['carrera'];
         $semestre = $_POST['semestre']; 
       
-        $stmt2->bindParam(':codigoPersona', $codigoPersona);
-        $stmt2->bindParam(':carrera', $carrera);
-        $stmt2->bindParam(':semestre', $semestre);
+        $stmt->bindParam(':codigoPersona', $codigoPersona);
+        $stmt->bindParam(':carrera', $carrera);
+        $stmt->bindParam(':semestre', $semestre);
 
-        $stmt2->execute();
+        $stmt->execute();
     }else if($tipo_persona == 'Profesor'){
-        $sql3 = "INSERT INTO `profesor`(`codigo_persona`, `departamento`) VALUES (:codigoPersona,:departamento)";
-        $stmt3 = $conexion->prepare($sql3);
+        $sql3 = "INSERT INTO `profesor`(`codigo`, `departamento`) VALUES (:codigoPersona,:departamento)";
+        $stmt = $conexion->prepare($sql3);
       
         $departamento = $_POST['departamento'];
       
-        $stmt3->bindParam(':codigoPersona', $codigoPersona);
-        $stmt3->bindParam(':departamento', $departamento);
+        $stmt->bindParam(':codigoPersona', $codigoPersona);
+        $stmt->bindParam(':departamento', $departamento);
 
-        $stmt3->execute();
+        $stmt->execute();
     }
   
     // Confirmar transacción
@@ -64,6 +64,8 @@ try {
     $conexion->rollback();
     echo "Error en la transacción: " . $e->getMessage();
 }
-
+$stmt = null;
+$stmt1 = null;
+$conexion = null;
   
 

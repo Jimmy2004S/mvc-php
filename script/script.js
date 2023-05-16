@@ -1,8 +1,11 @@
 $(document).ready(function(){
       console.log('Hellow word');
 
+      listarPersonas();
       listarProyectos();
       listarMisProyectos();
+      listarMisGrupos();
+      proyectosTendencias();
       //Devolver busqueda
     $('#search').keyup(function() {
         let search = $('#search').val();
@@ -41,26 +44,35 @@ $(document).ready(function(){
         type: 'GET',
         success: function(response){
             let proyectos = JSON.parse(response);
-            console.log(proyectos);
             like = '';
+            infor_persona = '';
             let template ='';
             proyectos.forEach(element => {
               if(element.dio_like == 1){
                 like =`
-                <button type="button" class="btn btn-danger ms-2">
+                <button type="button" class="btn btn-danger">
                   <i class="nolike fa-sharp fa-regular fa-heart"></i>
                 </button>
                 `
               }else{
                 like =`
-                <button type="button" class="btn btn-outline-secondary ms-2">
+                <button type="button" class="btn btn-outline-danger ms-2">
                   <i class="like fa-sharp fa-regular fa-heart"></i>
                 </button>
                 `            
               }
+              if(element.tipo_persona == 'Profesor'){
+                infor_persona =`
+                <p> Deapartmento de  ${element.departamento} </p>
+                `  
+              }else{
+                infor_persona =`
+                <p>${element.carrera} /  semestre ${element.semestre}  </p>
+                `  
+              }
                 template +=  `
                   <div class="col-sm-12 col-md-6">
-                    <div codigo-proyecto="${element.codigo}" class="card border-primary mb-3">
+                    <div codigo-proyecto="${element.codigo}" class="shadow h-90 mb-5 bg-body-tertiary rounded card border-primary mb-3">
                       <div class="card-header">
                         <h4 class="card-title">${element.nombre}</h4>
                         <h6 class="card-subtitle mb-2 text-muted">${element.fecha_inicio}</h6>
@@ -68,9 +80,15 @@ $(document).ready(function(){
                       <div class="card-body">
                         <p class="card-text">${element.descripcion}</p>
                         <a href="../Archivos/${element.archivo}" target="blank" class="card-link">${element.archivo}</a>
-                        <div  class="d-flex justify-content-end mt-3">
-                          <p> ${element.likes} likes </p>
+                      </div>
+                      <div class="card-footer text-muted d-flex">
+                        <div class="p-2 w-100">
+                          <p> ${element.nombre_lider} </p>
+                          ${infor_persona}
+                        </div>
+                        <div  class="flex-shrink-1">
                           ${like}
+                          <p class="m-0"> ${element.likes} like </p>
                         </div>
                       </div>
                     </div>
@@ -78,6 +96,67 @@ $(document).ready(function(){
                 `
             });
             $('#allproject').html(template);
+        }
+      })
+    }
+
+    function proyectosTendencias(){
+      $.ajax({
+        url: '../Datos/proyectos/tendencias.php',
+        type: 'GET',
+        success: function(response){
+            let proyectos = JSON.parse(response);
+            like = '';
+            infor_persona = '';
+            let template ='';
+            proyectos.forEach(element => {
+              if(element.dio_like == 1){
+                like =`
+                <button type="button" class="btn btn-danger">
+                  <i class="nolike fa-sharp fa-regular fa-heart"></i>
+                </button>
+                `
+              }else{
+                like =`
+                <button type="button" class="btn btn-outline-danger ms-2">
+                  <i class="like fa-sharp fa-regular fa-heart"></i>
+                </button>
+                `            
+              }
+              if(element.tipo_persona == 'Profesor'){
+                infor_persona =`
+                <p> Deapartmento de  ${element.departamento} </p>
+                `  
+              }else{
+                infor_persona =`
+                <p>${element.carrera} /  semestre ${element.semestre}  </p>
+                `  
+              }
+                template +=  `
+                  <div class="col-sm-12 col-md-6">
+                    <div codigo-proyecto="${element.codigo}" class="shadow h-90 mb-5 bg-body-tertiary rounded card border-primary mb-3">
+                      <div class="card-header">
+                        <h4 class="card-title">${element.nombre}</h4>
+                        <h6 class="card-subtitle mb-2 text-muted">${element.fecha_inicio}</h6>
+                      </div>
+                      <div class="card-body">
+                        <p class="card-text">${element.descripcion}</p>
+                        <a href="../Archivos/${element.archivo}" target="blank" class="card-link">${element.archivo}</a>
+                      </div>
+                      <div class="card-footer text-muted d-flex">
+                        <div class="p-2 w-100">
+                          <p> ${element.nombre_lider} </p>
+                          ${infor_persona}
+                        </div>
+                        <div">
+                          <p class="m-0"> ${element.likes} like </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `
+            });
+            $('#tendencias').html(template);
         }
       })
     }
@@ -93,14 +172,13 @@ $(document).ready(function(){
     });
     
       //Quitar like a proyecto
-      $(document).on('click' , '.nolike' , function(){
+    $(document).on('click' , '.nolike' , function(){
         let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
         let codigo =  $(element).attr('codigo-proyecto');
         $.post('../Datos/proyectos/quitarLike.php' , {codigo} , function(response) {
-          console.log(response);
           listarProyectos();
         });
-      });
+    });
 
     function listarMisProyectos(){
       $.ajax({
@@ -112,7 +190,7 @@ $(document).ready(function(){
             proyectos.forEach(element => {
                 template +=  `
                   <div class="col-sm-12 col-md-6">
-                    <div codigo-proyecto="${element.codigo}" class="card border-primary mb-3">
+                    <div codigo-proyecto="${element.codigo}" class="card h-90 border-primary mb-3">
                       <div class="card-header">
                         <h4 class="card-title">${element.nombre}</h4>
                         <h6 class="card-subtitle mb-2 text-muted">${element.fecha_inicio}</h6>
@@ -121,12 +199,15 @@ $(document).ready(function(){
                         <p class="card-text">${element.descripcion}</p>
                         <a href="../Archivos/${element.archivo}" target="_blank" class="card-link">${element.archivo}</a>
                         <div id="container-select" class=" d-flex justify-content-end mt-3">
-                          <button class="btn btn-secondary">
+                          <button type="button" class="btn btn-outline-danger">
                             <i class="eliminar fa-solid fa-trash"></i>
                           </button>
                           <button type="button" class="ms-3 btn btn-outline-dark">
                             <i class="seleccionar fa-solid fa-hand-pointer"></i>
                           </button>
+                          <a href="../reporte.php?codigo=${element.codigo}" target="_blank" class="card-link ms-3">
+                            <i class="fa-solid fa-download m-2"> </i>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -148,22 +229,24 @@ $(document).ready(function(){
       });
     });
 
+     //Descargar certificado
+     $(document).on('click' , '.descargar' , function(){
+      let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
+      let codigo =  $(element).attr('codigo-proyecto');
+      $.post('../reporte.php' , {codigo} , function(response){
+      });
+    });
+
     //Seleccionar proyecto
     $(document).on('click' , '.seleccionar' , function(){
       //Tomar el elemento y su atributo codigo proyecto
       let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
-
       let codigo =  $(element).attr('codigo-proyecto');
-      $('#btn-modificar').toggleClass("btn btn-success");
+      //Preparar el formulario para modificar
+      $('#miModal').modal('show');
+      document.getElementById("btn-registrar").classList.add("hide");
+      document.getElementById("btn-modificar").classList.remove("hide");
 
-      if ($('#codigoProyecto').val().length > 0) {
-        $('#codigoProyecto').val("");
-        $('#nombreProyecto').val("");
-        $('#descripcion').val("");
-        $('#miSelectGrupo').val("");
-        $('#codigoPersona').val("");
-        $('#nombreArchivo').text("");
-      } else {
         $.post('../Datos/proyectos/listar‼Codigo.php', { codigo }, function(response) {
           let proyecto = JSON.parse(response);
           // Actualizar IU
@@ -174,12 +257,9 @@ $(document).ready(function(){
           $('#codigoPersona').val(proyecto.codigo_lider_proyecto);
           $('#nombreArchivo').text(proyecto.archivo);
         });
-      }
-      
-      
     });
     
-
+    //Agregar o modificar proyecto
     $('#form-addProject input[type="submit"]').click(function(e) {
       e.preventDefault();
       var accion = $(this).val();
@@ -210,47 +290,133 @@ $(document).ready(function(){
               listarMisProyectos();
           }
       });
-      
+      $('#miModal').modal('hide');
     });
-  
 
-   function listarMisGrupos(){
+
+    let personas = null;
+    function listarPersonas(){
+      $.ajax({
+          url: '../Datos/persona/ListarPersonas.php',
+          type: 'GET',
+          success: function(response){
+            personas = JSON.parse(response);    
+          }
+      })   
+  }
+
+  function listarMisGrupos(){ 
     $.ajax({
-      url: '../Datos/grupos/listar.php',
+      url: '../Datos/grupos/MisGrupos.php',
       type: 'GET',
       success: function(response){
-          let proyectos = JSON.parse(response);
-          let template ='';
-          proyectos.forEach(element => {
-              template +=  `
+        let grupos = JSON.parse(response);
+        let template ='';
+        grupos.forEach(element => {
+          let codigoGrupo = element.codigo_grupo;
+          $.ajax({
+            url: '../Datos/grupos/miembros.php',
+            type: 'POST',
+            data: { codigoGrupo },
+            success: function(response){
+              let miembros = JSON.parse(response);
+              let template2 = '';
+              miembros.forEach(element2 => {
+                template2 +=  ` 
+                  <p> ${element2.miembro} ${element2.codigo_persona} </p>
+                `;
+              });
+              template +=  ` 
                 <div class="col-sm-12 col-md-6">
-                  <div codigo-grupo="${element.codigo}" class="card border-primary mb-3">
+                  <div codigo-grupo="${codigoGrupo}" class="card h-90 border-primary mb-3">
                     <div class="card-header">
                       <h4 class="card-title">${element.nombre}</h4>
-                      <h6 class="card-subtitle mb-2 text-muted">${element.fecha_inicio}</h6>
                     </div>
                     <div class="card-body">
-                      <p class="card-text">${element.descripcion}</p>
-                      <a href="../Archivos/${element.archivo}" target="_blank" class="card-link">${element.archivo}</a>
+                      <div id="miembros-${codigoGrupo}">
+                        ${template2}
+                      </div>
                       <div class="d-flex justify-content-end mt-3">
                         <button class="btn btn-secondary">
                           <i class="eliminar fa-solid fa-trash"></i>
                         </button>
                         <button class="ms-2 btn btn-danger">
-                          <i class="ver fa-solid fa-hand-pointer"></i>
+                          <i class="ver-grupo fa-solid fa-hand-pointer"></i>
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
-              `
+              `;
+              $('#my-grupos').html(template);
+            }
           });
-          $('#my-projects').html(template);
+        });
       }
-    })
+    });
   }
+  
+
+  //Abrir agregar proyecto
+  $('#add-project').click(function() {
+    $('#miModal').modal('show');
+    document.getElementById("btn-registrar").classList.remove("hide");
+    document.getElementById("btn-modificar").classList.add("hide");
     
+    if ($('#codigoProyecto').val().length > 0) {
+      $('#codigoProyecto').val("");
+      $('#nombreProyecto').val("");
+      $('#descripcion').val("");
+      $('#miSelectGrupo').val("");
+      $('#codigoPersona').val("");
+      $('#nombreArchivo').text("");
+    }
+  });
+
+  //Abrir form report
+  $('#report').click(function() {
+    $('#miModalC').modal('show');
+    if ($('#subject').val().length > 0) {
+      $('#subject').val("");
+      $('#messagge').val("");
+    }
+  });
+
+  //Enviar report
+  $('#form-report input[type="submit"]').click(function(e) {
+    e.preventDefault();
+    // Crea un objeto FormData
+    const postDATA = {
+      subject: $("#subject").val(),
+      messagge: $("#messagge").val()
+    }
+
+    console.log(postDATA);
+    // Envía la petición AJAX
+    $.ajax({
+        url: "../enviarCorreo.php",
+        method: 'POST',
+        data: postDATA,
+        success: function(response) {
+          console.log(response);
+        }
+    });
+    $('#miModalC').modal('hide');
+  });
+
+  // Obtener la URL de la página actual
+  var currentUrl = window.location.href;
+  // Comparar la URL con las URLs de los enlaces del menú
+  if (currentUrl.includes("tendencias.php")) {
+    $("#tendencias-link").addClass("active");
+  } else if (currentUrl.includes("misProject.php")) {
+    $("#portfolio-link").addClass("active");
+  } else if (currentUrl.includes("misGrupos.php")) {
+    $("#groups-link").addClass("active");
+  }
+
 });
+
 
 
 function accion(){
