@@ -24,6 +24,7 @@ $tipo_persona = $_SESSION['tipo_persona'];
 <!--CSS-->
 <link rel="stylesheet" href="../css/Styles.css"/>
 <!--BOOTSTRAP-->
+<link rel="stylesheet" href="../css/bootstrap.min.css"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">  
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 
@@ -35,9 +36,9 @@ $tipo_persona = $_SESSION['tipo_persona'];
                 <div class="nav-user">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-user" style="color: #ffffff;"></i> </a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item" href="">Administrar</a>
+                            <a class="dropdown-item" href="">Manage</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="../cerrarSesion.php">Cerrar sesion</a>
+                            <a class="dropdown-item" href="../cerrarSesion.php">Sign out</a>
                         </div>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,23 +47,22 @@ $tipo_persona = $_SESSION['tipo_persona'];
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#"> Crear anuncio
+                            <a class="nav-link active" href="#"> Create AD
                             <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item dropdown  administrador">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administrador</a>
                             <div class="dropdown-menu">
-                            <a class="dropdown-item" href="usuarios.php">Usuarios</a>
-                            <a class="dropdown-item" href="#">Proyectos</a>
+                            <a class="dropdown-item" href="usuarios.php">Users</a>
+                            <a class="dropdown-item" href="#">Projects</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Acerca de</a>
+                            <a class="dropdown-item" href="#">About</a>
                             </div>
                         </li>
                     </ul>
                     <form class="d-flex">
                         <input class="form-control me-sm-2" type="search" placeholder="Search" oninput="buscarTabla()" id="buscar">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
                     </form>
                 </div>
             </div>

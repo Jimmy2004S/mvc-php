@@ -2,30 +2,86 @@ $(document).ready(function(){
       console.log('Hellow word');
 
       listarPersonas();
-      listarProyectos();
       listarMisProyectos();
       listarMisGrupos();
       proyectosTendencias();
-      //Devolver busqueda
-    $('#search').keyup(function() {
+      buscarProyectos();
+
+      function buscarProyectos() {
         let search = $('#search').val();
         $.ajax({
-          url: '../Datos/persona/filtrarPersona.php',
+          url: '../Datos/proyectos/filtrarProyectos.php',
           type: 'POST',
           data: {
             search: search
           },
-          dataType: 'json',
+          //dataType: 'json',
           success: function(response) {
-            console.log(response);
+            let proyectos = JSON.parse(response);
+            like = '';
+            infor_persona = '';
+            let template ='';
+            proyectos.forEach(element => {
+              if(element.dio_like == 1){
+                like =`
+                <button type="button" class="btn btn-danger">
+                  <i class="nolike fa-sharp fa-regular fa-heart"></i>
+                </button>
+                `
+              }else{
+                like =`
+                <button type="button" class="btn btn-outline-danger">
+                  <i class="like fa-sharp fa-regular fa-heart"></i>
+                </button>
+                `            
+              }
+              if(element.tipo_persona == 'Profesor'){
+                infor_persona =`
+                <p> Departmento de  ${element.departamento} </p>
+                `  
+              }else{
+                infor_persona =`
+                <p>${element.carrera} /  semestre ${element.semestre}  </p>
+                `  
+              }
+              template +=  `
+                <div class="col-sm-12 col-md-6">
+                  <div codigo-proyecto="${element.codigo}" class="shadow-lg mb-5 bg-body-tertiary rounded card border-primary mb-3" style="height: 90%;">
+                    <div class="card-header">
+                      <h4 class="card-title">${element.nombre}</h4>
+                      <h6 class="card-subtitle mb-2 text-muted">${element.fecha_inicio}</h6>
+                    </div>
+                    <div class="card-body">
+                      <p class="card-text">${element.descripcion}</p>
+                      <a href="../Archivos/${element.archivo}" target="blank" class="card-link">${element.archivo}</a>
+                    </div>
+                    <div class="card-footer text-muted d-flex">
+                      <div class="col-10">
+                        <p> ${element.nombre_lider} </p>
+                        ${infor_persona}
+                      </div>
+                      <div  class="col-2">
+                        ${like}
+                        <p class="m-0"> ${element.likes} like </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `
+            });
+            $('#allproject').html(template);
           },
           error: function(xhr, status, error) {
             console.log("Error:", xhr.responseText);
           }
         });
-    });
-      
-      
+      }
+
+      $('#search').keyup(function() {
+        buscarProyectos();
+        proyectosTendencias();
+      });
+
     //Agregar al grupo
     $(document).ready(function() {
       $('#form-addGrupo').submit(function(e){
@@ -37,74 +93,16 @@ $(document).ready(function(){
       });
     });    
 
-    //Listar todos los proyectos
-    function listarProyectos(){
-      $.ajax({
-        url: '../Datos/proyectos/listar.php',
-        type: 'GET',
-        success: function(response){
-            let proyectos = JSON.parse(response);
-            like = '';
-            infor_persona = '';
-            let template ='';
-            proyectos.forEach(element => {
-              if(element.dio_like == 1){
-                like =`
-                <button type="button" class="btn btn-danger">
-                  <i class="nolike fa-sharp fa-regular fa-heart"></i>
-                </button>
-                `
-              }else{
-                like =`
-                <button type="button" class="btn btn-outline-danger ms-2">
-                  <i class="like fa-sharp fa-regular fa-heart"></i>
-                </button>
-                `            
-              }
-              if(element.tipo_persona == 'Profesor'){
-                infor_persona =`
-                <p> Deapartmento de  ${element.departamento} </p>
-                `  
-              }else{
-                infor_persona =`
-                <p>${element.carrera} /  semestre ${element.semestre}  </p>
-                `  
-              }
-                template +=  `
-                  <div class="col-sm-12 col-md-6">
-                    <div codigo-proyecto="${element.codigo}" class="shadow h-90 mb-5 bg-body-tertiary rounded card border-primary mb-3">
-                      <div class="card-header">
-                        <h4 class="card-title">${element.nombre}</h4>
-                        <h6 class="card-subtitle mb-2 text-muted">${element.fecha_inicio}</h6>
-                      </div>
-                      <div class="card-body">
-                        <p class="card-text">${element.descripcion}</p>
-                        <a href="../Archivos/${element.archivo}" target="blank" class="card-link">${element.archivo}</a>
-                      </div>
-                      <div class="card-footer text-muted d-flex">
-                        <div class="p-2 w-100">
-                          <p> ${element.nombre_lider} </p>
-                          ${infor_persona}
-                        </div>
-                        <div  class="flex-shrink-1">
-                          ${like}
-                          <p class="m-0"> ${element.likes} like </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                `
-            });
-            $('#allproject').html(template);
-        }
-      })
-    }
-
     function proyectosTendencias(){
-      $.ajax({
-        url: '../Datos/proyectos/tendencias.php',
-        type: 'GET',
-        success: function(response){
+      let search = $('#search').val();
+        $.ajax({
+          url: '../Datos/proyectos/tendencias.php',
+          type: 'POST',
+          data: {
+            search: search
+          },
+          //dataType: 'json',
+          success: function(response) {
             let proyectos = JSON.parse(response);
             like = '';
             infor_persona = '';
@@ -118,7 +116,7 @@ $(document).ready(function(){
                 `
               }else{
                 like =`
-                <button type="button" class="btn btn-outline-danger ms-2">
+                <button type="button" class="btn btn-outline-danger">
                   <i class="like fa-sharp fa-regular fa-heart"></i>
                 </button>
                 `            
@@ -132,33 +130,37 @@ $(document).ready(function(){
                 <p>${element.carrera} /  semestre ${element.semestre}  </p>
                 `  
               }
-                template +=  `
-                  <div class="col-sm-12 col-md-6">
-                    <div codigo-proyecto="${element.codigo}" class="shadow h-90 mb-5 bg-body-tertiary rounded card border-primary mb-3">
-                      <div class="card-header">
-                        <h4 class="card-title">${element.nombre}</h4>
-                        <h6 class="card-subtitle mb-2 text-muted">${element.fecha_inicio}</h6>
+              template +=  `
+                <div class="col-sm-12 col-md-6">
+                  <div codigo-proyecto="${element.codigo}" class="shadow-lg mb-5 bg-body-tertiary rounded card border-primary mb-3" style="height: 90%;">
+                    <div class="card-header">
+                      <h4 class="card-title">${element.nombre}</h4>
+                      <h6 class="card-subtitle mb-2 text-muted">${element.fecha_inicio}</h6>
+                    </div>
+                    <div class="card-body">
+                      <p class="card-text">${element.descripcion}</p>
+                      <a href="../Archivos/${element.archivo}" target="blank" class="card-link">${element.archivo}</a>
+                    </div>
+                    <div class="card-footer text-muted d-flex">
+                      <div class="col-10">
+                        <p> ${element.nombre_lider} </p>
+                        ${infor_persona}
                       </div>
-                      <div class="card-body">
-                        <p class="card-text">${element.descripcion}</p>
-                        <a href="../Archivos/${element.archivo}" target="blank" class="card-link">${element.archivo}</a>
-                      </div>
-                      <div class="card-footer text-muted d-flex">
-                        <div class="p-2 w-100">
-                          <p> ${element.nombre_lider} </p>
-                          ${infor_persona}
-                        </div>
-                        <div">
-                          <p class="m-0"> ${element.likes} like </p>
-                        </div>
+                      <div class="col-2">
+                        ${like}
+                        <p class="m-0"> ${element.likes} like </p>
                       </div>
                     </div>
                   </div>
-                `
+                </div>
+              `
             });
             $('#tendencias').html(template);
-        }
-      })
+          },
+          error: function(xhr, status, error) {
+            console.log("Error:", xhr.responseText);
+          }
+        });
     }
 
     //Dar like a proyecto
@@ -167,7 +169,8 @@ $(document).ready(function(){
       let codigo =  $(element).attr('codigo-proyecto');
       $.post('../Datos/proyectos/actualizar_likes.php' , {codigo} , function(response) {
         console.log(response);
-        listarProyectos();
+        buscarProyectos();
+        proyectosTendencias();
       });
     });
     
@@ -176,7 +179,8 @@ $(document).ready(function(){
         let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
         let codigo =  $(element).attr('codigo-proyecto');
         $.post('../Datos/proyectos/quitarLike.php' , {codigo} , function(response) {
-          listarProyectos();
+          buscarProyectos();
+          proyectosTendencias();
         });
     });
 

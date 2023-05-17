@@ -24,7 +24,7 @@
                 <input type="text" name="identificacion" id="identificacion" placeholder="identificacion..." required>
                 <input type="email" name="email" id="emailPersona" placeholder="Email..." required>
                 <input type="text" name="telefono" id="telefono" placeholder="Telefono..." required>
-                <input type="password" id="contrasenia" value="Choose a password">
+                <input type="password" name="contrasenia" placeholder="passsword">
                 <select name="tipoUsuario" id="tipous" onchange="inforTipoPersona();">
                     <option selected="true" disabled="disabled">seleccione tipo de usuario</option>
                     <option value="Profesor">Teacher</option>

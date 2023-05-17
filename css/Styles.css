@@ -137,6 +137,14 @@ body{
 .nav-user{
     margin: 0px 20px 0px 10px;
 }
+
+.container-inicio{
+    background: url(../multimedia/Inicio2.jpg);
+    background-position: center;
+    background-attachment: contain;
+    background-size: cover;
+    height: 300px;
+}
 /*Proyectos*/
 #boton-like {
     background-color: grey;

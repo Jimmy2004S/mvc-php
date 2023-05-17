@@ -1,25 +1,8 @@
         <footer class="footer container-fluid m-0 row">
-                    <div class="col-4 d-flex justify-content-center align-items-center flex-column">
-                        <div class="h-100">
-                            <p>Lorem ipsum dolor sit.</p>
-                            <p>Derechos reservados</p>
-                            <p>Lorem ipsum dolor sit.</p>
-                        </div>
+                    <div class="d-flex justify-content-center align-items-center flex-column ">
+                        <h3> Copyright © 2023 All rights reserved</h1> 
+                        <img style="width: 20%;" src="../multimedia/logo-unicolombo.png" alt="">
                     </div>
-                    <div class="col-4 d-flex justify-content-center align-items-center flex-column">
-                        <div class="h-100">
-                            <p>Lorem ipsum dolor sit.</p>
-                            <p>Lorem ipsum dolor sit.</p>
-                            <p>Lorem ipsum dolor sit.</p>
-                        </div>
-                    </div>
-                    <div class="col-4 d-flex justify-content-center align-items-center flex-column">
-                        <div class="h-100">
-                            <p>Lorem ipsum dolor sit.</p>
-                            <p>Derechos reservados</p>
-                            <p>Lorem ipsum dolor sit.</p>
-                        </div>
-                    </div>       
         </footer>
     </div>
     <!--SCRIPTS-->

@@ -16,7 +16,7 @@
                                             <div class="modal-body">
                                                     <div class="input-form">
                                                         <input type="hidden" readonly name="codigoProyecto" id="codigoProyecto" placeholder="Codigo Proyecto">
-                                                        <input type="text" readonly name="codigoPersona"id="codigoPersona" value="<?php echo $codigoPersonaLogin ?>">
+                                                        <input type="hidden" readonly name="codigoPersona"id="codigoPersona" value="<?php echo $codigoPersonaLogin ?>">
                                                         <input type="hidden" readonly name="fecha_inicio">
                                                         <input type="text" id="nombreProyecto" name="nombreProyecto" required placeholder="Nombre de proyecto..." >
                                                         <input type="text" name="descripcion" id="descripcion" required placeholder="Descripcion...">

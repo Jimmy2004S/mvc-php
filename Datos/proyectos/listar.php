@@ -48,7 +48,7 @@ $codigoPersonaLogin = $_SESSION['codigo'];
       $jsonstring = json_encode($json);
       echo $jsonstring;
     }catch(Exception $e){
-
+      $e->getMessage();
     }
    
 

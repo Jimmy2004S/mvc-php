@@ -1,6 +1,4 @@
 <?php
-
-
 date_default_timezone_set('America/Bogota');
 $fecha = new DateTime();
 // Asignar los valores de los parámetros

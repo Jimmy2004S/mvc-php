@@ -36,6 +36,7 @@ session_start();
     <!--BOOTSTRAP-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
 </head>
 <body class="no-padding container-fluid m-0 p-0">
     <div class="container-fluid px-0">
@@ -79,27 +80,26 @@ session_start();
                             <a class="dropdown-item" href="../cerrarSesion.php">Cerrar sesion</a>
                         </div>
                 </div>
-                <a class="navbar-brand" href="../vistas/inicio.php">Portal</a>
+                <a class="navbar-brand" href="../vistas/inicio.php">Homepage</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                      <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" id="tendencias-link" href="../vistas/tendencias.php">Tendencias
+                            <a class="nav-link" id="tendencias-link" href="../vistas/tendencias.php">Trends
                             <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="portfolio-link" href="../vistas/misProject.php">Mi portafoloio</a>
+                            <a class="nav-link" id="portfolio-link" href="../vistas/misProject.php">My portfolio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="groups-link" href="../vistas/misGrupos.php">Mis grupos</a>
+                            <a class="nav-link" id="groups-link" href="../vistas/misGrupos.php">My groups</a>
                         </li>
                     </ul>
                     <form class="d-flex">
                         <input class="form-control me-sm-2" id="search" type="search" placeholder="Search">
-                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Buscar</button>
                     </form>
                 </div>
             </div>
