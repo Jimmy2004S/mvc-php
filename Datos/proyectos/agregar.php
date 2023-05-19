@@ -5,7 +5,11 @@ $fecha = new DateTime();
  $nombre = isset($_POST['nombreProyecto']) ? $_POST['nombreProyecto'] : '';
  $fecha_str = $fecha->format('d-m-Y H:i');
  $descripcion = isset($_POST['descripcion']) ? $_POST['descripcion'] : '';
- $codigoGrupo = isset($_POST['codigoGrupo']) ? $_POST['codigoGrupo'] : '';
+if($_POST['codigoGrupo'] == 'seleccione un grupo'){
+    $codigoGrupo = 0;
+ }else{
+    $codigoGrupo = $_POST['codigoGrupo'];
+ }
  $codigoPersona = isset($_POST['codigoPersona']) ? $_POST['codigoPersona'] : '';
  $archivo = isset($_FILES['archivo']['name']) ? $_FILES['archivo']['name'] : '';
  $nomarchivo = ($archivo != "") ? $fecha->format('d-m-Y-H-i')."_".$_FILES["archivo"]["name"] : "imagen.jpg";

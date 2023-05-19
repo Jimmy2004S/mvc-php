@@ -194,7 +194,7 @@ $(document).ready(function(){
             proyectos.forEach(element => {
                 template +=  `
                   <div class="col-sm-12 col-md-6">
-                    <div codigo-proyecto="${element.codigo}" class="card h-90 border-primary mb-3">
+                    <div codigo-proyecto="${element.codigo}"  class="shadow-lg mb-5 bg-body-tertiary rounded card border-primary mb-3" style="height: 90%;">
                       <div class="card-header">
                         <h4 class="card-title">${element.nombre}</h4>
                         <h6 class="card-subtitle mb-2 text-muted">${element.fecha_inicio}</h6>
@@ -257,7 +257,11 @@ $(document).ready(function(){
           $('#codigoProyecto').val(proyecto.codigo);
           $('#nombreProyecto').val(proyecto.nombre);
           $('#descripcion').val(proyecto.descripcion);
-          $('#miSelectGrupo').val(proyecto.codigo_grupo);
+          if(proyecto.codigo_grupo == null ){
+            $('#miSelectGrupo').val('seleccione un grupo');
+          }else{
+            $('#miSelectGrupo').val(proyecto.codigo_grupo);
+          }
           $('#codigoPersona').val(proyecto.codigo_lider_proyecto);
           $('#nombreArchivo').text(proyecto.archivo);
         });

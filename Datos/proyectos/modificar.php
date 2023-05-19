@@ -22,7 +22,7 @@ $nombre  = (isset($_POST["nombreProyecto"]))? $_POST["nombreProyecto"]: "";
 $descripcion = (isset($_POST["descripcion"]))? $_POST["descripcion"]: "";
 $archivo = $_FILES['archivo']['name'];
 $codigoPersona = (isset($_POST["codigoPersona"]))? $_POST["codigoPersona"]: "";
-$codigoGrupo = (isset($_POST["codigoGrupo"]))? $_POST["codigoGrupo"]: "";
+$codigoGrupo = (isset($_POST["codigoGrupo"]))? $_POST["codigoGrupo"]: null;
 $fecha = (isset($_POST["fecha"]))? $_POST["fecha"]: "";
 $fechaSinEspacio = str_replace(' ', '_', $fecha);
 
