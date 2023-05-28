@@ -33,12 +33,12 @@ Debo agregar que es un proyecto dirigido a mi unversidad y que aun no ha sido te
 4.  Entrar a google y escribir "localhost"
 5. Seleccionar la carpeta del proyecto
 
-Con esto ya podras interactuar en la plataforma, usa uno de los usuarios de la base de datos
+Con esto ya podras interactuar en la plataforma, usa uno de los usuarios de la base de datos.
+
+Guiate:
+https://www.youtube.com/watch?v=3_nmRdk4mts
 
 ## Capturas de Pantalla
-
-Inserta aquí capturas de pantalla del proyecto que muestren su apariencia y funcionalidades clave.
-
 
 ## Autor
 - Nombre: JimmyJimenez
