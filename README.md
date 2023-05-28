@@ -29,7 +29,7 @@ Debo agregar que es un proyecto dirigido a mi unversidad y que aun no ha sido te
 
 1. Descargar el proyecto.
 2. Importar la base de datos en xampp.
-3.  Colocar la carpeta del proyecto la siguiente direccion: C:\xampp\htdocs
+3.  Colocar la carpeta del proyecto en la siguiente direccion: C:\xampp\htdocs
 4.  Entrar a google y escribir "localhost"
 5. Seleccionar la carpeta del proyecto
 
