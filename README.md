@@ -39,7 +39,7 @@ Guiate:
 https://www.youtube.com/watch?v=3_nmRdk4mts
 
 ## Capturas de Pantalla
-[Logo de ejemplo](https://github.com/Jimmy2004S/ProaulaWeb/blob/main/Proaula.png)
+[Interfaz de ejemplo](https://github.com/Jimmy2004S/ProaulaWeb/blob/main/Proaula.png)
 
 
 
