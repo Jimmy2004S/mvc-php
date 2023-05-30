@@ -2,12 +2,12 @@
 <?php include("../template/navegacion.php"); ?>
         <div class="container d-flex flex-column mt-5">
             <!--Dialog-->  
-            <button id="add-project" type="button" class="btn btn-primary mb-3">Agregar proyecto</button>
+            <button id="add-project" type="button" class="btn btn-primary mb-3">Add project</button>
                             <div class="modal" id="miModal">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Administrar proyectos</h5>
+                                            <h5 class="modal-title">Manage project</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true"></span>
                                             </button>
@@ -34,8 +34,8 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <div class="form-btn d-flex flex-column" id="acciones-formProyect">
-                                                    <input type="submit" name="accion"  class="btn btn-primary custom-btn" id="btn-registrar"  value="Registrar">
-                                                    <input type="submit" name="accion"  class="btn btn-primary custom-btn" id="btn-modificar" value="Modificar">
+                                                    <input type="submit" name="accion"  class="btn btn-primary custom-btn" id="btn-registrar"  value="To register">
+                                                    <input type="submit" name="accion"  class="btn btn-primary custom-btn" id="btn-modificar" value="Modify">
                                                 </div>
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                             </div>

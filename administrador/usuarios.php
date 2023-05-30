@@ -18,7 +18,7 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Administrar proyectos</h5>
+                                            <h5 class="modal-title"></h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true"></span>
                                             </button>
@@ -65,12 +65,12 @@
             <table class="table" id="tabla">
                 <thead class="table-dark">
                     <tr>
-                        <th> Codigo</th>
-                        <th> Nombres </th>
-                        <th> Tipo persona </th>
-                        <th> Correo electronico </th>
-                        <th> Telefono </th>
-                        <th> Estado </th>
+                        <th> Code</th>
+                        <th> Names </th>
+                        <th> Type person </th>
+                        <th> Address </th>
+                        <th> Tel </th>
+                        <th> Estatus </th>
                         <th></th>
                     </tr>
                 </thead>

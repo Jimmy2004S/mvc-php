@@ -83,15 +83,7 @@ $(document).ready(function(){
       });
 
     //Agregar al grupo
-    $(document).ready(function() {
-      $('#form-addGrupo').submit(function(e){
-        e.preventDefault();
-        const postDATA = {
-          name: $('#nombreGrupo').val()
-        };
-        console.log(postDATA);
-      });
-    });    
+    
 
     function proyectosTendencias(){
       let search = $('#search').val();
@@ -365,6 +357,26 @@ $(document).ready(function(){
   }
   
 
+   //Seleccionar grupo
+   $(document).on('click' , '.ver-grupo' , function(){
+    //Tomar el elemento y su atributo codigo proyecto
+    let element = $(this)[0].parentElement.parentElement.parentElement.parentElement;
+    let codigo =  $(element).attr('codigo-grupo');
+    //Preparar el formulario para modificar
+    $('#miModalG').modal('show');
+    document.getElementById("btn-registrar-G").classList.add("hide");
+    document.getElementById("btn-modificar-G").classList.remove("hide");
+
+      $.post('../Datos/grupos/MisGrupos.php', { codigo }, function(response) {
+        console.log(response);
+        let grupo = JSON.parse(response);
+        console.log(grupo);
+        // Actualizar IU
+        $('#codigoGrupoG').val(response.codigo_grupo);
+        $('#nombreGrupoG').val(grupo.nombre);
+      });
+  });
+
   //Abrir agregar proyecto
   $('#add-project').click(function() {
     $('#miModal').modal('show');
@@ -422,7 +434,6 @@ $(document).ready(function(){
   } else if (currentUrl.includes("misGrupos.php")) {
     $("#groups-link").addClass("active");
   }
-
 });
 
 
