@@ -4,6 +4,6 @@ namespace App\Controllers;
 class SessionController{
 
     public function loginView(){
-        echo "Login View";
+        include_once 'Resources/View/login.php';
     }
 }
