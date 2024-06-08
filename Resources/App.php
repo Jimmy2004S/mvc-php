@@ -1,11 +1,20 @@
 <?php
 namespace Resources;
+session_start();
 use App\Controllers\Controller;
+use App\Controllers\SessionController;
 
 class App
 {
     function __construct()
     {
+        
+        if(!isset($_SESSION['token']) || $_SESSION['token'] == false ||  empty($_SESSION['token'])) {
+            $sessionController = new SessionController();
+            $sessionController->loginView();
+            return;
+        }
+
         if (isset($_GET["url"])) {
             $url = $_GET["url"];
             $url = rtrim($url, '/');
