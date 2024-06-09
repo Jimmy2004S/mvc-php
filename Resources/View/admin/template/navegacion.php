@@ -53,7 +53,7 @@ $tipo_persona = $_SESSION['tipo_persona'];
                         <li class="nav-item dropdown  administrador">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administrador</a>
                             <div class="dropdown-menu">
-                            <a class="dropdown-item" href="?url=AdminController/verUsuarios">Users</a>
+                            <a class="dropdown-item" href="?url=AdminController/verUsuariosView">Users</a>
                             <a class="dropdown-item" href="#">Projects</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">About</a>

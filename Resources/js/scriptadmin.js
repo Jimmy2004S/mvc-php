@@ -1,52 +1,58 @@
 $(document).ready(function(){
 
-    // listarPersonas();
+    listarPersonas();
 
-    // function listarPersonas(){
-    //     $.ajax({
-    //         url: '../Datos/persona/ListarPersonas.php',
-    //         type: 'GET',
-    //         success: function(response){
-    //             let personas = JSON.parse(response);
-    //             let template ='';
-    //             personas.forEach(element => {
-    //                 let activarButton = '';
-    //                 let desactivarButton = '';
-    //                 if (element.estado === 'Activo') {
-    //                     desactivarButton = `
-    //                         <button class="desactivar btn btn-primary w-80">
-    //                             Desactivar
-    //                         </button>
-    //                     `;
-    //                 } else {
-    //                     activarButton = `
-    //                         <button class="activar btn btn-danger w-80">
-    //                             Activar
-    //                         </button>
-    //                     `;
-    //                 }
-    //                 template +=  `
-    //                     <tr persona-codigo="${element.codigo}">
-    //                         <td> ${element.codigo}</td>
-    //                         <td>${element.nombre}  ${element.apellido}</td>
-    //                         <td>${element.tipo_persona}</td>
-    //                         <td>${element.email}</td>
-    //                         <td>${element.telefono}</td>
-    //                         <td>${element.estado}</td>
-    //                         <td>
-    //                             ${desactivarButton}
-    //                             ${activarButton}
-    //                             <button type="button" class="ms-3 btn btn-outline-dark">
-    //                                 <i class="selecciona fa-solid fa-hand-pointer"></i>
-    //                             </button>
-    //                         </td>
-    //                     </tr>
-    //                 `
-    //             });
-    //             $('#personasINadmin').html(template);
-    //         }
-    //     })
-    // }
+    function listarPersonas() {
+        $.ajax({
+            url: '?url=AdminController/verUsuarios',
+            type: 'GET',
+            success: function(response) {
+                let personas = JSON.parse(response);
+                let template = '';
+                personas.forEach(element => {
+                    let activarButton = '';
+                    let desactivarButton = '';
+                    if (element.estado === 'Activo') {
+                        desactivarButton = `
+                            <button class="desactivar btn btn-primary w-80">
+                                Desactivar
+                            </button>
+                        `;
+                    } else {
+                        activarButton = `
+                            <button class="activar btn btn-danger w-80">
+                                Activar
+                            </button>
+                        `;
+                    }
+                    template += `
+                        <tr persona-codigo="${element.codigo}">
+                            <td>${element.codigo}</td>
+                            <td>${element.nombre} ${element.apellido}</td>
+                            <td>${element.tipo_persona}</td>
+                            <td>${element.email}</td>
+                            <td>${element.telefono}</td>
+                            <td>${element.estado}</td>
+                            <td>
+                                ${desactivarButton}
+                                ${activarButton}
+                                <button type="button" class="ms-3 btn btn-outline-dark">
+                                    <i class="selecciona fa-solid fa-hand-pointer"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                $('#personasINadmin').html(template);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
+                // Manejo del error en el cliente
+                alert("Error en el servidor: " + jqXHR.responseText);
+            }
+        });
+    }
+    
 
     //     //Seleccionar persona
     //     $(document).on('click' , '.selecciona' , function(){
