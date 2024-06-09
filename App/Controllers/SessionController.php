@@ -32,6 +32,8 @@ class SessionController
                 $_SESSION['apellido'] = $user['apellido'];
                 if ($user['tipo_persona'] == 'Estudiante' || $user['tipo_persona'] == 'Profesor') {
                     header('Location: ?url=Controller/inicio');
+                }elseif($user['tipo_persona'] == 'Administrador'){
+                    header("Location: ?url=AdminController/inicio");
                 }
             }
         } else {
