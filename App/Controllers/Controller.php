@@ -2,18 +2,17 @@
 
 namespace App\Controllers;
 
-use DataBase\Config\DB;
+
 
 class Controller
 {
-    public function home()
+    public function inicio()
     {
-        echo "Home";
+        require_once 'Resources/View/inicio.php';
     }
 
     public function prueba()
     {
-        $db = new DB();
-        $db->Connection();
+        echo "Prueba controller";
     }
 }

@@ -1,4 +1,4 @@
-<?php include("../template/navegacion.php"); ?>
+<?php include 'Resources/View/template/navegacion.php'; ?>
         <div class="col-12 container-inicio">
         </div>
         <div class="col-12 mt-5">
@@ -8,4 +8,4 @@
                     </div>
                 </div>
         </div>
-<?php include("../template/footer.php"); ?>
+<?php include 'Resources/View/template/footer.php'; ?>

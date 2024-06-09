@@ -7,7 +7,7 @@
     </div>
     <!--SCRIPTS-->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-    <script src="../script/script.js"></script>  
-    <script src="../administrador/scriptadmin.js"></script>  
+    <script src="Resources/js/script.js"></script>  
+    <script src="Resources/js/scriptadmin.js"></script>  
 </body>
 </html>

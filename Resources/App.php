@@ -26,15 +26,15 @@ class App
                 $controllerClass = "App\Controllers\\" . $url[0];
                 $controller = new $controllerClass();
                 if (isset($url[1])) { //Verify the method exists
-                    $controller->prueba();
+                    $controller->{$url[1]}();
                 }
             } else {
                 $controller = new Controller();
-                $controller->home();
+                $controller->inicio();
             }
         } else {
             $controller = new Controller();
-            $controller->home();
+            $controller->inicio();
         }
     }
 }

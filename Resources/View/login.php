@@ -1,5 +1,4 @@
 <?php
-session_start();
 if(isset($_SESSION['error_login']) && $_SESSION['error_login']) {
     echo '<script>alert("Datos de inicio de sesión incorrectos")</script>';
     unset($_SESSION['error_login']);
@@ -24,10 +23,10 @@ if(isset($_SESSION['error_login']) && $_SESSION['error_login']) {
 <body>
     <div>
         <main class="main d-flex justify-content-center row">
-            <form class="form w-50 mt-5" action="login.php" method="post">
+            <form class="form w-50 mt-5" action="index.php?url=SessionController/login" method="post">
                 <h2 id="login">Login</h2>
-                <input type="text" name="identificacion" class="form-control" id="floatingInput" placeholder="Identificacion">
-                <input type="password" name="contrasenia" class="form-control" id="floatingPassword" placeholder="Password">
+                <input type="email" name="email" class="form-control" id="floatingInput" placeholder="Email...">
+                <input type="password" name="clave" class="form-control" id="floatingPassword" placeholder="Clave...">
                 <button>Login</button>
                 <hr>
                 <p>You are not registered?<a href="register.php">Register</a></p>

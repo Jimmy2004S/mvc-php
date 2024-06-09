@@ -17,9 +17,7 @@ class DB{
         try{
             $conexion = new \PDO("mysql:host=$this->host;dbname=$this->schema", $this->user, $this->password);
             if($conexion){
-                echo "Connection";
-            }else{
-                echo "No connection";
+                return $conexion;
             }
         }catch(\PDOException $e){
             echo "No se pudo conectar ala base de datos: $e-> getMessage()";
