@@ -72,7 +72,7 @@
                             <a class="dropdown-item" href="#">Mi informacion </a>
                             <a class="dropdown-item" id="report" href="#">Denunciar</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="../cerrarSesion.php">Cerrar sesion</a>
+                            <a class="dropdown-item" href="index.php?url=SessionController/logout">Cerrar sesion</a>
                         </div>
                 </div>
                 <a class="navbar-brand" href="../vistas/inicio.php">Homepage</a>

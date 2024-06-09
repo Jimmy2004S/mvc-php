@@ -31,12 +31,17 @@ class SessionController
                 $_SESSION['nombre'] = $user['nombre'];
                 $_SESSION['apellido'] = $user['apellido'];
                 if ($user['tipo_persona'] == 'Estudiante' || $user['tipo_persona'] == 'Profesor') {
-                    header('Location: index.php?url=Controller/inicio');
+                    header('Location: ?url=Controller/inicio');
                 }
             }
         } else {
             $_SESSION['error_login'] = true;
-            header("Location: index.php?url=SessionController/loginView");
+            header("Location: ?url=SessionController/loginView");
         }
+    }
+
+    public function logout(){
+        session_destroy();
+        header("Location: ?url=SessionController/loginView");
     }
 }

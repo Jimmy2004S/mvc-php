@@ -8,17 +8,11 @@ class App
 {
     function __construct()
     {
-        
-        // if(!isset($_SESSION['token']) || $_SESSION['token'] == false ||  empty($_SESSION['token'])) {
-        //     $sessionController = new SessionController();
-        //     $sessionController->loginView();
-        //     return;
-        // }
-
         if (isset($_GET["url"])) {
             $url = $_GET["url"];
             $url = rtrim($url, '/');
             $url = explode("/", $url); // Separate every part of the url
+            $this->middleware($url);
             $archivoController = "App/Controllers/" . $url[0] . ".php";
             //Verify the controller exists
             if (file_exists($archivoController)) {
@@ -33,8 +27,27 @@ class App
                 $controller->inicio();
             }
         } else {
-            $controller = new Controller();
-            $controller->inicio();
+            $controller = new SessionController();
+            $controller->loginView();
         }
     }
+
+
+    private function middleware($url){
+        if(isset($url[1]) && $url[1] == "login"){
+            return;
+        }
+        if(isset($url[1]) && $url[1] == "logout"){
+            return;
+        }
+        if(isset($url[1]) && $url[1] == "loginView"){
+            return;
+        }
+        if(!isset($_SESSION['token']) || $_SESSION['token'] == false ||  empty($_SESSION['token'])) {
+            $sessionController = new SessionController();
+            $sessionController->loginView();
+            return;
+        }
+    }
+
 }
