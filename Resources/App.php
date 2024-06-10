@@ -1,6 +1,9 @@
 <?php
+
 namespace Resources;
+
 session_start();
+
 use App\Controllers\Controller;
 use App\Controllers\SessionController;
 
@@ -19,12 +22,13 @@ class App
                 require_once $archivoController; // Include the controller file
                 $controllerClass = "App\Controllers\\" . $url[0];
                 $controller = new $controllerClass();
-                if (isset($url[1])) { //Verify the method exists
+                if (isset($url[1]) && method_exists($controller, $url[1])) { //Verify the method exists
                     $controller->{$url[1]}();
+                }else{
+                    echo "error: No hay metodo";
                 }
             } else {
-                $controller = new Controller();
-                $controller->inicio();
+                echo "error: no existe el controlador";
             }
         } else {
             $controller = new SessionController();
@@ -33,21 +37,21 @@ class App
     }
 
 
-    private function middleware($url){
-        if(isset($url[1]) && $url[1] == "login"){
+    private function middleware($url)
+    {
+        if (isset($url[1]) && $url[1] == "login") {
             return;
         }
-        if(isset($url[1]) && $url[1] == "logout"){
+        if (isset($url[1]) && $url[1] == "logout") {
             return;
         }
-        if(isset($url[1]) && $url[1] == "loginView"){
+        if (isset($url[1]) && $url[1] == "loginView") {
             return;
         }
-        if(!isset($_SESSION['token']) || $_SESSION['token'] == false ||  empty($_SESSION['token'])) {
+        if (!isset($_SESSION['token']) || $_SESSION['token'] == false ||  empty($_SESSION['token'])) {
             $sessionController = new SessionController();
             $sessionController->loginView();
             return;
         }
     }
-
 }

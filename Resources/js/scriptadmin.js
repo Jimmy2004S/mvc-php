@@ -26,7 +26,7 @@ $(document).ready(function(){
     $(document).on('click' , '.estado' , function(){
         let element = $(this)[0].parentElement.parentElement;
         let codigo =  $(element).attr('persona-codigo');
-        $.post('?url=AdminController/cambiarEstadoUsuario' , {codigo} , function(response) {
+        $.post('index.php?url=AdminController/cambiarEstadoUsuario' , {codigo} , function(response) {
             console.log(response);
             listarPersonas();
         })
@@ -38,7 +38,7 @@ $(document).ready(function(){
 
 function listarPersonas() {
     $.ajax({
-        url: '?url=AdminController/verUsuarios',
+        url: 'index.php?url=AdminController/verUsuarios',
         type: 'GET',
         success: function(response) {
             let personas = JSON.parse(response);

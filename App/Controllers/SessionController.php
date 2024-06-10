@@ -33,12 +33,12 @@ class SessionController
                 if ($user['tipo_persona'] == 'Estudiante' || $user['tipo_persona'] == 'Profesor') {
                     header('Location: ?url=Controller/inicio');
                 }elseif($user['tipo_persona'] == 'Administrador'){
-                    header("Location: ?url=AdminController/inicio");
+                    header("Location: index.php?url=AdminController/inicio");
                 }
             }
         } else {
             $_SESSION['error_login'] = true;
-            header("Location: ?url=SessionController/loginView");
+        header("Location: index.php?url=SessionController/loginView");
         }
     }
 
