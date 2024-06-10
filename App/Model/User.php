@@ -41,4 +41,24 @@ class User
             return [false, "Error en el servidor: " . $e->getMessage()];
         }
     }
+
+    public function cambiarEstadoUsuario($codigo)
+    {
+        try {
+            $sql = "UPDATE persona
+                SET estado = CASE
+                    WHEN estado = 'Activo' THEN 'Inhabilitado'
+                    WHEN estado = 'Inhabilitado' THEN 'Activo'
+                    ELSE estado
+                END
+                WHERE codigo = :codigo";
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->bindParam('codigo', $codigo);
+            if($stmt->execute()){
+                return [true, "Cambio de estado exitoso"];
+            }
+        } catch (\PDOException $e) {
+            return [false, "Error en el servidor: " . $e->getMessage()];
+        }
+    }
 }

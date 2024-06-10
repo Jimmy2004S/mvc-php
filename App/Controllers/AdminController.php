@@ -48,4 +48,18 @@ class AdminController
             echo json_encode(["Error" => $data]); // $data contiene el mensaje de error
         }
     }
+
+    public function cambiarEstadoUsuario(){
+        if(isset($_POST['codigo'])){
+            $codigo = $_POST['codigo'];
+            list($success , $data) = $this->user->cambiarEstadoUsuario($codigo);
+            if($success){
+                http_response_code(200);
+                echo json_encode($data);
+            }else{
+                http_response_code(500);
+                echo json_encode(["Error" => $data]);
+            }
+        }
+    }
 }
