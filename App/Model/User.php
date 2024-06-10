@@ -2,16 +2,14 @@
 
 namespace App\Model;
 
-use DataBase\Config\DB;
+use Lib\Model;
 
-class User
+class User extends Model
 {
 
-    private $conexion;
     public function __construct()
     {
-        $con = new DB();
-        $this->conexion = $con->Connection();
+        parent::__construct();
     }
 
     public function autenticar($email, $clave)
@@ -40,6 +38,24 @@ class User
         } catch (\PDOException $e) {
             return [false, "Error en el servidor: " . $e->getMessage()];
         }
+    }
+
+    public function selectByCodigo($codigo){
+        $sql = "SELECT * FROM persona WHERE codigo = :codigo";
+        try{
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->bindParam('codigo', $codigo , \PDO::PARAM_INT);
+            $stmt->execute();
+            $list = $stmt->fetch(\PDO::FETCH_ASSOC);
+            if($list){
+                return [true, $list];
+            }else{
+                return [ null , $list];
+            }
+        }catch(\PDOException $e){
+            return [false, "Error en el servidor: ". $e->getMessage()];
+        }
+
     }
 
     public function cambiarEstadoUsuario($codigo)

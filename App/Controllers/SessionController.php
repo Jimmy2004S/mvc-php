@@ -3,19 +3,21 @@
 namespace App\Controllers;
 
 use App\Model\User;
+use Lib\Controller;
 
-class SessionController
+class SessionController extends Controller
 {
 
     private $user;
     public function __construct()
     {
+        parent::__construct();
         $this->user = new User();
     }
 
     public function loginView()
     {
-        include_once 'Resources/View/login.php';
+        $this->view->render('login');
     }
 
     public function login()
@@ -30,15 +32,16 @@ class SessionController
                 $_SESSION['token'] = $user['codigo'] . '123';
                 $_SESSION['nombre'] = $user['nombre'];
                 $_SESSION['apellido'] = $user['apellido'];
+                $_SESSION['tipo_persona'] = $user['tipo_persona'];
                 if ($user['tipo_persona'] == 'Estudiante' || $user['tipo_persona'] == 'Profesor') {
                     header('Location: ?url=Controller/inicio');
                 }elseif($user['tipo_persona'] == 'Administrador'){
-                    header("Location: index.php?url=AdminController/inicio");
+                    header("Location: ?url=AdminController/inicio");
                 }
             }
         } else {
             $_SESSION['error_login'] = true;
-        header("Location: index.php?url=SessionController/loginView");
+        header("Location: ?url=SessionController/loginView");
         }
     }
 

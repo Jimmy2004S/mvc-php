@@ -1,6 +1,6 @@
 <?php
 require_once 'Lib/Autoload.php';
-use Resources\App; 
+use Lib\App; 
 
 date_default_timezone_set('America/Bogota');
 $app = new App;
