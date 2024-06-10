@@ -37,7 +37,7 @@ $tipo_persona = $_SESSION['tipo_persona'];
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="">Manage</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="../cerrarSesion.php">Sign out</a>
+                            <a class="dropdown-item" href="?url=SessionController/logout">Sign out</a>
                         </div>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
