@@ -19,6 +19,6 @@ class Inicio extends Controller
 
     public function prueba()
     {
-        echo "Prueba controller";
+        echo "Metodo desde el controlador";
     }
 }

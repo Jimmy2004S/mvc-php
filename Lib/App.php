@@ -1,7 +1,7 @@
 <?php
-
-namespace Lib;
 session_start();
+// $_SESSION['token'] = 'un valor';
+// $_SESSION['tipo_persona'] = 'Estudiante';
 
 use App\Controllers\Inicio;
 use App\Controllers\SessionController;
@@ -11,55 +11,52 @@ class App
 {
     function __construct()
     {
-        $url = isset($_GET["url"]) ? $_GET["url"] : false;
-        if (!$url) {
+        $uri = $_SERVER['REQUEST_URI']; //dominio/uri
+        $uri = trim($uri, '/');
+        if (empty($uri)) {
             if ($this->sessionActiva()) {
                 if ($this->habiliad() == 'Administrador') {
-                    $controller = new AdminController();
-                    $controller->inicio();
+                    echo "inicio administrador";
                 } else {
-                    $controller = new Inicio();
-                    $controller->inicio();
+                    echo "inicio usuario corriente";
                 }
             } else {
-                $controller = new SessionController();
-                $controller->loginView();
+                echo "login";
             }
             return;
         }
-        $url = rtrim($url, '/');
-        $url = explode("/", $url); // Separate every part of the url
-        $archivoController = "App/Controllers/" . $url[0] . ".php";
-        //Verify the controller exists
+
+        $uri = rtrim($uri, '/');
+        $uri = explode("/", $uri); // Separar la url controlador/metodo
+        $this->middleware($uri);
+        $archivoController = "../App/Controllers/" . $uri[0] . ".php";
+        //Verificar si el controlador existe
         if (file_exists($archivoController)) {
-            require_once $archivoController; // Include the controller file
-            $controllerClass = "App\Controllers\\" . $url[0];
+            require_once $archivoController;
+            $controllerClass = "App\Controllers\\" . $uri[0];
             $controller = new $controllerClass();
-            if (isset($url[1]) && method_exists($controller, $url[1])) { //Verify the method exists
-                $controller->{$url[1]}();
+            //Verificar si el metodo existe
+            if (isset($uri[1]) && method_exists($controller, $uri[1])) {
+                $controller->{$uri[1]}();
             } else {
-                echo "error: No hay metodo $url[1]";
+                echo "error: No hay metodo $uri[1]";
             }
         } else {
-            echo "error: no existe el controlador $url[0]";
+            echo "error: no existe el controlador $uri[0]";
         }
     }
 
 
-    private function middleware($url)
+    private function middleware($uri)
     {
-        // if (isset($url[1]) && $url[1] == "login") {
-        //     return;
-        // }
-        // if (isset($url[1]) && $url[1] == "logout") {
-        //     return;
-        // }
-        // if (isset($url[1]) && $url[1] == "loginView") {
-        //     return;
-        // }
+        // Verificar autenticacion en las rutas necesarias
+        if (isset($uri[1]) ) {
+            if($uri[1] == "login" || $uri[1] == "loginView" || $uri[1] == "logout"){
+                return;
+            }
+        }
         if (!$this->sessionActiva()) {
-            $sessionController = new SessionController();
-            $sessionController->loginView();
+            die("Error de autenticacion");
         }
     }
 

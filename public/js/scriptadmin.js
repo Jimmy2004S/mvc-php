@@ -1,26 +1,27 @@
 $(document).ready(function(){
 
     listarPersonas();
-    //     //Seleccionar persona
-    //     $(document).on('click' , '.selecciona' , function(){
-    //         //Tomar el elemento y su atributo codigo proyecto
-    //         let element = $(this)[0].parentElement.parentElement.parentElement;
-    //         let codigo =  $(element).attr('persona-codigo');
-    //         //Preparar el formulario para modificar
+    
+        //Seleccionar persona
+        $(document).on('click' , '.selecciona' , function(){
+            //Tomar el elemento y su atributo codigo proyecto
+            let element = $(this)[0].parentElement.parentElement.parentElement;
+            let codigo =  $(element).attr('persona-codigo');
+            //Preparar el formulario para modificar
 
-    //           $.post('../Datos/persona/ListarPersonas.php', { codigo }, function(response) {
-    //             let persona = JSON.parse(response);
-    //             console.log(persona)
-    //             // Actualizar IU
-    //             $('#nombre').val(persona.codigo);
-    //             $('#apellido').val(persona.nombre);
-    //             $('#descripcion').val(persona.apellido);
-    //             $('#miSelectGrupo').val(persona.codigo_grupo);
-    //             $('#codigoPersona').val(persona.codigo_lider_persona);
-    //             $('#nombreArchivo').text(persona.archivo);
-    //           });
-    //           $('#miModalA').modal('show');
-    //       });
+              $.post('index.php?url=AdminController/verUsuario', { codigo }, function(response) {
+                let persona = JSON.parse(response);
+                console.log(persona)
+                // Actualizar IU
+                $('#nombre').val(persona.codigo);
+                $('#apellido').val(persona.nombre);
+                $('#descripcion').val(persona.apellido);
+                $('#miSelectGrupo').val(persona.codigo_grupo);
+                $('#codigoPersona').val(persona.codigo_lider_persona);
+                $('#nombreArchivo').text(persona.archivo);
+              });
+              $('#miModalA').modal('show');
+          });
 
     //cambiar estado
     $(document).on('click' , '.estado' , function(){
