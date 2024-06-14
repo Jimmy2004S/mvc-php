@@ -7,20 +7,20 @@ class DB{
     private $password;
     private $user;
     function __construct(){
-        $this->schema = 'proyectosi';
+        $this->schema = 'plataforma_proyectos';
         $this->host = 'localhost';
         $this->password = '';
         $this->user = 'root';
     }
 
-    public function Connection(){
+    protected function Connection(){
         try{
             $conexion = new \PDO("mysql:host=$this->host;dbname=$this->schema", $this->user, $this->password);
             if($conexion){
                 return $conexion;
             }
         }catch(\PDOException $e){
-            echo "No se pudo conectar ala base de datos: $e-> getMessage()";
+            return "No se pudo conectar ala base de datos: $e-> getMessage()";
         }
     }
 }
