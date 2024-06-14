@@ -108,6 +108,18 @@ class User extends Model
         return ($role_id == 1) ? "Administrador" : ($role_id == 2 ? "Estudiante" : "Profesor");
     }
 
+    public function revocarTokens($user_id){
+        $sql = "DELETE FROM `personal_access_tokens` WHERE `tokenable_id` =:tokenable_id";
+        try{
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->bindParam(':tokenable_id', $user_id);
+            $stmt->execute();
+            return [true, "Tokens revocados"];
+        }catch(\PDOException $e){
+            return [false, "Error del servidor --revokartokens : " . $e->getMessage()];
+        }
+    }
+
     private function generarToken($userid, $role_id)
     {
         $token = bin2hex(random_bytes(32));

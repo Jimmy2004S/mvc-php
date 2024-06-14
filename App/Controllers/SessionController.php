@@ -30,7 +30,7 @@ class SessionController extends Controller
                 $tipo_persona = $this->verificarTipoPersona($data['role_id']);
                 $_SESSION['codigo'] = $data['codigo'];
                 $_SESSION['email'] = $data['email'];
-                $_SESSION['token'] = $token;
+                $_SESSION['token'] = $data['id'] . "|". $token;
                 $_SESSION['nombre'] = $data['nombre'];
                 $_SESSION['apellido'] = $data['apellido'];
                 $_SESSION['tipo_persona'] = $tipo_persona;
@@ -49,9 +49,17 @@ class SessionController extends Controller
     }
 
     public function logout(){
-        session_destroy();
-        header("Location: /");
-        exit();
+        $token = $_SESSION['token'];
+        $token = explode("|", $token);
+        list($success, $data) = $this->user->revocarTokens($token[0]);
+        if($success === true){
+            session_destroy();
+            header("Location: /");
+            exit();
+        }elseif($success === false){
+            echo "tenemos error: $data";
+        }
+
     }
 
     private function verificarTipoPersona($role_id){
