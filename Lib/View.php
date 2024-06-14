@@ -7,6 +7,6 @@ class View{
     }
 
     public function render($view, $data = null){
-        require_once "Resources/View/$view.php";
+        require_once "../resources/View/$view.php";
     }
 }

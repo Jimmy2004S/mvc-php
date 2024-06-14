@@ -15,7 +15,7 @@ class AdminController extends Controller
         $this->user = new User();
     }
 
-    public function inicio()
+    public function inicioView()
     {
         $this->view->render('admin/inicio');
     }
@@ -61,19 +61,20 @@ class AdminController extends Controller
             }
             if($success){
                 $json = array();
+                http_response_code(404);
+                echo json_encode([$data]); // $data contiene el mensaje de error
                 foreach($data as $row){
-                    http_response_code(404);
-                    echo json_encode([$row]); // $data contiene el mensaje de error
-                    $json[] = array(
-                        'codigo' => $row['codigo'],
-                        'nombre' => $row['nombre'],
-                        'apellido' => $row['apellido'],
-                        'tipo_persona' => $row['tipo_persona'],
-                        'telefono' => $row['telefono'],
-                        'email' => $row['email'],
-                        'estado' => $row['estado'],
-                        'clave' => $row['clave']
-                    );
+
+                    // $json[] = array(
+                    //     'codigo' => $row['codigo'],
+                    //     'nombre' => $row['nombre'],
+                    //     'apellido' => $row['apellido'],
+                    //     'tipo_persona' => $row['tipo_persona'],
+                    //     'telefono' => $row['telefono'],
+                    //     'email' => $row['email'],
+                    //     'estado' => $row['estado'],
+                    //     'clave' => $row['clave']
+                    // );
                 }
                 http_response_code(200);
                 echo json_encode($json);

@@ -1,7 +1,7 @@
 <?php
 session_start();
-// $_SESSION['token'] = 'un valor';
-// $_SESSION['tipo_persona'] = 'Estudiante';
+$_SESSION['token'] = '';
+$_SESSION['tipo_persona'] = 'Administrador';
 
 use App\Controllers\Inicio;
 use App\Controllers\SessionController;
@@ -9,19 +9,23 @@ use App\Controllers\AdminController;
 
 class App
 {
+    private $controllerClass;
     function __construct()
     {
         $uri = $_SERVER['REQUEST_URI']; //dominio/uri
         $uri = trim($uri, '/');
         if (empty($uri)) {
+            //Validar que session activa antes de redigirir
             if ($this->sessionActiva()) {
                 if ($this->habiliad() == 'Administrador') {
-                    echo "inicio administrador";
+                    $this->controllerClass = new AdminController();
                 } else {
-                    echo "inicio usuario corriente";
+                    $this->controllerClass = new Inicio();
                 }
+                $this->controllerClass->inicioView(); //Se lleva al inicio segun la habilidad de la session
             } else {
-                echo "login";
+                $this->controllerClass = new SessionController();
+                $this->controllerClass->loginView();
             }
             return;
         }

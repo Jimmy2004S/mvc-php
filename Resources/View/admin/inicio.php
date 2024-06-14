@@ -1,6 +1,6 @@
-<?php include 'Resources/View/admin/template/navegacion.php'; ?>
+<?php include '../resources/view/admin/template/navegacion.php'; ?>
 
 
     
 
-<?php include 'Resources/View/admin/template/footer.php'; ?>
+<?php include '../resources/view/admin/template/footer.php'; ?>

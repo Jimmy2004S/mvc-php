@@ -12,7 +12,7 @@ class Inicio extends Controller
         parent::__construct();
     }
 
-    public function inicio()
+    public function inicioView()
     {
         $this->view->render('inicio');
     }
