@@ -18,6 +18,7 @@ $tipo_persona = $_SESSION['tipo_persona'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="iconon-1.webp" />
     <title>Proyectos Investigacion</title>
+    <base href="http://proaula.test/"> <!--Definir url las rutas relativas -->
 <!--Font awesome-->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!--CSS-->
@@ -37,7 +38,7 @@ $tipo_persona = $_SESSION['tipo_persona'];
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="">Manage</a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="?url=SessionController/logout">Sign out</a>
+                            <a class="dropdown-item" href="SessionController/logout">Cerrar Session</a>
                         </div>
                 </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,7 +54,7 @@ $tipo_persona = $_SESSION['tipo_persona'];
                         <li class="nav-item dropdown  administrador">
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administrador</a>
                             <div class="dropdown-menu">
-                            <a class="dropdown-item" href="?url=AdminController/verUsuariosView">Users</a>
+                            <a class="dropdown-item" href="AdminController/verUsuariosView">Users</a>
                             <a class="dropdown-item" href="#">Projects</a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#">About</a>

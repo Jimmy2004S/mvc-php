@@ -1,7 +1,5 @@
 <?php
 session_start();
-$_SESSION['token'] = '';
-$_SESSION['tipo_persona'] = 'Administrador';
 
 use App\Controllers\Inicio;
 use App\Controllers\SessionController;

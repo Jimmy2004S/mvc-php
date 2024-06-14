@@ -34,19 +34,20 @@ class SessionController extends Controller
                 $_SESSION['apellido'] = $user['apellido'];
                 $_SESSION['tipo_persona'] = $user['tipo_persona'];
                 if ($user['tipo_persona'] == 'Estudiante' || $user['tipo_persona'] == 'Profesor') {
-                    header('Location: ?url=Controller/inicio');
+                    header('Location: Controller/inicio');
                 }elseif($user['tipo_persona'] == 'Administrador'){
-                    header("Location: ?url=AdminController/inicio");
+                    header("Location: /AdminController/inicioView");
                 }
             }
         } else {
             $_SESSION['error_login'] = true;
-        header("Location: ?url=SessionController/loginView");
+        header("Location: /SessionController/loginView");
         }
     }
 
     public function logout(){
         session_destroy();
-        header("Location: ?url=SessionController/loginView");
+        header("Location: /");
+        exit();
     }
 }

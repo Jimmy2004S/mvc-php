@@ -11,6 +11,7 @@ if(isset($_SESSION['error_login']) && $_SESSION['error_login']) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="http://proaula.test/"> <!--Definir url las rutas relativas -->
     <link rel="icon" type="image/x-icon" href="iconon-1.webp" />
     <title> Login </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -23,7 +24,7 @@ if(isset($_SESSION['error_login']) && $_SESSION['error_login']) {
 <body>
     <div>
         <main class="main d-flex justify-content-center row">
-            <form class="form w-50 mt-5" action="index.php?url=SessionController/login" method="post">
+            <form class="form w-50 mt-5" action="/SessionController/login" method="post">
                 <h2 id="login">Login</h2>
                 <input type="email" name="email" class="form-control" id="floatingInput" placeholder="Email...">
                 <input type="password" name="clave" class="form-control" id="floatingPassword" placeholder="Clave...">
@@ -35,7 +36,7 @@ if(isset($_SESSION['error_login']) && $_SESSION['error_login']) {
         <footer class="footer">
             <div class="d-flex justify-content-center align-items-center flex-column ">
                 <h3> Copyright © 2023 All rights reserved</h1> 
-                <img style="width: 20%;" src="multimedia/logo-unicolombo.png" alt="">
+                <img style="width: 20%;" src="img/logo-unicolombo.png" alt="">
             </div>
         </footer>
     </div>

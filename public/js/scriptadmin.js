@@ -1,66 +1,70 @@
-$(document).ready(function(){
+$(document).ready(function () {
+  listarPersonas();
 
-    listarPersonas();
-    
-        //Seleccionar persona
-        $(document).on('click' , '.selecciona' , function(){
-            //Tomar el elemento y su atributo codigo proyecto
-            let element = $(this)[0].parentElement.parentElement.parentElement;
-            let codigo =  $(element).attr('persona-codigo');
-            //Preparar el formulario para modificar
+  //Seleccionar persona
+  $(document).on("click", ".selecciona", function () {
+    //Tomar el elemento y su atributo codigo proyecto
+    let element = $(this)[0].parentElement.parentElement.parentElement;
+    let codigo = $(element).attr("persona-codigo");
+    //Preparar el formulario para modificar
 
-              $.post('index.php?url=AdminController/verUsuario', { codigo }, function(response) {
-                let persona = JSON.parse(response);
-                console.log(persona)
-                // Actualizar IU
-                $('#nombre').val(persona.codigo);
-                $('#apellido').val(persona.nombre);
-                $('#descripcion').val(persona.apellido);
-                $('#miSelectGrupo').val(persona.codigo_grupo);
-                $('#codigoPersona').val(persona.codigo_lider_persona);
-                $('#nombreArchivo').text(persona.archivo);
-              });
-              $('#miModalA').modal('show');
-          });
+    $.post(
+      "AdminController/verUsuario",
+      { codigo },
+      function (response) {
+        let persona = JSON.parse(response);
+        console.log(persona);
+        // Actualizar IU
+        $("#nombre").val(persona.codigo);
+        $("#apellido").val(persona.nombre);
+        $("#descripcion").val(persona.apellido);
+        $("#miSelectGrupo").val(persona.codigo_grupo);
+        $("#codigoPersona").val(persona.codigo_lider_persona);
+        $("#nombreArchivo").text(persona.archivo);
+      }
+    );
+    $("#miModalA").modal("show");
+  });
 
-    //cambiar estado
-    $(document).on('click' , '.estado' , function(){
-        let element = $(this)[0].parentElement.parentElement;
-        let codigo =  $(element).attr('persona-codigo');
-        $.post('index.php?url=AdminController/cambiarEstadoUsuario' , {codigo} , function(response) {
-            console.log(response);
-            listarPersonas();
-        })
-    });
-
+  //cambiar estado
+  $(document).on("click", ".estado", function () {
+    let element = $(this)[0].parentElement.parentElement;
+    let codigo = $(element).attr("persona-codigo");
+    $.post(
+      "AdminController/cambiarEstadoUsuario",
+      { codigo },
+      function (response) {
+        console.log(response);
+        listarPersonas();
+      }
+    );
+  });
 });
 
-
-
 function listarPersonas() {
-    $.ajax({
-        url: 'index.php?url=AdminController/verUsuarios',
-        type: 'GET',
-        success: function(response) {
-            let personas = JSON.parse(response);
-            let template = '';
-            personas.forEach(element => {
-                let activarButton = '';
-                let desactivarButton = '';
-                if (element.estado === 'Activo') {
-                    desactivarButton = `
+  $.ajax({
+    url: "AdminController/verUsuarios",
+    type: "GET",
+    success: function (response) {
+      let personas = JSON.parse(response);
+      let template = "";
+      personas.forEach((element) => {
+        let activarButton = "";
+        let desactivarButton = "";
+        if (element.estado === "Activo") {
+          desactivarButton = `
                         <button class="estado btn btn-primary w-80">
                             Desactivar
                         </button>
                     `;
-                } else {
-                    activarButton = `
+        } else {
+          activarButton = `
                         <button class="estado btn btn-danger w-80">
                             Activar
                         </button>
                     `;
-                }
-                template += `
+        }
+        template += `
                     <tr persona-codigo="${element.codigo}">
                         <td>${element.codigo}</td>
                         <td>${element.nombre} ${element.apellido}</td>
@@ -77,13 +81,13 @@ function listarPersonas() {
                         </td>
                     </tr>
                 `;
-            });
-            $('#personasINadmin').html(template);
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-            console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
-            // Manejo del error en el cliente
-            alert("Error en el servidor: " + jqXHR.responseText);
-        }
-    });
+      });
+      $("#personasINadmin").html(template);
+    },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.error("Error en la solicitud AJAX:", textStatus, errorThrown);
+      // Manejo del error en el cliente
+      alert("Error en el servidor: " + jqXHR.responseText);
+    },
+  });
 }
