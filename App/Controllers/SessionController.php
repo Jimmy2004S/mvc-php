@@ -24,24 +24,27 @@ class SessionController extends Controller
     {
         $email = $_POST['email'];
         $clave = $_POST['clave'];
-        $user = $this->user->autenticar($email, $clave);
-        if ($user) {
-            if ($user['estado'] == 'Activo') {
-                $_SESSION['codigo'] = $user['codigo'];
-                $_SESSION['email'] = $user['email'];
-                $_SESSION['token'] = $user['codigo'] . '123';
-                $_SESSION['nombre'] = $user['nombre'];
-                $_SESSION['apellido'] = $user['apellido'];
-                $_SESSION['tipo_persona'] = $user['tipo_persona'];
-                if ($user['tipo_persona'] == 'Estudiante' || $user['tipo_persona'] == 'Profesor') {
+        list($success, $data , $token) = $this->user->autenticar($email, $clave);
+        if ($success === true) {
+            if ($data['state'] == '1') {
+                $tipo_persona = $this->verificarTipoPersona($data['role_id']);
+                $_SESSION['codigo'] = $data['codigo'];
+                $_SESSION['email'] = $data['email'];
+                $_SESSION['token'] = $token;
+                $_SESSION['nombre'] = $data['nombre'];
+                $_SESSION['apellido'] = $data['apellido'];
+                $_SESSION['tipo_persona'] = $tipo_persona;
+                if ($tipo_persona == 'Estudiante' || $tipo_persona == 'Profesor') {
                     header('Location: /Inicio/inicioView');
-                }elseif($user['tipo_persona'] == 'Administrador'){
+                }elseif($tipo_persona == 'Administrador'){
                     header("Location: /AdminController/inicioView");
                 }
             }
-        } else {
+        }elseif($success === false){
+            echo "tenemos error: $data";
+        }elseif($success === null){
             $_SESSION['error_login'] = true;
-        header("Location: /SessionController/loginView");
+            header("Location: /SessionController/loginView");
         }
     }
 
@@ -49,5 +52,9 @@ class SessionController extends Controller
         session_destroy();
         header("Location: /");
         exit();
+    }
+
+    private function verificarTipoPersona($role_id){
+        return $this->user->verificarRole($role_id);
     }
 }

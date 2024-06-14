@@ -30,10 +30,10 @@ class App
 
         $uri = rtrim($uri, '/');
         $uri = explode("/", $uri); // Separar la url controlador/metodo
-        $this->middleware($uri);
         $archivoController = "../App/Controllers/" . $uri[0] . ".php";
         //Verificar si el controlador existe
         if (file_exists($archivoController)) {
+            $this->middleware($uri);
             require_once $archivoController;
             $controllerClass = "App\Controllers\\" . $uri[0];
             $controller = new $controllerClass();
@@ -52,8 +52,8 @@ class App
     private function middleware($uri)
     {
         // Verificar autenticacion en las rutas necesarias
-        if (isset($uri[1]) ) {
-            if($uri[1] == "login" || $uri[1] == "loginView" || $uri[1] == "logout"){
+        if (isset($uri[1])) {
+            if ($uri[1] == "login" || $uri[1] == "loginView" || $uri[1] == "logout") {
                 return;
             }
         }
