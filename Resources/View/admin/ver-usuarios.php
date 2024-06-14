@@ -29,7 +29,7 @@ switch ($accion) {
                         <input type="text" name="nombre" id="nombre" placeholder="Nombre..." required>
                         <input type="text" name="apellido" id="apellido" placeholder="Apellido..." required>
                         <input type="text" name="identificacion" id="identificacion" placeholder="identificacion..." required>
-                        <input type="email" name="email" id="emailPersona" placeholder="Correo..." required>
+                        <input type="email" name="email" id="email" placeholder="Correo..." required>
                         <input type="text" name="telefono" id="telefono" placeholder="Telefono..." required>
                         <select name="tipoUsuario" id="tipous" onchange="inforTipoPersona();">
                             <option selected="true" disabled="disabled">seleccione tipo de usuario</option>

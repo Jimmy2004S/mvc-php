@@ -51,51 +51,37 @@ class AdminController extends Controller
         }
     }
 
-    public function verUsuario(){
-        if(isset($_POST['codigo'])){
+    public function verUsuario()
+    {
+        if (isset($_POST['codigo'])) {
             $codigo = $_POST['codigo'];
             list($success, $data) = $this->user->selectByCodigo($codigo);
-            if($success === null){
+            if ($success === null) {
                 http_response_code(404);
-                echo json_encode(["No fue encontrado"]); // $data contiene el mensaje de error
+                echo json_encode(["No fue encontrado"]);
             }
-            if($success){
-                $json = array();
-                http_response_code(404);
-                echo json_encode([$data]); // $data contiene el mensaje de error
-                foreach($data as $row){
-
-                    // $json[] = array(
-                    //     'codigo' => $row['codigo'],
-                    //     'nombre' => $row['nombre'],
-                    //     'apellido' => $row['apellido'],
-                    //     'tipo_persona' => $row['tipo_persona'],
-                    //     'telefono' => $row['telefono'],
-                    //     'email' => $row['email'],
-                    //     'estado' => $row['estado'],
-                    //     'clave' => $row['clave']
-                    // );
-                }
+            if ($success) {
                 http_response_code(200);
-                echo json_encode($json);
-            }else{
+                echo json_encode($data);
+            } else {
                 http_response_code(500);
                 echo json_encode($data);
             }
         }
     }
 
-    public function cambiarEstadoUsuario(){
-        if(isset($_POST['codigo'])){
+    public function cambiarEstadoUsuario()
+    {
+        if (isset($_POST['codigo'])) {
             $codigo = $_POST['codigo'];
-            list($success , $data) = $this->user->cambiarEstadoUsuario($codigo);
-            if($success){
+            list($success, $data) = $this->user->cambiarEstadoUsuario($codigo);
+            if ($success) {
                 http_response_code(200);
                 echo json_encode($data);
-            }else{
+            } else {
                 http_response_code(500);
                 echo json_encode(["Error" => $data]);
             }
         }
     }
-} 
+}

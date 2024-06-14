@@ -15,12 +15,12 @@ $(document).ready(function () {
         let persona = JSON.parse(response);
         console.log(persona);
         // Actualizar IU
-        $("#nombre").val(persona.codigo);
-        $("#apellido").val(persona.nombre);
-        $("#descripcion").val(persona.apellido);
-        $("#miSelectGrupo").val(persona.codigo_grupo);
-        $("#codigoPersona").val(persona.codigo_lider_persona);
-        $("#nombreArchivo").text(persona.archivo);
+        $("#nombre").val(persona.nombre);
+        $("#apellido").val(persona.apellido);
+        $("#identificacion").val(persona.identificacion);
+        $("#email").val(persona.email);
+        $("#telefono").val(persona.telefono);
+        $("#tipous").val(persona.tipo_persona);
       }
     );
     $("#miModalA").modal("show");
