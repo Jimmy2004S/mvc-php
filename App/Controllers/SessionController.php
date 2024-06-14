@@ -34,7 +34,7 @@ class SessionController extends Controller
                 $_SESSION['apellido'] = $user['apellido'];
                 $_SESSION['tipo_persona'] = $user['tipo_persona'];
                 if ($user['tipo_persona'] == 'Estudiante' || $user['tipo_persona'] == 'Profesor') {
-                    header('Location: Controller/inicio');
+                    header('Location: /Inicio/inicioView');
                 }elseif($user['tipo_persona'] == 'Administrador'){
                     header("Location: /AdminController/inicioView");
                 }
