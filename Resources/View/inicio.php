@@ -2,9 +2,9 @@
         <div class="col-12 container-inicio">
         </div>
         <div class="col-12 mt-5">
+                <!-- Mostrar el listado de posts -->
                 <div class="container mt-2">
-                    <div class="row w-80" id="allproject">
-                            
+                    <div class="row w-80" id="all-posts">
                     </div>
                 </div>
         </div>
