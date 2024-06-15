@@ -2,9 +2,11 @@
 namespace Lib;
 
 use DataBase\Config\DB;
+use Lib\Util\ModelFormat;
 
 class Model extends DB
 {
+    use ModelFormat;
 
     protected $conexion;
     public function __construct()
