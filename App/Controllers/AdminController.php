@@ -35,9 +35,9 @@ class AdminController extends Controller
                     'id' => $row['id'],
                     'code' => $row['code'],
                     'user_name' => $row['user_name'],
-                    'tipo_persona' => $this->verificarTipoPersona($row['role_id']),
+                    'role' => $this->verificarTipoPersona($row['role_id']),
                     'email' => $row['email'],
-                    'estado' => $row['state'],
+                    'state' => $row['state'],
                 );
             }
             // Convertir a JSON y enviar respuesta al cliente
