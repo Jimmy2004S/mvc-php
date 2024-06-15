@@ -32,22 +32,23 @@ class AdminController extends Controller
             $json = array();
             foreach ($data as $row) {
                 $json[] = array(
-                    'codigo' => $row['codigo'],
-                    'nombre' => $row['nombre'],
-                    'apellido' => $row['apellido'],
-                    'tipo_persona' => $row['tipo_persona'],
-                    'telefono' => $row['telefono'],
+                    'id' => $row['id'],
+                    'code' => $row['code'],
+                    'user_name' => $row['user_name'],
+                    'tipo_persona' => $this->verificarTipoPersona($row['role_id']),
                     'email' => $row['email'],
-                    'estado' => $row['estado'],
-                    'clave' => $row['clave']
+                    'estado' => $row['state'],
                 );
             }
             // Convertir a JSON y enviar respuesta al cliente
             http_response_code(200);
             echo json_encode($json);
-        } else {
+        } elseif($success === false) {
             http_response_code(500);
-            echo json_encode(["Error" => $data]); // $data contiene el mensaje de error
+            echo json_encode(["Error" => $data]);
+        }elseif(empty($success)) {
+            http_response_code(204);
+            echo json_encode([]);
         }
     }
 
@@ -83,5 +84,9 @@ class AdminController extends Controller
                 echo json_encode(["Error" => $data]);
             }
         }
+    }
+
+    private function verificarTipoPersona($role_id){
+        return $this->user->verificarRole($role_id);
     }
 }

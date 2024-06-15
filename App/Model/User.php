@@ -35,12 +35,17 @@ class User extends Model
 
     public function select()
     {
+        $sql = "SELECT * FROM users WHERE NOT role_id =:role_id";
         try {
-            $sql = "SELECT * FROM persona";
             $stmt = $this->conexion->prepare($sql);
+            $stmt->bindValue(':role_id', 1);
             $stmt->execute();
             $lista = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            return [true, $lista];
+            if($lista){
+                return [true, $lista];
+            }else{
+                return [null, "No hay usuarios"];
+            }
         } catch (\PDOException $e) {
             return [false, "Error en el servidor: " . $e->getMessage()];
         }
