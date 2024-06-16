@@ -43,10 +43,10 @@ class AdminController extends Controller
             // Convertir a JSON y enviar respuesta al cliente
             http_response_code(200);
             echo json_encode($json);
-        } elseif($success === false) {
+        } elseif ($success === false) {
             http_response_code(500);
             echo json_encode(["Error" => $data]);
-        }elseif(empty($success)) {
+        } elseif (empty($success)) {
             http_response_code(204);
             echo json_encode([]);
         }
@@ -73,20 +73,27 @@ class AdminController extends Controller
 
     public function cambiarEstadoUsuario()
     {
-        if (isset($_POST['codigo'])) {
-            $codigo = $_POST['codigo'];
-            list($success, $data) = $this->user->cambiarEstadoUsuario($codigo);
-            if ($success) {
+        if (isset($_POST['id'])) {
+            $id = $_POST['id'];
+            list($success, $data) = $this->user->updateUserState($id);
+            if ($success === true) {
                 http_response_code(200);
                 echo json_encode($data);
-            } else {
-                http_response_code(500);
+            } elseif ($success === false) {
+                http_response_code(500); 
                 echo json_encode(["Error" => $data]);
+            } else {
+                http_response_code(400);
+                echo json_encode(["Error" => "Solicitud no válida"]);
             }
+        } else {
+            http_response_code(400);
+            echo json_encode(["Error" => "ID no proporcionado"]);
         }
     }
 
-    private function verificarTipoPersona($role_id){
+    private function verificarTipoPersona($role_id)
+    {
         return $this->user->verificarRole($role_id);
     }
 }

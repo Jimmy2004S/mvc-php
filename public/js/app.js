@@ -2,19 +2,32 @@ $(document).ready(function () {
   console.log("Hello world!");
 
   logueado(function (role_id) {
-    let url = urlActual()
+    let url = urlActual();
     //Ejecutar funciones segun sea necesario
     if (role_id != 1) {
-      if(url[1] === "inicioView"){
+      if (url[1] === "inicioView") {
         listarPosts();
       }
-    }else{
-      if(url[1] === "verUsuariosView"){
+    } else {
+      if (url[1] === "verUsuariosView") {
         listarUsers();
       }
     }
   });
 
+  //cambiar estado
+  $(document).on("click", ".state", function () {
+    let element = $(this)[0].parentElement.parentElement;
+    let id = $(element).attr("userId");
+    $.post("AdminController/cambiarEstadoUsuario", { id })
+      .done(function (response) {
+        listarUsers();
+      })
+      .fail(function (error) {
+        console.error("Error:", error.responseText)
+        console.error("Status:", error.status);
+      });
+  });
   
 });
 
@@ -52,7 +65,6 @@ function listarUsers() {
     type: "GET",
     success: function (response) {
       let users = JSON.parse(response);
-      console.log(users);
       let userTemplate = $("#user-template").html(); // Aquí obtenemos el contenido HTML de la plantilla
 
       let template = "";

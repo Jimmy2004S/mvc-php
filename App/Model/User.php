@@ -88,20 +88,23 @@ class User extends Model
         }
     }
 
-    public function cambiarEstadoUsuario($codigo)
+    public function updateUserState($id)
     {
         try {
-            $sql = "UPDATE persona
-                SET estado = CASE
-                    WHEN estado = 'Activo' THEN 'Inhabilitado'
-                    WHEN estado = 'Inhabilitado' THEN 'Activo'
-                    ELSE estado
+            $sql = "UPDATE users
+                SET state = CASE
+                    WHEN state = '1' THEN '0'
+                    WHEN state = '0' THEN '1'
+                    ELSE state
                 END
-                WHERE codigo = :codigo";
+                WHERE id = :id";
             $stmt = $this->conexion->prepare($sql);
-            $stmt->bindParam('codigo', $codigo);
-            if ($stmt->execute()) {
+            $stmt->bindParam('id', $id);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
                 return [true, "Cambio de estado exitoso"];
+            } else {
+                return [null, "No se cambió ningún estado, error en la referencia."];
             }
         } catch (\PDOException $e) {
             return [false, "Error en el servidor: " . $e->getMessage()];
@@ -144,7 +147,7 @@ class User extends Model
             return [null, "El usuario no esta logueado"];
         }
     }
-    
+
     private function generarToken($userid, $role_id)
     {
         $token = bin2hex(random_bytes(32));
