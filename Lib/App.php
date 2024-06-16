@@ -4,9 +4,11 @@ session_start();
 use App\Controllers\Inicio;
 use App\Controllers\SessionController;
 use App\Controllers\AdminController;
+use lib\Util\Auth;
 
 class App
 {
+
     private $controllerClass;
     function __construct()
     {
@@ -14,8 +16,8 @@ class App
         $uri = trim($uri, '/');
         if (empty($uri)) {
             //Validar que session activa antes de redigirir
-            if ($this->sessionActiva()) {
-                if ($this->habiliad() == 'Administrador') {
+            if (Auth::sessionActiva()) {
+                if (Auth::habilidad() == 'Administrador') {
                     $this->controllerClass = new AdminController();
                 } else {
                     $this->controllerClass = new Inicio();
@@ -57,23 +59,9 @@ class App
                 return;
             }
         }
-        if (!$this->sessionActiva()) {
+        if (!Auth::sessionActiva()) {
             die("Error de autenticacion");
         }
     }
 
-    private function sessionActiva()
-    {
-        if (!isset($_SESSION['token']) || $_SESSION['token'] == false ||  empty($_SESSION['token'])) {
-            return false;
-        }
-        return true;
-    }
-
-    private function habiliad()
-    {
-        if ($this->sessionActiva()) {
-            return $_SESSION['tipo_persona'];
-        }
-    }
 }

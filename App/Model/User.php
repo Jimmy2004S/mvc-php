@@ -41,9 +41,9 @@ class User extends Model
             $stmt->bindValue(':role_id', 1);
             $stmt->execute();
             $lista = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            if($lista){
+            if ($lista) {
                 return [true, $lista];
-            }else{
+            } else {
                 return [null, "No hay usuarios"];
             }
         } catch (\PDOException $e) {
@@ -113,18 +113,38 @@ class User extends Model
         return ($role_id == 1) ? "Administrador" : ($role_id == 2 ? "Estudiante" : "Profesor");
     }
 
-    public function revocarTokens($user_id){
+    public function revocarTokens($user_id)
+    {
         $sql = "DELETE FROM `personal_access_tokens` WHERE `tokenable_id` =:tokenable_id";
-        try{
+        try {
             $stmt = $this->conexion->prepare($sql);
             $stmt->bindParam(':tokenable_id', $user_id);
             $stmt->execute();
             return [true, "Tokens revocados"];
-        }catch(\PDOException $e){
+        } catch (\PDOException $e) {
             return [false, "Error del servidor --revokartokens : " . $e->getMessage()];
         }
     }
 
+    public function userLogueado($user_id)
+    {
+        $sql = "SELECT * FROM users WHERE id =:id";
+        try {
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->bindParam('id', $user_id);
+            $stmt->execute();
+            $user = $stmt->fetch(\PDO::FETCH_ASSOC);
+        } catch (\PDOException $e) {
+            return [false, "Error en el servidor --userlogueado: " . $e->getMessage()];
+        }
+
+        if ($user) {
+            return [true, $user];
+        } else {
+            return [null, "El usuario no esta logueado"];
+        }
+    }
+    
     private function generarToken($userid, $role_id)
     {
         $token = bin2hex(random_bytes(32));
