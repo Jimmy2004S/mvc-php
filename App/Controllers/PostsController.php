@@ -18,10 +18,15 @@ class PostsController extends Controller {
             $json = [];
             foreach($data as $row){
                 $json[] = [
-                    'id'            => $row['id'],
-                    'title'         => $row['title'],
-                    'description' => $row['description'],
-                    'created_at'    => $this->posts->formatDate($row['created_at']),
+                    'id'                => $row['id'],
+                    'title'             => $row['title'],
+                    'description'       => $row['description'],
+                    'created_at'        => $this->posts->formatDate($row['created_at']),
+                    'user_id'           => $row['user_id'],
+                    'author'            => $row['author'],
+                    'num_likes'         => $row['num_likes'],
+                    'semester_student'  => $row['semester_student'],
+                    'career_student'    => $row['career_student']
                 ];
             }
             http_response_code(200);
