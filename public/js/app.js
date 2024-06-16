@@ -1,7 +1,21 @@
 $(document).ready(function () {
   console.log("Hello world!");
-  listarPosts();
-  listarUsers();
+
+  logueado(function (role_id) {
+    let url = urlActual()
+    //Ejecutar funciones segun sea necesario
+    if (role_id != 1) {
+      if(url[1] === "inicioView"){
+        listarPosts();
+      }
+    }else{
+      if(url[1] === "verUsuariosView"){
+        listarUsers();
+      }
+    }
+  });
+
+  
 });
 
 function listarPosts() {
@@ -55,7 +69,8 @@ function listarUsers() {
 
         // Modificar el botón dentro de userHTML basado en el estado del usuario
         let buttonText = user.state === "1" ? "Desactivar" : "Activar";
-        let buttonClass = user.state === "1"? "btn btn-danger" : "btn btn-success";
+        let buttonClass =
+          user.state === "1" ? "btn btn-danger" : "btn btn-success";
 
         userHTML = userHTML.replace("{{text}}", buttonText); // Reemplazar el texto del botón
         userHTML = userHTML.replace("{{class}}", buttonClass); // Reemplazar la clase del botón
@@ -70,4 +85,34 @@ function listarUsers() {
       console.log("status: " + error.status, "error: " + error.responseText);
     },
   });
+}
+
+function logueado(callback) {
+  $.ajax({
+    url: "SessionController/logueado",
+    type: "GET",
+    success: function (response) {
+      const user = JSON.parse(response);
+      if (user) {
+        callback(user.role_id); // Si el usuario es admin, ejecuta el callback con el rol del usuario
+      } else {
+        console.log("No hay login");
+      }
+    },
+    error: function (error) {
+      console.log("status: " + error.status, "error: " + error.responseText);
+    },
+  });
+}
+
+function urlActual() {
+  // Obtener la URL actual del navegador
+  let url = new URL(window.location.href);
+
+  // Obtener componentes individuales de la URL
+  const pathname = url.pathname; // Ejemplo: "/sadontroller-sdadasd/inicioView"
+
+  // Dividir la ruta después del dominio base por "/"
+  const segments = pathname.split("/").filter((segment) => segment !== "");
+  return segments;
 }
