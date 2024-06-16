@@ -68,16 +68,8 @@ class SessionController extends Controller
     }
 
     public function logueado(){
-        list($success, $data) = Auth::user();
-        if($success === true){
-            http_response_code(200);
-            echo json_encode($data);
-        }elseif($success === false){
-            http_response_code(500);
-            echo json_encode(["Error" => $data]);
-        }elseif(empty($success)){
-            http_response_code(204);
-            echo json_encode([]);
-        }
+        $user = Auth::user();
+        http_response_code(200);
+        echo json_encode($user);
     }
 }

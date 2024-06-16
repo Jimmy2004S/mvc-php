@@ -129,18 +129,19 @@ class User extends Model
         }
     }
 
-    public function userLogueado($user_id)
+    public function selectById($user_id)
     {
-        $sql = "SELECT * FROM users WHERE id =:id";
+        $sql = "SELECT u.* FROM `personal_access_tokens` pat
+                INNER JOIN users u ON u.id = pat.tokenable_id
+                WHERE u.id =:id";
         try {
             $stmt = $this->conexion->prepare($sql);
-            $stmt->bindParam('id', $user_id);
+            $stmt->bindParam('id', $user_id, \PDO::PARAM_INT);
             $stmt->execute();
             $user = $stmt->fetch(\PDO::FETCH_ASSOC);
         } catch (\PDOException $e) {
             return [false, "Error en el servidor --userlogueado: " . $e->getMessage()];
         }
-
         if ($user) {
             return [true, $user];
         } else {

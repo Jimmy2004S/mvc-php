@@ -1,9 +1,11 @@
 <?php
+
 namespace Lib\Util;
 
 use App\Model\User;
 
-class Auth{
+class Auth
+{
 
     public static function sessionActiva()
     {
@@ -20,11 +22,18 @@ class Auth{
         }
     }
 
-    public static function user(){
-        $token = $_SESSION['token'];
-        $token = explode("|", $token);
-        $user = new User();
-        return $user->userLogueado($token[0]);
+    public static function user()
+    {
+        if (self::sessionActiva()) {
+            $token = $_SESSION['token'];
+            $token = explode("|", $token);
+            $user = new User();
+            list($success, $data) = $user->selectById($token[0]);
+            if ($success) {
+                return $data;
+            }
+        }else{
+            echo json_encode("Error de autenticación");
+        }
     }
-
 }
