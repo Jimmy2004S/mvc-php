@@ -46,7 +46,12 @@ function listarPosts() {
           .replace("{{id}}", element.id)
           .replace("{{title}}", element.title)
           .replace("{{created_at}}", element.created_at)
-          .replace("{{description}}", element.description);
+          .replace("{{description}}", element.description)
+          .replace("{{user_id}}", element.user_id)
+          .replace("{{author}}", element.author)
+          .replace("{{semester_student}}", element.semester_student)
+          .replace("{{career_student}}", element.career_student)
+          .replace("{{num_likes}}", element.num_likes);
 
         template += postHTML;
       });

@@ -24,11 +24,13 @@
                                                 <a href="#" class="card-link">Link 2</a>
                                         </div>
                                         <div class="card-footer text-muted d-flex">
-                                                <div class="col-10">
-                                                        <p></p>
+                                                <div user-id="{{user_id}}" class="col-10">
+                                                        <p>{{author}}</p>
+                                                        <p>Semestre {{semester_student}}</p>
+                                                        <p>{{career_student}}</p>
                                                 </div>
                                                 <div class="col-2">
-                                                        <p class="m-0"></p>
+                                                        <p class="m-0">{{num_likes}} Likes</p>
                                                 </div>
                                         </div>
                                 </div>
