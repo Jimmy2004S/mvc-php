@@ -26,7 +26,8 @@ class PostsController extends Controller {
                     'author'            => $row['author'],
                     'num_likes'         => $row['num_likes'],
                     'semester_student'  => $row['semester_student'],
-                    'career_student'    => $row['career_student']
+                    'career_student'    => $row['career_student'],
+                    'user_liked'        => $row['user_liked']
                 ];
             }
             http_response_code(200);
