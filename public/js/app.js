@@ -53,6 +53,9 @@ function listarPosts() {
           .replace("{{career_student}}", element.career_student)
           .replace("{{num_likes}}", element.num_likes);
 
+        let buttonClass = element.user_liked === 1 ? "btn-danger" : "btn-outline-danger";
+        postHTML = postHTML.replace("{{class}}", buttonClass);
+        
         template += postHTML;
       });
       $("#all-posts").html(template);

@@ -24,13 +24,15 @@
                                                 <a href="#" class="card-link">Link 2</a>
                                         </div>
                                         <div class="card-footer text-muted d-flex">
-                                                <div user-id="{{user_id}}" class="col-10">
+                                                <div user-id="{{user_id}}" class="col-9">
                                                         <p>{{author}}</p>
                                                         <p>Semestre {{semester_student}}</p>
                                                         <p>{{career_student}}</p>
                                                 </div>
-                                                <div class="col-2">
-                                                        <p class="m-0">{{num_likes}} Likes</p>
+                                                <div class="col-3 p-0 ms-auto">
+                                                        <button type="button" class="btn {{class}}">
+                                                                <i class="{{like_state}} fa-sharp fa-regular fa-heart me-2"></i>{{num_likes}} Likes
+                                                        </button>
                                                 </div>
                                         </div>
                                 </div>
