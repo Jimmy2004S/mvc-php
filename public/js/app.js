@@ -24,46 +24,69 @@ $(document).ready(function () {
         listarUsers();
       })
       .fail(function (error) {
-        console.error("Error:", error.responseText)
+        console.error("Error:", error.responseText);
         console.error("Status:", error.status);
       });
   });
-  
 });
 
-function listarPosts() {
-  $.ajax({
-    url: "PostsController/verPosts",
-    type: "GET",
-    success: function (response) {
-      let posts = JSON.parse(response);
-      console.log("parseado", posts);
-      let template = "";
-      let postTemplate = $("#post-template").html(); // Obtener la plantilla desde el elemento oculto
-      posts.forEach((element) => {
-        // Reemplazar las variables en la plantilla con los datos del post
-        let postHTML = postTemplate
-          .replace("{{id}}", element.id)
-          .replace("{{title}}", element.title)
-          .replace("{{created_at}}", element.created_at)
-          .replace("{{description}}", element.description)
-          .replace("{{user_id}}", element.user_id)
-          .replace("{{author}}", element.author)
-          .replace("{{semester_student}}", element.semester_student)
-          .replace("{{career_student}}", element.career_student)
-          .replace("{{num_likes}}", element.num_likes);
+async function listarPosts() {
+  try {
+    // Solicitar los posts
+    let response = await $.ajax({
+      url: "PostsController/verPosts",
+      type: "GET",
+    });
 
-        let buttonClass = element.user_liked === 1 ? "btn-danger" : "btn-outline-danger";
-        postHTML = postHTML.replace("{{class}}", buttonClass);
-        
-        template += postHTML;
-      });
-      $("#all-posts").html(template);
-    },
-    error: function (error) {
-      console.log(error);
-    },
-  });
+    let posts = JSON.parse(response);
+    console.log("parseado", posts);
+    let template = "";
+    let postTemplate = $("#post-template").html(); // Obtener la plantilla desde el elemento oculto
+
+    for (let element of posts) {
+      // Reemplazar las variables en la plantilla con los datos del post
+      let postHTML = postTemplate
+        .replace("{{id}}", element.id)
+        .replace("{{title}}", element.title)
+        .replace("{{created_at}}", element.created_at)
+        .replace("{{description}}", element.description)
+        .replace("{{user_id}}", element.user_id)
+        .replace("{{author}}", element.author)
+        .replace("{{semester_student}}", element.semester_student)
+        .replace("{{career_student}}", element.career_student)
+        .replace("{{num_likes}}", element.num_likes);
+
+      let buttonClass =
+        element.user_liked === 1 ? "btn-danger" : "btn-outline-danger";
+      postHTML = postHTML.replace("{{class}}", buttonClass);
+
+      // Solicitar los archivos asociados al post
+      try {
+        let fileResponse = await $.get("PostsController/listarFilesPosts/", {
+          post_id: element.id,
+        });
+        let files = JSON.parse(fileResponse);
+        files.forEach((file) => {
+          if (file.type == "cover_image") {
+            postHTML = postHTML.replace("{{cover_image_path}}", file.path);
+          }
+          if(file.type == "pdf"){
+            postHTML = postHTML.replace("{{pdf_path}}", file.path)
+            .replace("{{pdf_name}}", file.file_name)
+          }
+        });
+      } catch (error) {
+        console.error("Error:", error);
+        console.error("Error:", error.status, error.responseText)
+      }
+
+      template += postHTML;
+    }
+
+    $("#all-posts").html(template)
+  } catch (error) {
+    console.error("Error:", error.status, error.responseText)
+  }
 }
 
 //Admin

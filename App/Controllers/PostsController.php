@@ -50,6 +50,7 @@ class PostsController extends Controller {
             foreach($data as $row){
                 $json[] = [
                     'post_id'           => $row['post_id'],
+                    'file_name'           => $row['name'],
                     'type'              => $row['type'],
                     'path'              => Storage::path($row['path'])
                 ];

@@ -42,7 +42,7 @@ class Posts extends Model
     }
 
     public function selectFilesPosts($post_id){
-        $sql = "SELECT path,type,post_id FROM files WHERE post_id = :post_id";
+        $sql = "SELECT path,type,post_id,name FROM files WHERE post_id = :post_id";
         try{
             $stmt = $this->conexion->prepare($sql);
             $stmt->bindParam(":post_id", $post_id , \PDO::PARAM_INT);
