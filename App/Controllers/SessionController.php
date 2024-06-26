@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Model\User;
 use Lib\Controller;
+use Lib\Util\Auth;
 
 class SessionController extends Controller
 {
@@ -64,5 +65,11 @@ class SessionController extends Controller
 
     private function verificarTipoPersona($role_id){
         return $this->user->verificarRole($role_id);
+    }
+
+    public function logueado(){
+        $user = Auth::user();
+        http_response_code(200);
+        echo json_encode($user);
     }
 }

@@ -17,18 +17,21 @@
                                                 <h4 class="card-title">{{title}}</h4>
                                                 <h6 class="card-subtitle text-muted">{{created_at}}</h6>
                                         </div>
-                                        <img src="https://picsum.photos/400/200" alt="" />
+                                        <img src="{{cover_image_path}}" alt="" />
                                         <div class="card-body">
                                                 <p class="card-text">{{description}}</p>
-                                                <a href="#" target="blank" class="card-link">Link 1</a>
-                                                <a href="#" class="card-link">Link 2</a>
+                                                <a href="{{pdf_path}}" style="width: 40px" target="blank" class="card-link"><i class="fa-regular fa-folder-open"></i></a>
                                         </div>
                                         <div class="card-footer text-muted d-flex">
-                                                <div class="col-10">
-                                                        <p></p>
+                                                <div user-id="{{user_id}}" class="col-9">
+                                                        <p>{{author}}</p>
+                                                        <p>Semestre {{semester_student}}</p>
+                                                        <p>{{career_student}}</p>
                                                 </div>
-                                                <div class="col-2">
-                                                        <p class="m-0"></p>
+                                                <div class="col-3 p-0 ms-auto">
+                                                        <button type="button" class="btn {{class}}">
+                                                                <i class="{{like_state}} fa-sharp fa-regular fa-heart me-2"></i>{{num_likes}} Likes
+                                                        </button>
                                                 </div>
                                         </div>
                                 </div>

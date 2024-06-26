@@ -32,22 +32,23 @@ class AdminController extends Controller
             $json = array();
             foreach ($data as $row) {
                 $json[] = array(
-                    'codigo' => $row['codigo'],
-                    'nombre' => $row['nombre'],
-                    'apellido' => $row['apellido'],
-                    'tipo_persona' => $row['tipo_persona'],
-                    'telefono' => $row['telefono'],
+                    'id' => $row['id'],
+                    'code' => $row['code'],
+                    'user_name' => $row['user_name'],
+                    'role' => $this->verificarTipoPersona($row['role_id']),
                     'email' => $row['email'],
-                    'estado' => $row['estado'],
-                    'clave' => $row['clave']
+                    'state' => $row['state'],
                 );
             }
             // Convertir a JSON y enviar respuesta al cliente
             http_response_code(200);
             echo json_encode($json);
-        } else {
+        } elseif ($success === false) {
             http_response_code(500);
-            echo json_encode(["Error" => $data]); // $data contiene el mensaje de error
+            echo json_encode(["Error" => $data]);
+        } elseif (empty($success)) {
+            http_response_code(204);
+            echo json_encode([]);
         }
     }
 
@@ -72,16 +73,27 @@ class AdminController extends Controller
 
     public function cambiarEstadoUsuario()
     {
-        if (isset($_POST['codigo'])) {
-            $codigo = $_POST['codigo'];
-            list($success, $data) = $this->user->cambiarEstadoUsuario($codigo);
-            if ($success) {
+        if (isset($_POST['id'])) {
+            $id = $_POST['id'];
+            list($success, $data) = $this->user->updateUserState($id);
+            if ($success === true) {
                 http_response_code(200);
                 echo json_encode($data);
-            } else {
-                http_response_code(500);
+            } elseif ($success === false) {
+                http_response_code(500); 
                 echo json_encode(["Error" => $data]);
+            } else {
+                http_response_code(400);
+                echo json_encode(["Error" => "Solicitud no válida"]);
             }
+        } else {
+            http_response_code(400);
+            echo json_encode(["Error" => "ID no proporcionado"]);
         }
+    }
+
+    private function verificarTipoPersona($role_id)
+    {
+        return $this->user->verificarRole($role_id);
     }
 }

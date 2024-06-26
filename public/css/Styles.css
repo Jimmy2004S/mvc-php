@@ -154,6 +154,10 @@ body{
   #boton-like.liked {
     background-color: blue;
   }
+
+.icon{
+    width: 90px;
+}
   
 
 /*Usuario*/
