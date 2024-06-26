@@ -7,10 +7,10 @@ class DB{
     private $password;
     private $user;
     function __construct(){
-        $this->schema = 'plataforma_proyectos';
-        $this->host = 'localhost';
-        $this->password = '';
-        $this->user = 'root';
+        $this->schema = $_ENV['DATABASE'];
+        $this->host = $_ENV['DB_HOST'];
+        $this->password = $_ENV['DB_PASS'];
+        $this->user = $_ENV['DB_USER'];
     }
 
     protected function Connection(){

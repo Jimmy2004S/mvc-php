@@ -4,7 +4,7 @@ session_start();
 use App\Controllers\Inicio;
 use App\Controllers\SessionController;
 use App\Controllers\AdminController;
-use lib\Util\Auth;
+use Lib\Util\Auth;
 
 class App
 {
