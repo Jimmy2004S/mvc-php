@@ -28,6 +28,21 @@ $(document).ready(function () {
         console.error("Status:", error.status);
       });
   });
+
+  //like
+  $(document).on("click", ".like", function () {
+    let post_id = $(this).closest(".card").attr("post-id");
+    $.get("LikeController/like/", {
+      post_id,
+    })
+      .done(function (response) {
+        listarPosts();
+      })
+      .fail(function (error) {
+        console.error("Error:", error.responseText);
+        console.error("Status:", error.status);
+      });
+  });
 });
 
 async function listarPosts() {
@@ -70,22 +85,23 @@ async function listarPosts() {
           if (file.type == "cover_image") {
             postHTML = postHTML.replace("{{cover_image_path}}", file.path);
           }
-          if(file.type == "pdf"){
-            postHTML = postHTML.replace("{{pdf_path}}", file.path)
-            .replace("{{pdf_name}}", file.file_name)
+          if (file.type == "pdf") {
+            postHTML = postHTML
+              .replace("{{pdf_path}}", file.path)
+              .replace("{{pdf_name}}", file.file_name);
           }
         });
       } catch (error) {
         console.error("Error:", error);
-        console.error("Error:", error.status, error.responseText)
+        console.error("Error:", error.status, error.responseText);
       }
 
       template += postHTML;
     }
 
-    $("#all-posts").html(template)
+    $("#all-posts").html(template);
   } catch (error) {
-    console.error("Error:", error.status, error.responseText)
+    console.error("Error:", error.status, error.responseText);
   }
 }
 
