@@ -14,12 +14,12 @@ class Like extends Model
     public function like($post_id, $user_id)
     {
         list($success, $data) = $this->selectLike($post_id, $user_id);
-        if ($success === true){
-            echo json_encode("Ya hay like");
-        } elseif($success === null){
+        if ($success === true) {
+            return $this->deleteLike($data['id']);
+        } elseif ($success === null) {
             return $this->insertLike($post_id, $user_id);
-        }else{
-            return [false, "Error en el servidor ---darlike " . $data];
+        } else {
+            return [false, "Error en el servidor --like " . $data];
         }
     }
 
@@ -40,6 +40,21 @@ class Like extends Model
         }
     }
 
+    private function deleteLike($like_id)
+    {
+        $sql = "DELETE FROM likes WHERE id = :id";
+        try{
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->bindParam(':id', $like_id, \PDO::PARAM_INT);
+            $stmt->execute();
+            if ($stmt->rowCount() > 0) {
+                return [true, ""];
+            }
+        }catch(\PDOException $e){
+            return [false, "Error en el servidor --deletelike" . $e->getMessage()];
+        }
+    }
+
 
     private function selectLike($post_id, $user_id)
     {
@@ -50,9 +65,10 @@ class Like extends Model
             $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
             $stmt->execute();
             if ($stmt->rowCount() > 0) {
-                return [true, ""];
+                $like = $stmt->fetch(\PDO::FETCH_ASSOC);
+                return [true, $like];
             } else {
-                return [null , ""];
+                return [null, ""];
             }
         } catch (\PDOException $e) {
             return [false, "Error en el servidor ---darlike" . $e];
