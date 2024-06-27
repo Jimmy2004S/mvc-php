@@ -43,18 +43,25 @@ $(document).ready(function () {
         console.error("Status:", error.status);
       });
   });
+
+  $("#search").keyup(function () {
+    listarPosts();
+  });
 });
 
 async function listarPosts() {
   try {
+    let search = $('#search').val();
     // Solicitar los posts
     let response = await $.ajax({
-      url: "PostsController/verPosts",
+      url: "PostsController/verPosts/",
       type: "GET",
+     data: {
+        search: search,
+      }
     });
 
     let posts = JSON.parse(response);
-    console.log("parseado", posts);
     let template = "";
     let postTemplate = $("#post-template").html(); // Obtener la plantilla desde el elemento oculto
 

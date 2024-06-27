@@ -96,6 +96,7 @@ $email =   $_SESSION['email'];
                             <a class="nav-link" id="groups-link" href="../vistas/misGrupos.php">My groups</a>
                         </li>
                     </ul>
+                    <!-- Campo de busqueda -->
                     <form class="d-flex">
                         <input class="form-control me-sm-2" id="search" type="search" placeholder="Search">
                     </form>
