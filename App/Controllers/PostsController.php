@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use Lib\Controller;
 use App\Model\Posts;
+use Lib\Util\Auth;
 use Lib\Util\Storage;
 
 class PostsController extends Controller {
@@ -14,7 +15,14 @@ class PostsController extends Controller {
     }
 
     public function verPosts(){
-        list($success, $data) = $this->posts->selectPosts();
+        if(isset($_GET['search'])){
+            $search = $_GET['search'];
+        }else{
+            $search = '';
+        }
+        $user = Auth::user();
+        $auth_user_id = $user['id'];
+        list($success, $data) = $this->posts->selectPosts($auth_user_id, $search);
         if($success){
             $json = [];
             foreach($data as $row){
