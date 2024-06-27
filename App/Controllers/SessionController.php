@@ -36,9 +36,9 @@ class SessionController extends Controller
                 $_SESSION['tipo_persona'] = $tipo_persona;
                 http_response_code(200);
                 if ($tipo_persona == 'Estudiante' || $tipo_persona == 'Profesor') {
-                    echo json_encode(['status' => 'success', 'redirect' => '/Inicio/inicioView']);
+                    echo json_encode(['status' => 'success', 'redirect' => '/inicio']);
                 } elseif ($tipo_persona == 'Administrador') {
-                    echo json_encode(['status' => 'success', 'redirect' => '/AdminController/inicioView']);
+                    echo json_encode(['status' => 'success', 'redirect' => '/admin/inicio']);
                 }
             }
         } elseif ($success === false) {
