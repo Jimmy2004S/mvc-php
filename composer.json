@@ -6,7 +6,8 @@
     "psr-4": {
       "App\\": "App/",
       "Lib\\": "Lib/",
-      "DataBase\\": "DataBase/"
+      "DataBase\\": "DataBase/",
+      "Routes\\": "Routes/"
     }
   }
 }

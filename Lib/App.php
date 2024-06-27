@@ -1,10 +1,11 @@
 <?php
 session_start();
 
-use App\Controllers\Inicio;
+use App\Controllers\HomeController;
 use App\Controllers\SessionController;
 use App\Controllers\AdminController;
 use Lib\Util\Auth;
+use Routes\Web;
 
 class App
 {
@@ -20,7 +21,7 @@ class App
                 if (Auth::habilidad() == 'Administrador') {
                     $this->controllerClass = new AdminController();
                 } else {
-                    $this->controllerClass = new Inicio();
+                    $this->controllerClass = new HomeController();
                 }
                 $this->controllerClass->inicioView(); //Se lleva al inicio segun la habilidad de la session
             } else {
@@ -31,31 +32,32 @@ class App
         }
 
         $uri = rtrim($uri, '/');
-        $uri = explode("/", $uri); // Separar la url controlador/metodo
-        $archivoController = "../App/Controllers/" . $uri[0] . ".php";
+        $web = new Web();
+        $route = $web->getRoute($uri);
+        $archivoController = "../App/Controllers/" . $route['controller'] . ".php";
         //Verificar si el controlador existe
         if (file_exists($archivoController)) {
-            $this->middleware($uri);
+            $this->middleware($route['method']);
             require_once $archivoController;
-            $controllerClass = "App\Controllers\\" . $uri[0];
+            $controllerClass = "App\Controllers\\" .  $route['controller'];
             $controller = new $controllerClass();
             //Verificar si el metodo existe
-            if (isset($uri[1]) && method_exists($controller, $uri[1])) {
-                $controller->{$uri[1]}();
+            if (isset($route['method']) && method_exists($controller, $route['method'])) {
+                $controller->{$route['method']}();
             } else {
-                echo "error: No hay metodo $uri[1]";
+                echo "error: No hay metodo " . $route['method'];
             }
         } else {
-            echo "error: no existe el controlador $uri[0]";
+            echo "error: no existe el controlador " . $route['controller'];
         }
     }
 
 
-    private function middleware($uri)
+    private function middleware($method)
     {
         // Verificar autenticacion en las rutas necesarias
-        if (isset($uri[1])) {
-            if ($uri[1] == "login" || $uri[1] == "loginView" || $uri[1] == "logout" || $uri[1] == "logueado") {
+        if (isset($method)) {
+            if ($method == "login" || $method == "loginView" || $method == "logout" || $method == "logueado") {
                 return;
             }
         }
@@ -63,5 +65,4 @@ class App
             die("Error de autenticacion");
         }
     }
-
 }
