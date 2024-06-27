@@ -1,7 +1,15 @@
 $(document).ready(function () {
   console.log("Hello world!");
-
   cargarFunciones();
+
+
+  window.addEventListener('popstate', function(event) {
+    if (event.state) {
+      if(event.state.page === "inicio"){
+        listarPosts()
+      }
+    }
+  });
 
   //cambiar estado
   $(document).on("click", ".state", function () {
@@ -20,7 +28,7 @@ $(document).ready(function () {
   //like
   $(document).on("click", ".like", function () {
     let post_id = $(this).closest(".card").attr("post-id");
-    $.get("LikeController/like/", {
+    $.get("like", {
       post_id,
     })
       .done(function (response) {
@@ -45,7 +53,7 @@ $(document).ready(function () {
 
 function login(parametros) {
   $.ajax({
-    url: "SessionController/login",
+    url: "login",
     type: "POST",
     data: parametros,
     success: function (response) {
@@ -75,7 +83,7 @@ async function listarPosts() {
     let search = $("#search").val();
     // Solicitar los posts
     let response = await $.ajax({
-      url: "PostsController/verPosts/",
+      url: "posts",
       type: "GET",
       data: {
         search: search,
@@ -105,7 +113,7 @@ async function listarPosts() {
 
       // Solicitar los archivos asociados al post
       try {
-        let fileResponse = await $.get("PostsController/listarFilesPosts/", {
+        let fileResponse = await $.get("posts/files", {
           post_id: element.id,
         });
         let files = JSON.parse(fileResponse);
@@ -123,7 +131,6 @@ async function listarPosts() {
         console.error("Error:", error);
         console.error("Error:", error.status, error.responseText);
       }
-
       template += postHTML;
     }
 
@@ -136,7 +143,7 @@ async function listarPosts() {
 //Admin
 function listarUsers() {
   $.ajax({
-    url: "AdminController/verUsuarios",
+    url: "users",
     type: "GET",
     success: function (response) {
       let users = JSON.parse(response);
@@ -176,7 +183,7 @@ function listarUsers() {
 
 function logueado(callback) {
   $.ajax({
-    url: "SessionController/logueado",
+    url: "logueado",
     type: "GET",
     success: function (response) {
       const user = JSON.parse(response);
@@ -195,10 +202,7 @@ function logueado(callback) {
 function urlActual() {
   // Obtener la URL actual del navegador
   let url = new URL(window.location.href);
-
-  // Obtener componentes individuales de la URL
-  const pathname = url.pathname; // Ejemplo: "/sadontroller-sdadasd/inicioView"
-
+  const pathname = url.pathname; // example "inicio/users"
   // Dividir la ruta después del dominio base por "/"
   const segments = pathname.split("/").filter((segment) => segment !== "");
   return segments;
@@ -207,15 +211,25 @@ function urlActual() {
 function cargarFunciones() {
   logueado(function (role_id) {
     let url = urlActual();
+    console.log(url)
     //Ejecutar funciones segun sea necesario
     if (role_id != 1) {
-      if (url[1] === "inicioView") {
+      if (url[0] === "inicio" || url.length === 0) {
         listarPosts();
+        history.replaceState({ page: "inicio" }, "Inicio", "inicio");
       }
     } else {
-      if (url[1] === "verUsuariosView") {
+      if (url[0] === "admin/users") {
         listarUsers();
       }
     }
   });
 }
+
+
+
+
+
+
+
+

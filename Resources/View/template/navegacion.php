@@ -75,10 +75,10 @@
                         <a class="dropdown-item" href="#">Mi informacion </a>
                         <a class="dropdown-item" id="report" href="#">Denunciar</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="SessionController/logout">Cerrar sesion</a>
+                        <a class="dropdown-item" href="logout">Cerrar sesion</a>
                     </div>
                 </div>
-                <a class="navbar-brand" href="inicio/inicioView">Homepage</a>
+                <a class="navbar-brand" href="inicio">Homepage</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
