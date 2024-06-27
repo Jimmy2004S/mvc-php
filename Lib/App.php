@@ -55,7 +55,7 @@ class App
     {
         // Verificar autenticacion en las rutas necesarias
         if (isset($uri[1])) {
-            if ($uri[1] == "login" || $uri[1] == "loginView" || $uri[1] == "logout") {
+            if ($uri[1] == "login" || $uri[1] == "loginView" || $uri[1] == "logout" || $uri[1] == "logueado") {
                 return;
             }
         }

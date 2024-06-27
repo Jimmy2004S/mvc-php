@@ -33,7 +33,7 @@ class Auth
                 return $data;
             }
         }else{
-            echo json_encode("Error de autenticación");
+            return false;
         }
     }
 }
