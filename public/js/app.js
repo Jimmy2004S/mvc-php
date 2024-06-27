@@ -1,19 +1,7 @@
 $(document).ready(function () {
   console.log("Hello world!");
 
-  logueado(function (role_id) {
-    let url = urlActual();
-    //Ejecutar funciones segun sea necesario
-    if (role_id != 1) {
-      if (url[1] === "inicioView") {
-        listarPosts();
-      }
-    } else {
-      if (url[1] === "verUsuariosView") {
-        listarUsers();
-      }
-    }
-  });
+  cargarFunciones();
 
   //cambiar estado
   $(document).on("click", ".state", function () {
@@ -47,18 +35,51 @@ $(document).ready(function () {
   $("#search").keyup(function () {
     listarPosts();
   });
+
+  $("#form-login").on("submit", function (e) {
+    e.preventDefault(); // Prevenir el envío predeterminado del formulario
+    var parametros = $(this).serialize(); // Serializar los datos del formulario
+    login(parametros);
+  });
 });
+
+function login(parametros) {
+  $.ajax({
+    url: "SessionController/login",
+    type: "POST",
+    data: parametros,
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status === "success") {
+        // Redirigir a la página correcta
+        window.location.href = response.redirect;
+      }
+    },
+    error: function (jqXHR) {
+      // Manejar errores según el código de estado HTTP
+      if (jqXHR.status === 500) {
+        console("Error en la solicitud: " + jqXHR.responseText);
+      } else if (jqXHR.status === 401) {
+        alert("Error de inicio de sesión");
+      } else {
+        alert(
+          "Hubo un problema con la solicitud. Por favor, inténtelo de nuevo más tarde."
+        );
+      }
+    },
+  });
+}
 
 async function listarPosts() {
   try {
-    let search = $('#search').val();
+    let search = $("#search").val();
     // Solicitar los posts
     let response = await $.ajax({
       url: "PostsController/verPosts/",
       type: "GET",
-     data: {
+      data: {
         search: search,
-      }
+      },
     });
 
     let posts = JSON.parse(response);
@@ -181,4 +202,20 @@ function urlActual() {
   // Dividir la ruta después del dominio base por "/"
   const segments = pathname.split("/").filter((segment) => segment !== "");
   return segments;
+}
+
+function cargarFunciones() {
+  logueado(function (role_id) {
+    let url = urlActual();
+    //Ejecutar funciones segun sea necesario
+    if (role_id != 1) {
+      if (url[1] === "inicioView") {
+        listarPosts();
+      }
+    } else {
+      if (url[1] === "verUsuariosView") {
+        listarUsers();
+      }
+    }
+  });
 }

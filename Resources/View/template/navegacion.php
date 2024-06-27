@@ -3,13 +3,13 @@
 //   $identificacion = $_SESSION['identificacion'];
 //   $codigoPersonaLogin = $_SESSION['codigo'];
 //   $tipo_persona = $_SESSION['tipo_persona'];
-$nombres = $_SESSION['nombre'] . $_SESSION['apellido'];
-$to = 'jimmisiitho450@gmail.com';
-$email =   $_SESSION['email'];
-//     // if($identificacion == null || $identificacion == ""){
-//     //     header("location: ../ErrorSesion.php");
-//     //     die();
-//     // }
+// $nombres = $_SESSION['nombre'] . $_SESSION['apellido'];
+// $to = 'jimmisiitho450@gmail.com';
+// $email =   $_SESSION['email'];
+// //     // if($identificacion == null || $identificacion == ""){
+// //     //     header("location: ../ErrorSesion.php");
+// //     //     die();
+// //     // }
 ?>
 
 <?php
@@ -85,7 +85,7 @@ $email =   $_SESSION['email'];
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" id="tendencias-link" href="../vistas/tendencias.php">Trends
+                            <a class="nav-link" id="tendencias-link">Trends
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
