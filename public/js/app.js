@@ -17,39 +17,6 @@ $(document).ready(function () {
     }
   });
 
-  //cambiar estado
-  $(document).on("click", ".state", function () {
-    let element = $(this)[0].parentElement.parentElement;
-    let id = $(element).attr("userId");
-    $.post("AdminController/cambiarEstadoUsuario", { id })
-      .done(function (response) {
-        listarUsers();
-      })
-      .fail(function (error) {
-        console.error("Error:", error.responseText);
-        console.error("Status:", error.status);
-      });
-  });
-
-  //like
-  $(document).on("click", ".like", function () {
-    let post_id = $(this).closest(".card").attr("post-id");
-    $.get("like", {
-      post_id,
-    })
-      .done(function (response) {
-        listarPosts();
-      })
-      .fail(function (error) {
-        console.error("Error:", error.responseText);
-        console.error("Status:", error.status);
-      });
-  });
-
-  $("#search").keyup(function () {
-    listarPosts();
-  });
-
   //Navegaciones y eventos en links
   $("#home-link").on("click", function (e) {
     history.replaceState({ page: "inicio" }, "Inicio", "inicio");
@@ -68,6 +35,40 @@ $(document).ready(function () {
     e.preventDefault(); // Prevenir el envío predeterminado del formulario
     var parametros = $(this).serialize(); // Serializar los datos del formulario
     login(parametros);
+  });
+
+  //Busqueda de posts
+  $("#search").keyup(function () {
+    listarPosts();
+  });
+
+  //Dar like a post
+  $(document).on("click", ".like", function () {
+    let post_id = $(this).closest(".card").attr("post-id");
+    $.get("like", {
+      post_id,
+    })
+      .done(function (response) {
+        listarPosts();
+      })
+      .fail(function (error) {
+        console.error("Error:", error.responseText);
+        console.error("Status:", error.status);
+      });
+  });
+
+  //cambiar estado de usuario
+  $(document).on("click", ".state", function () {
+    let element = $(this)[0].parentElement.parentElement;
+    let id = $(element).attr("userId");
+    $.post("AdminController/cambiarEstadoUsuario", { id })
+      .done(function (response) {
+        listarUsers();
+      })
+      .fail(function (error) {
+        console.error("Error:", error.responseText);
+        console.error("Status:", error.status);
+      });
   });
 });
 
@@ -241,19 +242,10 @@ function logueado(callback) {
   });
 }
 
-// function urlActual() {
-//   // Obtener la URL actual del navegador
-//   let url = new URL(window.location.href);
-//   const pathname = url.pathname; // example "inicio/users"
-//   // Dividir la ruta después del dominio base por "/"
-//   const segments = pathname.split("/").filter((segment) => segment !== "");
-//   return segments;
-// }
-
 function cargarFunciones() {
   logueado(function (role_id) {
     let url = window.location.pathname;
-    //Ejecutar funciones segun sea necesario
+    //Ejecutar funciones segun el rol y la url
     if (role_id != 1) {
       if (url === "/inicio" || url === "/") {
         listarPosts();
