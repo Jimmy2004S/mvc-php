@@ -4,7 +4,7 @@ namespace App\Controllers;
 use Lib\Controller;
 
 
-class Inicio extends Controller
+class HomeController extends Controller
 {
 
     public function __construct()

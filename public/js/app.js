@@ -1,16 +1,15 @@
 $(document).ready(function () {
   console.log("Hello world!");
-
-  logueado(function (role_id) {
-    let url = urlActual();
-    //Ejecutar funciones segun sea necesario
-    if (role_id != 1) {
-      if (url[1] === "inicioView") {
+  // Inicializar la aplicación según la URL actual
+  cargarFunciones();
+  window.addEventListener("popstate", function (event) {
+    console.log("inicio entre");
+    if (event.state) {
+      if (event.state.page === "inicio") {
         listarPosts();
       }
-    } else {
-      if (url[1] === "verUsuariosView") {
-        listarUsers();
+      if (event.state.page === "posts/tendencias") {
+        listarPosts();
       }
     }
   });
@@ -28,71 +27,162 @@ $(document).ready(function () {
         console.error("Status:", error.status);
       });
   });
+
+  //like
+  $(document).on("click", ".like", function () {
+    let post_id = $(this).closest(".card").attr("post-id");
+    $.get("like", {
+      post_id,
+    })
+      .done(function (response) {
+        listarPosts();
+      })
+      .fail(function (error) {
+        console.error("Error:", error.responseText);
+        console.error("Status:", error.status);
+      });
+  });
+
+  $("#search").keyup(function () {
+    listarPosts();
+  });
+
+  //Navegaciones y eventos en links
+  $("#home-link").on("click", function (e) {
+    history.replaceState({ page: "inicio" }, "Inicio", "inicio");
+    listarPosts();
+  });
+  $("#tendencias-link").on("click", function (e) {
+    history.replaceState(
+      { page: "posts/tendencias" },
+      "posts/tendencias",
+      "posts/tendencias"
+    );
+    listarPostsTendencias();
+  });
+
+  $("#form-login").on("submit", function (e) {
+    e.preventDefault(); // Prevenir el envío predeterminado del formulario
+    var parametros = $(this).serialize(); // Serializar los datos del formulario
+    login(parametros);
+  });
 });
+
+function login(parametros) {
+  $.ajax({
+    url: "api/login",
+    type: "POST",
+    data: parametros,
+    success: function (response) {
+      response = JSON.parse(response);
+      if (response.status === "success") {
+        // Redirigir a la página correcta
+        window.location.href = response.redirect;
+      }
+    },
+    error: function (jqXHR) {
+      // Manejar errores según el código de estado HTTP
+      if (jqXHR.status === 500) {
+        console("Error en la solicitud: " + jqXHR.responseText);
+      } else if (jqXHR.status === 401) {
+        alert("Error de inicio de sesión");
+      } else {
+        alert(
+          "Hubo un problema con la solicitud. Por favor, inténtelo de nuevo más tarde."
+        );
+      }
+    },
+  });
+}
 
 async function listarPosts() {
   try {
+    let search = $("#search").val();
     // Solicitar los posts
     let response = await $.ajax({
-      url: "PostsController/verPosts",
+      url: "api/posts",
       type: "GET",
+      data: {
+        search: search,
+      },
     });
 
     let posts = JSON.parse(response);
-    console.log("parseado", posts);
-    let template = "";
-    let postTemplate = $("#post-template").html(); // Obtener la plantilla desde el elemento oculto
-
-    for (let element of posts) {
-      // Reemplazar las variables en la plantilla con los datos del post
-      let postHTML = postTemplate
-        .replace("{{id}}", element.id)
-        .replace("{{title}}", element.title)
-        .replace("{{created_at}}", element.created_at)
-        .replace("{{description}}", element.description)
-        .replace("{{user_id}}", element.user_id)
-        .replace("{{author}}", element.author)
-        .replace("{{semester_student}}", element.semester_student)
-        .replace("{{career_student}}", element.career_student)
-        .replace("{{num_likes}}", element.num_likes);
-
-      let buttonClass =
-        element.user_liked === 1 ? "btn-danger" : "btn-outline-danger";
-      postHTML = postHTML.replace("{{class}}", buttonClass);
-
-      // Solicitar los archivos asociados al post
-      try {
-        let fileResponse = await $.get("PostsController/listarFilesPosts/", {
-          post_id: element.id,
-        });
-        let files = JSON.parse(fileResponse);
-        files.forEach((file) => {
-          if (file.type == "cover_image") {
-            postHTML = postHTML.replace("{{cover_image_path}}", file.path);
-          }
-          if(file.type == "pdf"){
-            postHTML = postHTML.replace("{{pdf_path}}", file.path)
-            .replace("{{pdf_name}}", file.file_name)
-          }
-        });
-      } catch (error) {
-        console.error("Error:", error);
-        console.error("Error:", error.status, error.responseText)
-      }
-
-      template += postHTML;
-    }
-
-    $("#all-posts").html(template)
+    renderPosts(posts);
   } catch (error) {
-    console.error("Error:", error.status, error.responseText)
+    console.error("Error:", error.status, error.responseText);
   }
+}
+
+async function listarPostsTendencias() {
+  try {
+    let search = $("#search").val();
+    // Solicitar los posts
+    let response = await $.ajax({
+      url: "api/posts/trends",
+      type: "GET",
+      data: {
+        search: search,
+      },
+    });
+
+    let posts = JSON.parse(response);
+    renderPosts(posts);
+  } catch (error) {
+    console.error("Error:", error.status, error.responseText);
+  }
+}
+
+async function renderPosts(posts) {
+  let template = "";
+  let postTemplate = $("#post-template").html(); // Obtener la plantilla desde el elemento oculto
+
+  for (let element of posts) {
+    // Reemplazar las variables en la plantilla con los datos del post
+    let postHTML = postTemplate
+      .replace("{{id}}", element.id)
+      .replace("{{title}}", element.title)
+      .replace("{{created_at}}", element.created_at)
+      .replace("{{description}}", element.description)
+      .replace("{{user_id}}", element.user_id)
+      .replace("{{author}}", element.author)
+      .replace("{{semester_student}}", element.semester_student)
+      .replace("{{career_student}}", element.career_student)
+      .replace("{{num_likes}}", element.num_likes);
+
+    let buttonClass =
+      element.user_liked === 1 ? "btn-danger" : "btn-outline-danger";
+    postHTML = postHTML.replace("{{class}}", buttonClass);
+
+    // Solicitar los archivos asociados al post
+    try {
+      let fileResponse = await $.get("api/posts/files", {
+        post_id: element.id,
+      });
+      let files = JSON.parse(fileResponse);
+      files.forEach((file) => {
+        if (file.type == "cover_image") {
+          postHTML = postHTML.replace("{{cover_image_path}}", file.path);
+        }
+        if (file.type == "pdf") {
+          postHTML = postHTML
+            .replace("{{pdf_path}}", file.path)
+            .replace("{{pdf_name}}", file.file_name);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      console.error("Error:", error.status, error.responseText);
+    }
+    template += postHTML;
+  }
+  $("#all-posts").html(template);
 }
 
 //Admin
 function listarUsers() {
   $.ajax({
-    url: "AdminController/verUsuarios",
+    url: "users",
     type: "GET",
     success: function (response) {
       let users = JSON.parse(response);
@@ -132,7 +222,7 @@ function listarUsers() {
 
 function logueado(callback) {
   $.ajax({
-    url: "SessionController/logueado",
+    url: "api/logueado",
     type: "GET",
     success: function (response) {
       const user = JSON.parse(response);
@@ -148,14 +238,32 @@ function logueado(callback) {
   });
 }
 
-function urlActual() {
-  // Obtener la URL actual del navegador
-  let url = new URL(window.location.href);
+// function urlActual() {
+//   // Obtener la URL actual del navegador
+//   let url = new URL(window.location.href);
+//   const pathname = url.pathname; // example "inicio/users"
+//   // Dividir la ruta después del dominio base por "/"
+//   const segments = pathname.split("/").filter((segment) => segment !== "");
+//   return segments;
+// }
 
-  // Obtener componentes individuales de la URL
-  const pathname = url.pathname; // Ejemplo: "/sadontroller-sdadasd/inicioView"
-
-  // Dividir la ruta después del dominio base por "/"
-  const segments = pathname.split("/").filter((segment) => segment !== "");
-  return segments;
+function cargarFunciones() {
+  logueado(function (role_id) {
+    let url = window.location.pathname;
+    //Ejecutar funciones segun sea necesario
+    if (role_id != 1) {
+      if (url === "/inicio" || url === "/") {
+        listarPosts();
+        history.replaceState({ page: "inicio" }, "Inicio", "inicio");
+      } else if (url === "/posts/tendencias") {
+        console.log("entre");
+        listarPostsTendencias();
+        history.replaceState(
+          { page: "posts/tendencias" },
+          "Tendencias",
+          "posts/tendencias"
+        );
+      }
+    }
+  });
 }

@@ -3,13 +3,13 @@
 //   $identificacion = $_SESSION['identificacion'];
 //   $codigoPersonaLogin = $_SESSION['codigo'];
 //   $tipo_persona = $_SESSION['tipo_persona'];
-$nombres = $_SESSION['nombre'] . $_SESSION['apellido'];
-$to = 'jimmisiitho450@gmail.com';
-$email =   $_SESSION['email'];
-//     // if($identificacion == null || $identificacion == ""){
-//     //     header("location: ../ErrorSesion.php");
-//     //     die();
-//     // }
+// $nombres = $_SESSION['nombre'] . $_SESSION['apellido'];
+// $to = 'jimmisiitho450@gmail.com';
+// $email =   $_SESSION['email'];
+// //     // if($identificacion == null || $identificacion == ""){
+// //     //     header("location: ../ErrorSesion.php");
+// //     //     die();
+// //     // }
 ?>
 
 <?php
@@ -75,17 +75,17 @@ $email =   $_SESSION['email'];
                         <a class="dropdown-item" href="#">Mi informacion </a>
                         <a class="dropdown-item" id="report" href="#">Denunciar</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="SessionController/logout">Cerrar sesion</a>
+                        <a class="dropdown-item" href="api/logout">Cerrar sesion</a>
                     </div>
                 </div>
-                <a class="navbar-brand" href="inicio/inicioView">Homepage</a>
+                <a class="navbar-brand" id="home-link">Homepage</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" id="tendencias-link" href="../vistas/tendencias.php">Trends
+                            <a class="nav-link" id="tendencias-link">Trends
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
@@ -96,6 +96,7 @@ $email =   $_SESSION['email'];
                             <a class="nav-link" id="groups-link" href="../vistas/misGrupos.php">My groups</a>
                         </li>
                     </ul>
+                    <!-- Campo de busqueda -->
                     <form class="d-flex">
                         <input class="form-control me-sm-2" id="search" type="search" placeholder="Search">
                     </form>
