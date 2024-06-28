@@ -61,7 +61,7 @@ $(document).ready(function () {
   $(document).on("click", ".state", function () {
     let element = $(this)[0].parentElement.parentElement;
     let id = $(element).attr("userId");
-    $.post("AdminController/cambiarEstadoUsuario", { id })
+    $.post("api/users/state", { id })
       .done(function (response) {
         listarUsers();
       })
