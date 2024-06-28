@@ -1,15 +1,20 @@
 $(document).ready(function () {
   console.log("Hello world!");
+  // Inicializar la aplicación según la URL actual
   cargarFunciones();
-
-
-  window.addEventListener('popstate', function(event) {
+  window.addEventListener("popstate", function (event) {
+    console.log("inicio entre");
     if (event.state) {
-      if(event.state.page === "inicio"){
-        listarPosts()
+      if (event.state.page === "inicio") {
+        listarPosts();
+      }
+      if (event.state.page === "posts/tendencias") {
+        listarPosts();
       }
     }
   });
+
+  // cargarFunciones();
 
   //cambiar estado
   $(document).on("click", ".state", function () {
@@ -49,11 +54,16 @@ $(document).ready(function () {
     var parametros = $(this).serialize(); // Serializar los datos del formulario
     login(parametros);
   });
+
+  $("#home-link").on("click", function (e) {
+    history.replaceState({ page: "inicio" }, "Inicio", "inicio");
+    listarPosts();
+  });
 });
 
 function login(parametros) {
   $.ajax({
-    url: "login",
+    url: "api/login",
     type: "POST",
     data: parametros,
     success: function (response) {
@@ -83,7 +93,7 @@ async function listarPosts() {
     let search = $("#search").val();
     // Solicitar los posts
     let response = await $.ajax({
-      url: "posts",
+      url: "api/posts",
       type: "GET",
       data: {
         search: search,
@@ -113,7 +123,7 @@ async function listarPosts() {
 
       // Solicitar los archivos asociados al post
       try {
-        let fileResponse = await $.get("posts/files", {
+        let fileResponse = await $.get("api/posts/files", {
           post_id: element.id,
         });
         let files = JSON.parse(fileResponse);
@@ -133,7 +143,6 @@ async function listarPosts() {
       }
       template += postHTML;
     }
-
     $("#all-posts").html(template);
   } catch (error) {
     console.error("Error:", error.status, error.responseText);
@@ -183,7 +192,7 @@ function listarUsers() {
 
 function logueado(callback) {
   $.ajax({
-    url: "logueado",
+    url: "api/logueado",
     type: "GET",
     success: function (response) {
       const user = JSON.parse(response);
@@ -199,37 +208,24 @@ function logueado(callback) {
   });
 }
 
-function urlActual() {
-  // Obtener la URL actual del navegador
-  let url = new URL(window.location.href);
-  const pathname = url.pathname; // example "inicio/users"
-  // Dividir la ruta después del dominio base por "/"
-  const segments = pathname.split("/").filter((segment) => segment !== "");
-  return segments;
-}
+// function urlActual() {
+//   // Obtener la URL actual del navegador
+//   let url = new URL(window.location.href);
+//   const pathname = url.pathname; // example "inicio/users"
+//   // Dividir la ruta después del dominio base por "/"
+//   const segments = pathname.split("/").filter((segment) => segment !== "");
+//   return segments;
+// }
 
 function cargarFunciones() {
   logueado(function (role_id) {
-    let url = urlActual();
-    console.log(url)
+    let url = window.location.pathname;
     //Ejecutar funciones segun sea necesario
     if (role_id != 1) {
-      if (url[0] === "inicio" || url.length === 0) {
+      if (url === "/inicio" || url === "/") {
         listarPosts();
         history.replaceState({ page: "inicio" }, "Inicio", "inicio");
-      }
-    } else {
-      if (url[0] === "admin/users") {
-        listarUsers();
       }
     }
   });
 }
-
-
-
-
-
-
-
-
