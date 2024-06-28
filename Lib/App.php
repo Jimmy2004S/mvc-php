@@ -5,6 +5,7 @@ use App\Controllers\HomeController;
 use App\Controllers\SessionController;
 use App\Controllers\AdminController;
 use Lib\Util\Auth;
+use Routes\Api;
 use Routes\Web;
 
 class App
@@ -32,8 +33,10 @@ class App
         }
 
         $uri = rtrim($uri, '/');
-        $web = new Web();
-        $route = $web->getRoute($uri);
+        //Obtener las rutas
+        $routes = ( $this->isApiRequest() ) ? new Api() : new Web();
+        $route = $routes->getRoute($uri);
+
         $archivoController = "../App/Controllers/" . $route['controller'] . ".php";
         //Verificar si el controlador existe
         if (file_exists($archivoController)) {
@@ -64,5 +67,10 @@ class App
         if (!Auth::sessionActiva()) {
             die("Error de autenticacion");
         }
+    }
+
+    private function isApiRequest()
+    {
+        return strpos($_SERVER['REQUEST_URI'], '/api/') === 0;
     }
 }

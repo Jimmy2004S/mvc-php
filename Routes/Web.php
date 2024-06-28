@@ -1,9 +1,11 @@
 <?php
 
 namespace Routes;
-
+use Lib\Util\RouteFormat;
 class Web
 {
+
+    use RouteFormat;
     private $routes = [];
 
     public function __construct()
@@ -13,50 +15,10 @@ class Web
                 'controller' => 'HomeController',
                 'method' => 'inicioView'
             ],
-            'login' => [
-                'controller' => 'SessionController',
-                'method' => 'login'
-            ],
-            'logout' => [
-                'controller' => 'SessionController',
-                'method' => 'logout'
-            ],
-            'logueado' => [
-                'controller' => 'SessionController',
-                'method' => 'logueado'
-            ],
-            'users' => [
-                'controller' => 'AdminController',
-                'method' => 'verUsuarios'
-            ],
-            'posts' => [
-                'controller' => 'PostsController',
-                'method' => 'verPosts'
-            ],
             'posts/tendencias' => [
-                'controller' => 'PostsController',
-                'method' => 'verPostsTendencias'
-            ],
-            'posts/files' => [
-                'controller' => 'PostsController',
-                'method' => 'listarFilesPosts'
-            ],
-            'like' => [
-                'controller' => 'LikeController',
-                'method' => 'like'
+                'controller' => 'HomeController',
+                'method' => 'inicioView'
             ]
         ];
-    }
-
-    public function getRoute($uri)
-    {
-        $cleanUri = $this->cleanUri($uri);
-        return $this->routes[$cleanUri] ?? null;
-    }
-
-    private function cleanUri($uri)
-    {
-        $uriParts = explode('?', $uri);
-        return $uriParts[0];
     }
 }
