@@ -14,8 +14,6 @@ $(document).ready(function () {
     }
   });
 
-  // cargarFunciones();
-
   //cambiar estado
   $(document).on("click", ".state", function () {
     let element = $(this)[0].parentElement.parentElement;
@@ -49,15 +47,24 @@ $(document).ready(function () {
     listarPosts();
   });
 
+  //Navegaciones y eventos en links
+  $("#home-link").on("click", function (e) {
+    history.replaceState({ page: "inicio" }, "Inicio", "inicio");
+    listarPosts();
+  });
+  $("#tendencias-link").on("click", function (e) {
+    history.replaceState(
+      { page: "posts/tendencias" },
+      "posts/tendencias",
+      "posts/tendencias"
+    );
+    listarPostsTendencias();
+  });
+
   $("#form-login").on("submit", function (e) {
     e.preventDefault(); // Prevenir el envío predeterminado del formulario
     var parametros = $(this).serialize(); // Serializar los datos del formulario
     login(parametros);
-  });
-
-  $("#home-link").on("click", function (e) {
-    history.replaceState({ page: "inicio" }, "Inicio", "inicio");
-    listarPosts();
   });
 });
 
@@ -101,52 +108,75 @@ async function listarPosts() {
     });
 
     let posts = JSON.parse(response);
-    let template = "";
-    let postTemplate = $("#post-template").html(); // Obtener la plantilla desde el elemento oculto
-
-    for (let element of posts) {
-      // Reemplazar las variables en la plantilla con los datos del post
-      let postHTML = postTemplate
-        .replace("{{id}}", element.id)
-        .replace("{{title}}", element.title)
-        .replace("{{created_at}}", element.created_at)
-        .replace("{{description}}", element.description)
-        .replace("{{user_id}}", element.user_id)
-        .replace("{{author}}", element.author)
-        .replace("{{semester_student}}", element.semester_student)
-        .replace("{{career_student}}", element.career_student)
-        .replace("{{num_likes}}", element.num_likes);
-
-      let buttonClass =
-        element.user_liked === 1 ? "btn-danger" : "btn-outline-danger";
-      postHTML = postHTML.replace("{{class}}", buttonClass);
-
-      // Solicitar los archivos asociados al post
-      try {
-        let fileResponse = await $.get("api/posts/files", {
-          post_id: element.id,
-        });
-        let files = JSON.parse(fileResponse);
-        files.forEach((file) => {
-          if (file.type == "cover_image") {
-            postHTML = postHTML.replace("{{cover_image_path}}", file.path);
-          }
-          if (file.type == "pdf") {
-            postHTML = postHTML
-              .replace("{{pdf_path}}", file.path)
-              .replace("{{pdf_name}}", file.file_name);
-          }
-        });
-      } catch (error) {
-        console.error("Error:", error);
-        console.error("Error:", error.status, error.responseText);
-      }
-      template += postHTML;
-    }
-    $("#all-posts").html(template);
+    renderPosts(posts);
   } catch (error) {
     console.error("Error:", error.status, error.responseText);
   }
+}
+
+async function listarPostsTendencias() {
+  try {
+    let search = $("#search").val();
+    // Solicitar los posts
+    let response = await $.ajax({
+      url: "api/posts/trends",
+      type: "GET",
+      data: {
+        search: search,
+      },
+    });
+
+    let posts = JSON.parse(response);
+    renderPosts(posts);
+  } catch (error) {
+    console.error("Error:", error.status, error.responseText);
+  }
+}
+
+async function renderPosts(posts) {
+  let template = "";
+  let postTemplate = $("#post-template").html(); // Obtener la plantilla desde el elemento oculto
+
+  for (let element of posts) {
+    // Reemplazar las variables en la plantilla con los datos del post
+    let postHTML = postTemplate
+      .replace("{{id}}", element.id)
+      .replace("{{title}}", element.title)
+      .replace("{{created_at}}", element.created_at)
+      .replace("{{description}}", element.description)
+      .replace("{{user_id}}", element.user_id)
+      .replace("{{author}}", element.author)
+      .replace("{{semester_student}}", element.semester_student)
+      .replace("{{career_student}}", element.career_student)
+      .replace("{{num_likes}}", element.num_likes);
+
+    let buttonClass =
+      element.user_liked === 1 ? "btn-danger" : "btn-outline-danger";
+    postHTML = postHTML.replace("{{class}}", buttonClass);
+
+    // Solicitar los archivos asociados al post
+    try {
+      let fileResponse = await $.get("api/posts/files", {
+        post_id: element.id,
+      });
+      let files = JSON.parse(fileResponse);
+      files.forEach((file) => {
+        if (file.type == "cover_image") {
+          postHTML = postHTML.replace("{{cover_image_path}}", file.path);
+        }
+        if (file.type == "pdf") {
+          postHTML = postHTML
+            .replace("{{pdf_path}}", file.path)
+            .replace("{{pdf_name}}", file.file_name);
+        }
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      console.error("Error:", error.status, error.responseText);
+    }
+    template += postHTML;
+  }
+  $("#all-posts").html(template);
 }
 
 //Admin
@@ -225,6 +255,14 @@ function cargarFunciones() {
       if (url === "/inicio" || url === "/") {
         listarPosts();
         history.replaceState({ page: "inicio" }, "Inicio", "inicio");
+      } else if (url === "/posts/tendencias") {
+        console.log("entre");
+        listarPostsTendencias();
+        history.replaceState(
+          { page: "posts/tendencias" },
+          "Tendencias",
+          "posts/tendencias"
+        );
       }
     }
   });
