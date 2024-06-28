@@ -11,6 +11,9 @@ $(document).ready(function () {
       if (event.state.page === "posts/tendencias") {
         listarPosts();
       }
+      if (event.state.page === "admin/users") {
+        listarUsers();
+      }
     }
   });
 
@@ -182,7 +185,7 @@ async function renderPosts(posts) {
 //Admin
 function listarUsers() {
   $.ajax({
-    url: "users",
+    url: "api/users",
     type: "GET",
     success: function (response) {
       let users = JSON.parse(response);
@@ -263,6 +266,13 @@ function cargarFunciones() {
           "Tendencias",
           "posts/tendencias"
         );
+      }
+    } else {
+      if (url === "/admin/inicio") {
+        history.replaceState({ page: "admin/inicio" }, "", "admin/inicio");
+      } else if (url === "/admin/users") {
+        listarUsers();
+        history.replaceState({ page: "admin/users" }, "Users", "admin/users");
       }
     }
   });

@@ -1,7 +1,9 @@
 <?php
 
 namespace Routes;
+
 use Lib\Util\RouteFormat;
+
 class Web
 {
 
@@ -18,7 +20,15 @@ class Web
             'posts/tendencias' => [
                 'controller' => 'HomeController',
                 'method' => 'inicioView'
-            ]
+            ],
+            'admin/inicio' => [
+                'controller' => 'AdminController',
+                'method' => 'inicioView'
+            ],
+            'admin/users' => [
+                'controller' => 'AdminController',
+                'method' => 'verUsuariosView'
+            ],
         ];
     }
 }
