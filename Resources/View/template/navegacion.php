@@ -72,28 +72,24 @@
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-user" style="color: #ffffff;"></i></a>
                     <div class="dropdown-menu">
                         <p class="px-3 bg-color-success color-white"> <?php echo $nombres ?> </p>
-                        <a class="dropdown-item" href="#">Mi informacion </a>
-                        <a class="dropdown-item" id="report" href="#">Denunciar</a>
+                        <a class="dropdown-item" id="report" href="#">Reportar</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="api/logout">Cerrar sesion</a>
                     </div>
                 </div>
-                <a class="navbar-brand" id="home-link">Homepage</a>
+                <a class="navbar-brand active" id="home-link">Inicio</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarColor01">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" id="tendencias-link">Trends
+                            <a class="nav-link" id="tendencias-link">Tendencias
                                 <span class="visually-hidden">(current)</span>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="mis-posts-link">My portfolio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="groups-link" href="../vistas/misGrupos.php">My groups</a>
+                            <a class="nav-link" id="my-perfil-link">My perfil</a>
                         </li>
                     </ul>
                     <!-- Campo de busqueda -->

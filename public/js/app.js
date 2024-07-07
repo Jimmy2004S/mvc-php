@@ -50,7 +50,7 @@ $(document).ready(function () {
   });
 
   //Mis posts
-  $("#mis-posts-link").on("click", function (e) {
+  $("#my-perfil-link").on("click", function (e) {
     window.location.href = "user/posts";
     history.replaceState({ page: "user/posts" }, "user/posts", "user/posts");
     listarMisPosts();
@@ -208,9 +208,9 @@ async function renderPosts(posts, misPosts = false) {
     template += postHTML;
   }
 
-  if(misPosts){
+  if (misPosts) {
     $("#my-posts").html(template);
-  }else{
+  } else {
     $("#all-posts").html(template);
   }
 }
@@ -280,10 +280,11 @@ function cargarFunciones() {
     //Ejecutar funciones segun el rol y la url
     if (role_id != 1) {
       if (url === "/inicio" || url === "/") {
+        $("#home-link").addClass("active");
         listarPosts();
         history.replaceState({ page: "inicio" }, "Inicio", "inicio");
       } else if (url === "/posts/tendencias") {
-        console.log("entre");
+        $("#tendencias-link").addClass("active")
         listarPostsTendencias();
         history.replaceState(
           { page: "posts/tendencias" },
@@ -291,6 +292,7 @@ function cargarFunciones() {
           "posts/tendencias"
         );
       } else if (url === "/user/posts") {
+        $("#my-perfil-link").addClass("active");
         listarMisPosts();
         history.replaceState(
           { page: "user/posts" },
