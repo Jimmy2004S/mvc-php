@@ -97,9 +97,9 @@ class PostsController extends Controller
 
     public function verMisPosts()
     {
-        // $user = Auth::user();
-        // $auth_user_id = $user['id'];
-        list($success, $data) = $this->posts->selectPostsByUserId(3);
+        $user = Auth::user();
+        $auth_user_id = $user['id'];
+        list($success, $data) = $this->posts->selectPostsByUserId($auth_user_id);
         if ($success) {
             $json = [];
             foreach ($data as $row) {
