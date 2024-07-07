@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use Lib\Controller;
 use App\Model\Posts;
+use App\Resources\PostsResources;
 use Lib\Util\Auth;
 use Lib\Util\Storage;
 
@@ -28,23 +29,7 @@ class PostsController extends Controller
         $auth_user_id = $user['id'];
         list($success, $data) = $this->posts->selectPosts($auth_user_id, $search);
         if ($success) {
-            $json = [];
-            foreach ($data as $row) {
-                $json[] = [
-                    'id'                => $row['id'],
-                    'title'             => $row['title'],
-                    'description'       => $row['description'],
-                    'created_at'        => $this->posts->formatDate($row['created_at']),
-                    'user_id'           => $row['user_id'],
-                    'author'            => $row['author'],
-                    'num_likes'         => $row['num_likes'],
-                    'semester_student'  => $row['semester_student'],
-                    'career_student'    => $row['career_student'],
-                    'user_liked'        => $row['user_liked']
-                ];
-            }
-            http_response_code(200);
-            echo json_encode($json);
+            PostsResources::getResource($data);
         } elseif ($success === false) {
             http_response_code(500);
             echo json_encode(["Error" => $data]);
@@ -65,23 +50,7 @@ class PostsController extends Controller
         $auth_user_id = $user['id'];
         list($success, $data) = $this->posts->selectPostsLimitByLikes($auth_user_id, $search);
         if ($success) {
-            $json = [];
-            foreach ($data as $row) {
-                $json[] = [
-                    'id'                => $row['id'],
-                    'title'             => $row['title'],
-                    'description'       => $row['description'],
-                    'created_at'        => $this->posts->formatDate($row['created_at']),
-                    'user_id'           => $row['user_id'],
-                    'author'            => $row['author'],
-                    'num_likes'         => $row['num_likes'],
-                    'semester_student'  => $row['semester_student'],
-                    'career_student'    => $row['career_student'],
-                    'user_liked'        => $row['user_liked']
-                ];
-            }
-            http_response_code(200);
-            echo json_encode($json);
+            PostsResources::getResource($data);
         } elseif ($success === false) {
             http_response_code(500);
             echo json_encode(["Error" => $data]);
@@ -101,23 +70,7 @@ class PostsController extends Controller
         $auth_user_id = $user['id'];
         list($success, $data) = $this->posts->selectPostsByUserId($auth_user_id);
         if ($success) {
-            $json = [];
-            foreach ($data as $row) {
-                $json[] = [
-                    'id'                => $row['id'],
-                    'title'             => $row['title'],
-                    'description'       => $row['description'],
-                    'created_at'        => $this->posts->formatDate($row['created_at']),
-                    'user_id'           => $row['user_id'],
-                    'author'            => $row['author'],
-                    'num_likes'         => $row['num_likes'],
-                    'semester_student'  => $row['semester_student'],
-                    'career_student'    => $row['career_student'],
-                    'user_liked'        => $row['user_liked']
-                ];
-            }
-            http_response_code(200);
-            echo json_encode($json);
+            PostsResources::getResource($data);
         } elseif ($success === false) {
             http_response_code(500);
             echo json_encode(["Error" => $data]);
