@@ -42,8 +42,9 @@
                                     </div>
                                 </div>
                             </div>  
-            <div class="row" id="my-projects">
+            <div class="row" id="my-posts">
+                 <!-- Aquí se llenará dinámicamente la lista de posts -->
             </div>
         </div>
-<<?php include '../resources/view/template/posts.php'; ?>
+<?php include '../resources/view/template/posts.php'; ?>
 <?php include '../resources/view/template/footer.php'; ?>

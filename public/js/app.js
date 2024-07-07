@@ -11,6 +11,9 @@ $(document).ready(function () {
       if (event.state.page === "posts/tendencias") {
         listarPosts();
       }
+      if (event.state.page === "user/posts") {
+        listarMisPosts();
+      }
       if (event.state.page === "admin/users") {
         listarUsers();
       }
@@ -19,11 +22,14 @@ $(document).ready(function () {
 
   //Navegaciones y eventos en links
   $("#home-link").on("click", function (e) {
+    window.location.href = "/";
     history.replaceState({ page: "inicio" }, "Inicio", "inicio");
     listarPosts();
   });
+
+  //Tendencias
   $("#tendencias-link").on("click", function (e) {
-    
+    window.location.href = "/posts/tendencias";
     history.replaceState(
       { page: "posts/tendencias" },
       "posts/tendencias",
@@ -31,15 +37,7 @@ $(document).ready(function () {
     );
     listarPostsTendencias();
   });
-  $("#mis-posts-link").on("click" , function (e){
-    window.location.href = 'user/posts';
-    history.replaceState(
-      { page: "user/posts" },
-      "user/posts",
-      "user/posts"
-    )
-    // listarMisPosts();
-  })
+
   $("#form-login").on("submit", function (e) {
     e.preventDefault(); // Prevenir el envío predeterminado del formulario
     var parametros = $(this).serialize(); // Serializar los datos del formulario
@@ -49,6 +47,13 @@ $(document).ready(function () {
   //Busqueda de posts
   $("#search").keyup(function () {
     listarPosts();
+  });
+
+  //Mis posts
+  $("#mis-posts-link").on("click", function (e) {
+    window.location.href = "user/posts";
+    history.replaceState({ page: "user/posts" }, "user/posts", "user/posts");
+    listarMisPosts();
   });
 
   //Dar like a post
@@ -146,7 +151,20 @@ async function listarPostsTendencias() {
   }
 }
 
-async function renderPosts(posts) {
+async function listarMisPosts() {
+  try {
+    let response = await $.ajax({
+      url: "api/user/posts",
+      type: "GET",
+    });
+    let posts = JSON.parse(response);
+    renderPosts(posts, true);
+  } catch (error) {
+    console.error("Error:", error.status, error.responseText);
+  }
+}
+
+async function renderPosts(posts, misPosts = false) {
   let template = "";
   let postTemplate = $("#post-template").html(); // Obtener la plantilla desde el elemento oculto
 
@@ -189,7 +207,12 @@ async function renderPosts(posts) {
     }
     template += postHTML;
   }
-  $("#all-posts").html(template);
+
+  if(misPosts){
+    $("#my-posts").html(template);
+  }else{
+    $("#all-posts").html(template);
+  }
 }
 
 //Admin
@@ -268,7 +291,11 @@ function cargarFunciones() {
           "posts/tendencias"
         );
       } else if (url === "/user/posts") {
-        history.replaceState( { page: "user/posts" },"user/posts", "user/posts"
+        listarMisPosts();
+        history.replaceState(
+          { page: "user/posts" },
+          "user/posts",
+          "user/posts"
         );
       }
     } else {
