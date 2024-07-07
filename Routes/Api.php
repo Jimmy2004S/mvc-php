@@ -31,6 +31,10 @@ class Api
                 'controller' => 'AdminController',
                 'method' => 'cambiarEstadoUsuario'
             ],
+            'api/user/posts' => [
+                'controller' => 'PostsController',
+                'method' => 'verMisPosts'
+            ],
             'api/posts' => [
                 'controller' => 'PostsController',
                 'method' => 'verPosts'
