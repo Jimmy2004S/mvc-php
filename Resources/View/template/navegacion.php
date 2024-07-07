@@ -90,7 +90,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="portfolio-link" href="../vistas/misProject.php">My portfolio</a>
+                            <a class="nav-link" id="mis-posts-link">My portfolio</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="groups-link" href="../vistas/misGrupos.php">My groups</a>

@@ -21,6 +21,10 @@ class Web
                 'controller' => 'HomeController',
                 'method' => 'inicioView'
             ],
+            'user/posts' => [
+                'controller' => 'PostsController',
+                'method' => 'verMisPostsView'
+            ],
             'admin/inicio' => [
                 'controller' => 'AdminController',
                 'method' => 'inicioView'

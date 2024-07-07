@@ -23,6 +23,7 @@ $(document).ready(function () {
     listarPosts();
   });
   $("#tendencias-link").on("click", function (e) {
+    
     history.replaceState(
       { page: "posts/tendencias" },
       "posts/tendencias",
@@ -30,7 +31,15 @@ $(document).ready(function () {
     );
     listarPostsTendencias();
   });
-
+  $("#mis-posts-link").on("click" , function (e){
+    window.location.href = 'user/posts';
+    history.replaceState(
+      { page: "user/posts" },
+      "user/posts",
+      "user/posts"
+    )
+    // listarMisPosts();
+  })
   $("#form-login").on("submit", function (e) {
     e.preventDefault(); // Prevenir el envío predeterminado del formulario
     var parametros = $(this).serialize(); // Serializar los datos del formulario
@@ -257,6 +266,9 @@ function cargarFunciones() {
           { page: "posts/tendencias" },
           "Tendencias",
           "posts/tendencias"
+        );
+      } else if (url === "/user/posts") {
+        history.replaceState( { page: "user/posts" },"user/posts", "user/posts"
         );
       }
     } else {
