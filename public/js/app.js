@@ -292,6 +292,7 @@ function cargarFunciones() {
           "posts/tendencias"
         );
       } else if (url === "/user/posts") {
+        $("#seleccionar-button").removeClass("desaparece");
         $("#my-perfil-link").addClass("active");
         listarMisPosts();
         history.replaceState(

@@ -13,14 +13,17 @@
                                           <a href="{{pdf_path}}" style="width: 40px" target="blank" class="card-link"><i class="fa-regular fa-folder-open"></i></a>
                                   </div>
                                   <div class="card-footer text-muted d-flex">
-                                          <div user-id="{{user_id}}" class="col-9">
+                                          <div user-id="{{user_id}}" class="col-7">
                                                   <p>{{author}}</p>
                                                   <p>Semestre {{semester_student}}</p>
                                                   <p>{{career_student}}</p>
                                           </div>
-                                          <div class="col-3 p-0 ms-auto">
+                                          <div class="col-5 p-0 ms-auto d-flex align-items-start justify-content-end">
                                                   <button type="button" class="like btn {{class}}">
                                                           <i class="like {{like_state}} fa-sharp fa-regular fa-heart me-2"></i>{{num_likes}} Likes
+                                                  </button>
+                                                  <button type="button" class="ms-3 btn btn-outline-dark desaparece" id="seleccionar-button">
+                                                          <i class="seleccionar fa-solid fa-hand-pointer"></i>
                                                   </button>
                                           </div>
                                   </div>

@@ -128,7 +128,7 @@ body{
         }
                  
 .desaparece{
-    display: none;
+    display: none !important;
 }
 
 .custom-btn.hide {
