@@ -187,7 +187,7 @@ async function renderPosts(posts, misPosts = false) {
 
     // Solicitar los archivos asociados al post
     try {
-      let fileResponse = await $.get("api/posts/files", {
+      let fileResponse = await $.get("api/post/files", {
         post_id: element.id,
       });
       let files = JSON.parse(fileResponse);
