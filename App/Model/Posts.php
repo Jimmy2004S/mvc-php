@@ -75,7 +75,8 @@ class Posts extends Model
         }
     }
 
-    public function selectPostsByUserId($user_id){
+    public function selectPostsByUserId($user_id)
+    {
         $sql = "SELECT p.*, COUNT(l.post_id) AS num_likes, 
                 u.user_name AS author, s.career AS career_student,
                 s.semester AS semester_student,
@@ -102,4 +103,32 @@ class Posts extends Model
         }
     }
 
+    public function selectPostById($post_id , $auth_user_id)
+    {
+        $sql = "SELECT p.*, COUNT(l.post_id) AS num_likes, 
+        u.user_name AS author, s.career AS career_student,
+        s.semester AS semester_student,
+        CASE WHEN EXISTS (SELECT 1 FROM likes WHERE post_id = p.id AND user_id = :auth_user_id) THEN TRUE ELSE FALSE END AS user_liked
+        FROM posts p
+        INNER JOIN users u ON u.id = p.user_id
+        LEFT JOIN students s on s.user_id = p.user_id
+        LEFT JOIN likes l ON l.post_id = p.id
+        WHERE p.id = :post_id
+        GROUP BY p.id
+        ORDER BY p.created_at DESC";
+        try {
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->bindParam(":post_id", $post_id, \PDO::PARAM_INT);
+            $stmt->bindParam(":auth_user_id", $post_id, \PDO::PARAM_INT);
+            $stmt->execute();
+            $post = $stmt->fetch(\PDO::FETCH_ASSOC);
+            if ($post) {
+                return [true, [$post]];
+            } else {
+                return [null, "Post no encontrado"];
+            }
+        } catch (\Exception $e) {
+            return [false, "Error en el servidor --selectpost " . $e->getMessage()];
+        }
+    }
 }

@@ -79,4 +79,21 @@ class PostsController extends Controller
         }
     }
 
+
+    public function verPost(){
+        $id = $_GET['id'];
+        $user = Auth::user();
+        $auth_user_id = $user['id'];
+        list($success, $data) = $this->posts->selectPostById($id, $auth_user_id);
+        if ($success === true) {
+            PostsResources::getResource($data);
+        } elseif ($success === false) {
+            http_response_code(500);
+            echo json_encode(["Error" => $data]);
+        } elseif (empty($success)) {
+            http_response_code(204);
+            echo json_encode([]);
+        }
+    }
+    
 }

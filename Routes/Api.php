@@ -43,6 +43,10 @@ class Api
                 'controller' => 'PostsController',
                 'method' => 'verPostsTendencias'
             ],
+            'api/post' => [
+                'controller' => 'PostsController',
+                'method' => 'verPost'
+            ],
             'api/post/files' => [
                 'controller' => 'FileController',
                 'method' => 'listarFilesPost'
