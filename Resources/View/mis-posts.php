@@ -11,32 +11,26 @@
                                                 <span aria-hidden="true"></span>
                                             </button>
                                         </div>
-                                        <form class="formulario-project" id="form-addProject" method="POST" enctype="multipart/form-data">
+                                        <form class="post-form" id="post-form" method="POST" enctype="multipart/form-data">
                                             <div class="modal-body">
                                                     <div class="input-form">
-                                                        <input type="hidden" readonly name="codigoProyecto" id="codigoProyecto" placeholder="Codigo Proyecto">
-                                                        <input type="hidden" readonly name="codigoPersona"id="codigoPersona" value="<?php echo $codigoPersonaLogin ?>">
-                                                        <input type="hidden" readonly name="fecha_inicio">
-                                                        <input type="text" id="nombreProyecto" name="nombreProyecto" required placeholder="Nombre de proyecto..." >
-                                                        <input type="text" name="descripcion" id="descripcion" required placeholder="Descripcion...">
-                                                        <select name="codigoGrupo" id="miSelectGrupo" required>
-                                                            <option selected="true" disabled="disabled">seleccione un grupo</option>
-                                                            <?php foreach ($listaCodigoGrupo as $grupos) {?>
-                                                                <option value="<?php echo $grupos['codigo_grupo']; ?>"> <?php echo $grupos['codigo_grupo']; ?> </option>
-                                                            <?php } ?>
-                                                        </select>
-                                                        <div class="p-0 ms-5 mt-3 ">
-                                                            <p class="mb-0 p-0" id="nombreArchivo"> </p></br>
-                                                            <input class="mt-0 p-0" type="file" required value="<?php echo $archivo ?>" name="archivo">
+                                                        <input type="hidden" readonly name="post_id" id="post_id">
+                                                        <input type="hidden" readonly name="user_id"id="user_id" value="{{id_persona}}">
+                                                        <input type="hidden" readonly name="created_at">
+                                                        <input type="text" id="post_title" name="title" required placeholder="Titulo del proyecto..." >
+                                                        <textarea class="form-control" id="post_description" name="description" required placeholder="Descripción..." rows="3" spellcheck="false"></textarea>
+                                                        <div>
+                                                            <p id="file_name"></p>
+                                                            <input type="file" required value="{{nombre_archivo}}" name="file">
                                                         </div> 
                                                     </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <div class="form-btn d-flex flex-column" id="acciones-formProyect">
-                                                    <input type="submit" name="accion"  class="btn btn-primary custom-btn" id="btn-registrar"  value="To register">
-                                                    <input type="submit" name="accion"  class="btn btn-primary custom-btn" id="btn-modificar" value="Modify">
+                                                <div class="form-btn d-flex flex-column" id="form-project-action">
+                                                    <input type="submit" name="action"  class="btn btn-primary custom-btn" id="btn-create-post"  value="publicar">
+                                                    <input type="submit" name="action"  class="btn btn-primary custom-btn" id="btn-update-post" value="actualizar">
                                                 </div>
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cerrar</button>
                                             </div>
                                         </form>
                                     </div>

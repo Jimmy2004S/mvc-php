@@ -22,8 +22,8 @@
                                                   <button type="button" class="like btn {{class}}">
                                                           <i class="like {{like_state}} fa-sharp fa-regular fa-heart me-2"></i>{{num_likes}} Likes
                                                   </button>
-                                                  <button type="button" class="ms-3 btn btn-outline-dark desaparece" id="seleccionar-button">
-                                                          <i class="seleccionar fa-solid fa-hand-pointer"></i>
+                                                  <button type="button" class="select ms-3 btn btn-outline-dark desaparece" id="seleccionar-button">
+                                                          <i class="select fa-solid fa-hand-pointer"></i>
                                                   </button>
                                           </div>
                                   </div>
