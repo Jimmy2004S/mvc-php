@@ -56,6 +56,31 @@ $(document).ready(function () {
     listarMisPosts();
   });
 
+  //Selecionar post
+  $(document).on('click' , '.select', function(){
+    let post_id = $(this).closest(".card").attr("post-id");
+    $('#miModal').modal('show');
+    document.getElementById('btn-create-post').classList.add('desaparece')
+    document.getElementById('btn-update-post').classList.remove('desaparece')
+
+    $.get('api/user/post' , {
+      post_id,
+    })
+    .done(function(response){
+      let post = JSON.parse(response)
+      console.log(post);
+      post.forEach(element => {
+        $('#post_id').val(element.id);
+        $('#post_title').val(element.title);
+        $('#post_description').val(element.description);
+      });
+    })
+    .fail(function (error){
+      console.error("Error:", error.responseText);
+      console.error("Status:", error.status);
+    })
+  })
+
   //Dar like a post
   $(document).on("click", ".like", function () {
     let post_id = $(this).closest(".card").attr("post-id");
