@@ -60,9 +60,7 @@ $(document).ready(function () {
   $(document).on("click", ".select-post", function () {
     let post_id = $(this).closest(".card").attr("post-id");
 
-    $.get("api/user/post", {
-      post_id,
-    })
+    $.get('api/user/post/' + post_id)
       .done(function (response) {
         let post = JSON.parse(response);
         console.log(post);
@@ -87,25 +85,23 @@ $(document).ready(function () {
   $(document).on("click", ".delete-post", function () {
     if (confirm("Are you sure you want to delete this post?")) {
       let post_id = $(this).closest(".card").attr("post-id");
-      $.get("api/post/delete", {
-        post_id,
-      })
-        .done(function (response) {
+      $.ajax({
+        url: 'api/post/' + post_id + '/delete',
+        type: "DELETE",
+        success: function (response) {
           listarMisPosts();
-        })
-        .fail(function (error) {
-          console.error("Error:", error.responseText);
-          console.error("Status:", error.status);
-        });
+        },
+        error: function (xhr, status, error) {
+          console.log(xhr.responseText);
+        },
+      })
     }
   });
 
   //Dar like a post
   $(document).on("click", ".like", function () {
     let post_id = $(this).closest(".card").attr("post-id");
-    $.get("like", {
-      post_id,
-    })
+    $.get('api/post/' + post_id + '/like')
       .done(function (response) {
         listarPosts();
       })
@@ -118,8 +114,8 @@ $(document).ready(function () {
   //cambiar estado de usuario
   $(document).on("click", ".state", function () {
     let element = $(this)[0].parentElement.parentElement;
-    let id = $(element).attr("userId");
-    $.post("api/users/state", { id })
+    let user_id = $(element).attr("userId");
+    $.get('api/user/' + user_id + '/state' )
       .done(function (response) {
         listarUsers();
       })
@@ -163,7 +159,7 @@ async function listarPosts() {
     // Solicitar los posts
     let response = await $.ajax({
       url: "api/posts",
-      type: "GET",
+      type: "POST",
       data: {
         search: search,
       },
@@ -171,6 +167,7 @@ async function listarPosts() {
 
     let posts = JSON.parse(response);
     renderPosts(posts);
+    console.log(posts);
   } catch (error) {
     console.error("Error:", error.status, error.responseText);
   }
@@ -231,9 +228,8 @@ async function renderPosts(posts, misPosts = false) {
 
     // Solicitar los archivos asociados al post
     try {
-      let fileResponse = await $.get("api/post/files", {
-        post_id: element.id,
-      });
+      let post_id = element.id;
+      let fileResponse = await $.get('api/post/' + post_id + '/files');
       let files = JSON.parse(fileResponse);
       files.forEach((file) => {
         if (file.type == "cover_image") {

@@ -47,7 +47,7 @@ class Api
                 'controller' => 'PostsController',
                 'method' => 'verPostsTendencias'
             ],
-            'api/post/{post_id}/files/' => [
+            'api/post/{post_id}/files' => [
                 'controller' => 'FileController',
                 'method' => 'listarFilesPost'
             ],
