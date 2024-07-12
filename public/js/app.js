@@ -57,11 +57,8 @@ $(document).ready(function () {
   });
 
   //Selecionar post
-  $(document).on('click' , '.select', function(){
+  $(document).on('click' , '.select-post', function(){
     let post_id = $(this).closest(".card").attr("post-id");
-    $('#miModal').modal('show');
-    document.getElementById('btn-create-post').classList.add('desaparece')
-    document.getElementById('btn-update-post').classList.remove('desaparece')
 
     $.get('api/user/post' , {
       post_id,
@@ -74,6 +71,9 @@ $(document).ready(function () {
         $('#post_title').val(element.title);
         $('#post_description').val(element.description);
       });
+      $('#miModal').modal('show');
+      document.getElementById('btn-create-post').classList.add('desaparece')
+      document.getElementById('btn-update-post').classList.remove('desaparece')
     })
     .fail(function (error){
       console.error("Error:", error.responseText);
@@ -317,7 +317,8 @@ function cargarFunciones() {
           "posts/tendencias"
         );
       } else if (url === "/user/posts") {
-        $("#seleccionar-button").removeClass("desaparece");
+        $("#select-post").removeClass("desaparece");
+        $("#delete-post").removeClass("desaparece");
         $("#my-perfil-link").addClass("active");
         listarMisPosts();
         history.replaceState(

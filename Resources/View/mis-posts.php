@@ -6,7 +6,6 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Manage project</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true"></span>
                                             </button>
@@ -30,7 +29,6 @@
                                                     <input type="submit" name="action"  class="btn btn-primary custom-btn" id="btn-create-post"  value="publicar">
                                                     <input type="submit" name="action"  class="btn btn-primary custom-btn" id="btn-update-post" value="actualizar">
                                                 </div>
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cerrar</button>
                                             </div>
                                         </form>
                                     </div>
