@@ -11,56 +11,68 @@ use Routes\Web;
 class App
 {
 
-    private $controllerClass;
+    private $controllerInstance;
+
     function __construct()
+    {
+        $this->handleRequest();
+    }
+
+    function handleRequest()
     {
         $uri = $_SERVER['REQUEST_URI']; //dominio/uri
         $uri = trim($uri, '/');
         if (empty($uri)) {
-            //Validar que session activa antes de redigirir
-            if (Auth::sessionActiva()) {
-                if (Auth::habilidad() == 'Administrador') {
-                    $this->controllerClass = new AdminController();
-                } else {
-                    $this->controllerClass = new HomeController();
-                }
-                $this->controllerClass->inicioView(); //Se lleva al inicio segun la habilidad de la session
-            } else {
-                $this->controllerClass = new SessionController();
-                $this->controllerClass->loginView();
-            }
+            $this->handleDefaultRoute();
             return;
         }
 
-        $uri = rtrim($uri, '/');
-        //Obtener las rutas
-        $routes = ( $this->isApiRequest() ) ? new Api() : new Web();
-        $route = $routes->getRoute($uri);
-
-        $archivoController = "../App/Controllers/" . $route['controller'] . ".php";
-        //Verificar si el controlador existe
-        if (file_exists($archivoController)) {
-            $this->middleware($route['method']);
-            require_once $archivoController;
-            $controllerClass = "App\Controllers\\" .  $route['controller'];
-            $controller = new $controllerClass();
-            //Verificar si el metodo existe
-            if (isset($route['method']) && method_exists($controller, $route['method'])) {
-                $controller->{$route['method']}();
-            } else {
-                echo "error: No hay metodo " . $route['method'];
-            }
+        $routes = ($this->isApiRequest()) ? new Api() : new Web();
+        list($route, $routeDetails, $params) = $routes->getRoute($uri); // Usamos el método del trait
+        if ($route) {
+            // Validar que session activa antes de llamar al método del controlador
+            $this->middleware($route);
+            $this->invokeControllerMethod($routeDetails, $params);
         } else {
-            echo "error: no existe el controlador " . $route['controller'];
+            $this->showError("404 Not Found");
         }
     }
 
 
-    private function middleware($method)
+    private function invokeControllerMethod($routeDetails, $params)
+    {
+        $controllerClass = "App\\Controllers\\" . $routeDetails['controller'];
+        $method = $routeDetails['method'];
+        if (class_exists($controllerClass)) {
+            $this->controllerInstance = new $controllerClass();
+            if (method_exists($this->controllerInstance, $method)) {
+                // Llamar al método del controlador con los parámetros extraídos
+                call_user_func_array([$this->controllerInstance, $method], $params);
+            } else {
+                $this->showError("Method $method not found in $controllerClass");
+            }
+        } else {
+            $this->showError("Controller class $controllerClass not found");
+        }
+    }
+
+    private function handleDefaultRoute()
+    {
+        //Validar que session activa antes de redigirir
+        if (Auth::sessionActiva()) {
+            $this->controllerInstance = Auth::habilidad() === 'Administrador' ? new AdminController() : new HomeController();
+            $this->controllerInstance->inicioView();
+        } else {
+            $this->controllerInstance = new SessionController();
+            $this->controllerInstance->loginView();
+        }
+    }
+
+    private function middleware($route)
     {
         // Verificar autenticacion en las rutas necesarias
-        if (isset($method)) {
-            if ($method == "login" || $method == "loginView" || $method == "logout" || $method == "logueado") {
+        if (isset($route)) {
+            if ($route == "api/login" || $route == "login" || $route == "api/logueado") {
                 return;
             }
         }
@@ -72,5 +84,10 @@ class App
     private function isApiRequest()
     {
         return strpos($_SERVER['REQUEST_URI'], '/api/') === 0;
+    }
+
+    private function showError($message)
+    {
+        echo "Error: $message";
     }
 }
