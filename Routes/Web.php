@@ -13,6 +13,10 @@ class Web
     public function __construct()
     {
         $this->routes = [
+            'login' => [
+                'controller' => 'SessionController',
+                'method' => 'loginView'
+            ],
             'inicio' => [
                 'controller' => 'HomeController',
                 'method' => 'inicioView'

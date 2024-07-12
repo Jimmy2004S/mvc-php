@@ -27,7 +27,7 @@ class Api
                 'controller' => 'AdminController',
                 'method' => 'verUsuarios'
             ],
-            'api/users/state' => [
+            'api/user/{user_id}/state' => [
                 'controller' => 'AdminController',
                 'method' => 'cambiarEstadoUsuario'
             ],
@@ -35,7 +35,7 @@ class Api
                 'controller' => 'PostsController',
                 'method' => 'verMisPosts'
             ],
-            'api/user/post' => [
+            'api/user/post/{post_id}' => [
                 'controller' => 'PostsController',
                 'method' => 'verPost'
             ],
@@ -47,18 +47,18 @@ class Api
                 'controller' => 'PostsController',
                 'method' => 'verPostsTendencias'
             ],
-            'api/post/files' => [
+            'api/post/{post_id}/files/' => [
                 'controller' => 'FileController',
                 'method' => 'listarFilesPost'
             ],
-            'api/like' => [
+            'api/post/{post_id}/like' => [
                 'controller' => 'LikeController',
                 'method' => 'like'
             ],
-            'api/post/delete' => [
+            'api/post/{post_id}/delete' => [
                 'controller' => 'PostsController',
                 'method' => 'eliminarPost'
-            ],
+            ]
         ];
     }
 }
