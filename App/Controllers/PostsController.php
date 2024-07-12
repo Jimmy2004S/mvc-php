@@ -19,11 +19,7 @@ class PostsController extends Controller
 
     public function verPosts()
     {
-        if (isset($_GET['search'])) {
-            $search = $_GET['search'];
-        } else {
-            $search = '';
-        }
+        $search = isset($_POST['search']) ? $_POST['search'] : '';
         $user = Auth::user();
         $auth_user_id = $user['id'];
         list($success, $data) = $this->posts->selectPosts($auth_user_id, $search);
@@ -40,11 +36,7 @@ class PostsController extends Controller
 
     public function verPostsTendencias()
     {
-        if (isset($_GET['search'])) {
-            $search = $_GET['search'];
-        } else {
-            $search = '';
-        }
+        $search = isset($_POST['search']) ? $_POST['search'] : '';
         $user = Auth::user();
         $auth_user_id = $user['id'];
         list($success, $data) = $this->posts->selectPostsLimitByLikes($auth_user_id, $search);
