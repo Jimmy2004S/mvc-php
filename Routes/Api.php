@@ -54,7 +54,11 @@ class Api
             'api/like' => [
                 'controller' => 'LikeController',
                 'method' => 'like'
-            ]
+            ],
+            'api/post/delete' => [
+                'controller' => 'PostsController',
+                'method' => 'eliminarPost'
+            ],
         ];
     }
 }

@@ -119,7 +119,7 @@ class Posts extends Model
         try {
             $stmt = $this->conexion->prepare($sql);
             $stmt->bindParam(":post_id", $post_id, \PDO::PARAM_INT);
-            $stmt->bindParam(":auth_user_id", $post_id, \PDO::PARAM_INT);
+            $stmt->bindParam(":auth_user_id", $auth_user_id, \PDO::PARAM_INT);
             $stmt->execute();
             $post = $stmt->fetch(\PDO::FETCH_ASSOC);
             if ($post) {
@@ -131,4 +131,27 @@ class Posts extends Model
             return [false, "Error en el servidor --selectpost " . $e->getMessage()];
         }
     }
+
+    public function deletePost($post_id, $auth_user_id)
+    {
+        list($success, $data) = $this->selectPostById($post_id, $auth_user_id);
+        if ($success === true) {
+            if ($data[0]['user_id'] == $auth_user_id) {
+                $sql = "DELETE FROM posts WHERE id = :post_id";
+                try {
+                    $stmt = $this->conexion->prepare($sql);
+                    $stmt->bindParam(":post_id", $post_id, \PDO::PARAM_INT);
+                    $stmt->execute();
+                    return [true, "Post eliminado"];
+                } catch (\PDOException $e) {
+                    return [false, $e->getMessage()];
+                }
+            } else {
+                return [null, "No tienes permisos para eliminar este post"];
+            }
+        } else {
+            return [$success, $data];
+        }
+    }
+
 }
