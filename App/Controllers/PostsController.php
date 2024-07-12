@@ -81,7 +81,7 @@ class PostsController extends Controller
 
 
     public function verPost(){
-        $id = $_GET['id'];
+        $id = $_GET['post_id'];
         $user = Auth::user();
         $auth_user_id = $user['id'];
         list($success, $data) = $this->posts->selectPostById($id, $auth_user_id);

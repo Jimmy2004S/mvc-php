@@ -35,6 +35,10 @@ class Api
                 'controller' => 'PostsController',
                 'method' => 'verMisPosts'
             ],
+            'api/user/post' => [
+                'controller' => 'PostsController',
+                'method' => 'verPost'
+            ],
             'api/posts' => [
                 'controller' => 'PostsController',
                 'method' => 'verPosts'
@@ -42,10 +46,6 @@ class Api
             'api/posts/trends' => [
                 'controller' => 'PostsController',
                 'method' => 'verPostsTendencias'
-            ],
-            'api/post' => [
-                'controller' => 'PostsController',
-                'method' => 'verPost'
             ],
             'api/post/files' => [
                 'controller' => 'FileController',
