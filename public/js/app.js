@@ -57,29 +57,48 @@ $(document).ready(function () {
   });
 
   //Selecionar post
-  $(document).on('click' , '.select-post', function(){
+  $(document).on("click", ".select-post", function () {
     let post_id = $(this).closest(".card").attr("post-id");
 
-    $.get('api/user/post' , {
+    $.get("api/user/post", {
       post_id,
     })
-    .done(function(response){
-      let post = JSON.parse(response)
-      console.log(post);
-      post.forEach(element => {
-        $('#post_id').val(element.id);
-        $('#post_title').val(element.title);
-        $('#post_description').val(element.description);
+      .done(function (response) {
+        let post = JSON.parse(response);
+        console.log(post);
+        post.forEach((element) => {
+          $("#post_id").val(element.id);
+          $("#post_title").val(element.title);
+          $("#post_description").val(element.description);
+        });
+        $("#miModal").modal("show");
+        document.getElementById("btn-create-post").classList.add("desaparece");
+        document
+          .getElementById("btn-update-post")
+          .classList.remove("desaparece");
+      })
+      .fail(function (error) {
+        console.error("Error:", error.responseText);
+        console.error("Status:", error.status);
       });
-      $('#miModal').modal('show');
-      document.getElementById('btn-create-post').classList.add('desaparece')
-      document.getElementById('btn-update-post').classList.remove('desaparece')
-    })
-    .fail(function (error){
-      console.error("Error:", error.responseText);
-      console.error("Status:", error.status);
-    })
-  })
+  });
+
+  //Delete post
+  $(document).on("click", ".delete-post", function () {
+    if (confirm("Are you sure you want to delete this post?")) {
+      let post_id = $(this).closest(".card").attr("post-id");
+      $.get("api/post/delete", {
+        post_id,
+      })
+        .done(function (response) {
+          listarMisPosts();
+        })
+        .fail(function (error) {
+          console.error("Error:", error.responseText);
+          console.error("Status:", error.status);
+        });
+    }
+  });
 
   //Dar like a post
   $(document).on("click", ".like", function () {
@@ -309,7 +328,7 @@ function cargarFunciones() {
         listarPosts();
         history.replaceState({ page: "inicio" }, "Inicio", "inicio");
       } else if (url === "/posts/tendencias") {
-        $("#tendencias-link").addClass("active")
+        $("#tendencias-link").addClass("active");
         listarPostsTendencias();
         history.replaceState(
           { page: "posts/tendencias" },
