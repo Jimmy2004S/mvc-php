@@ -71,24 +71,18 @@ class AdminController extends Controller
         }
     }
 
-    public function cambiarEstadoUsuario()
+    public function cambiarEstadoUsuario($user_id)
     {
-        if (isset($_POST['id'])) {
-            $id = $_POST['id'];
-            list($success, $data) = $this->user->updateUserState($id);
-            if ($success === true) {
-                http_response_code(200);
-                echo json_encode($data);
-            } elseif ($success === false) {
-                http_response_code(500); 
-                echo json_encode(["Error" => $data]);
-            } else {
-                http_response_code(400);
-                echo json_encode(["Error" => "Solicitud no válida"]);
-            }
+        list($success, $data) = $this->user->updateUserState($user_id);
+        if ($success === true) {
+            http_response_code(200);
+            echo json_encode($data);
+        } elseif ($success === false) {
+            http_response_code(500);
+            echo json_encode(["Error" => $data]);
         } else {
             http_response_code(400);
-            echo json_encode(["Error" => "ID no proporcionado"]);
+            echo json_encode(["Error" => "Solicitud no válida"]);
         }
     }
 

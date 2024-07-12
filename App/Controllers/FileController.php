@@ -13,9 +13,8 @@ class FileController extends Controller{
         parent::__construct();
         $this->file = new File();
     }
-    public function listarFilesPost()
+    public function listarFilesPost(        $post_id)
     {
-        $post_id = $_GET['post_id'];
         list($success, $data) = $this->file->selectFilesPosts($post_id);
         if ($success) {
             $json = [];

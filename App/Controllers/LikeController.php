@@ -13,8 +13,7 @@ class LikeController extends Controller{
         $this->like = new Like();
     }
 
-    public function like(){
-        $post_id = $_GET['post_id'];
+    public function like($post_id){
         $user = Auth::user();
         $user_id = $user['id'];
         list($success, $data) = $this->like->like($post_id, $user_id);

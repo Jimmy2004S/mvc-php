@@ -80,11 +80,10 @@ class PostsController extends Controller
     }
 
 
-    public function verPost(){
-        $id = $_GET['post_id'];
+    public function verPost($post_id){
         $user = Auth::user();
         $auth_user_id = $user['id'];
-        list($success, $data) = $this->posts->selectPostById($id, $auth_user_id);
+        list($success, $data) = $this->posts->selectPostById($post_id, $auth_user_id);
         if ($success === true) {
             PostsResources::getResource($data);
         } elseif ($success === false) {
@@ -96,8 +95,7 @@ class PostsController extends Controller
         }
     }
 
-     public function eliminarPost(){
-        $post_id = $_GET['post_id'];
+     public function eliminarPost($post_id){
         $user = Auth::user();
         $auth_user_id = $user['id'];
         list($success, $data) = $this->posts->deletePost($post_id, $auth_user_id);
