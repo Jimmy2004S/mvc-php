@@ -139,23 +139,16 @@ class Posts extends Model
 
     public function deletePost($post_id, $auth_user_id)
     {
-        list($success, $data) = $this->selectPostById($post_id, $auth_user_id);
+        list($success, $model) = $this->find($post_id, ['user_id']);
         if ($success === true) {
-            if ($data[0]['user_id'] == $auth_user_id) {
-                $sql = "DELETE FROM posts WHERE id = :post_id";
-                try {
-                    $stmt = $this->conexion->prepare($sql);
-                    $stmt->bindParam(":post_id", $post_id, \PDO::PARAM_INT);
-                    $stmt->execute();
-                    return [true, "Post eliminado"];
-                } catch (\PDOException $e) {
-                    return [false, $e->getMessage()];
-                }
+            $data = $model->first();
+            if ($data['user_id'] == $auth_user_id) {
+                return $this->delete($post_id);
             } else {
                 return [null, "No tienes permisos para eliminar este post"];
             }
         } else {
-            return [$success, $data];
+            return [$success, $model];
         }
     }
 

@@ -83,7 +83,8 @@ class Model extends DB
         try {
             $stmt = $this->conexion->prepare($sql);
             $stmt->bindParam(':value', $value, \PDO::PARAM_STR);
-            $this->query = $stmt->execute();
+            $stmt->execute();
+            $this->query = $stmt;
             return [true, $this];
         } catch (\PDOException $e) {
             return [false, $e->getMessage()];
