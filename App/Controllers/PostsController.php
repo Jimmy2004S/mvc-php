@@ -16,6 +16,7 @@ class PostsController extends Controller
     {
         parent::__construct();
         $this->posts = new Posts();
+        $this->fileController = new FileController();
     }
 
     public function verPosts()
@@ -98,7 +99,6 @@ class PostsController extends Controller
         $description = isset($_POST['description']) ? $_POST['description'] : '';
         list($success, $data) = $this->posts->insert($title, $description, $auth_user_id);
         if ($success == true) {
-            $this->fileController = new FileController();
             list($success, $data) = $this->fileController->crearFiles($data);
             if ($success === true) {
                 http_response_code(201);
@@ -114,16 +114,24 @@ class PostsController extends Controller
     {
         $user = Auth::user();
         $auth_user_id = $user['id'];
-        list($success, $data) = $this->posts->deletePost($post_id, $auth_user_id);
+        list($success, $data) = $this->fileController->deleteFiles($post_id);
         if ($success === true) {
-            http_response_code(204);
-            echo json_encode([]);
-        } elseif ($success === false) {
-            http_response_code(500);
-            echo json_encode(["Error" => $data]);
-        } elseif ($success === null) {
+            list($success, $data) = $this->posts->deletePost($post_id, $auth_user_id);
+            if ($success === true) {
+                http_response_code(204);
+                echo json_encode([]);
+                return;
+            }
+        } 
+        if ($success === null) {
             http_response_code(404);
             echo json_encode(["Error" => $data]);
+            return;
+        }
+        if($success === false){
+            http_response_code(500);
+            echo json_encode(["Error" => $data]);
+            return;
         }
     }
 }

@@ -49,4 +49,16 @@ class File extends Model
             return [false, "Error en el servidor:  --insertFile " . $e->getMessage()];
         }
     }
+
+    public function delete($post_id){
+        $sql = "DELETE FROM files WHERE post_id = :post_id";
+        try {
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->bindParam(":post_id", $post_id, \PDO::PARAM_INT);
+            $stmt->execute();
+            return [true, "Archivos eliminados"];
+        } catch (\PDOException $e) {
+            return [false, "Error en el servidor:  --deleteFiles ". $e->getMessage()];
+        }
+    }
 }

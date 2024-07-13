@@ -48,7 +48,7 @@ class FileController extends Controller
         list($success, $data) = $this->file->insert($pdfName, 'public/pdf/' . $pdfName, $coverImgName, 'public/cover_image/' . $coverImgName, $post_id);
         if ($success === true) {
             list($success, $data) = $this->uploadFiles($coverImgName, $pdfName);
-            if($success === true){
+            if ($success === true) {
                 return [true, ''];
             }
         }
@@ -72,6 +72,27 @@ class FileController extends Controller
             return [true, ''];
         } catch (Exception $e) {
             return [false, $e->getMessage()];
+        }
+    }
+
+    public function deleteFiles($post_id)
+    {
+        list($success, $data) = $this->file->selectFilesPosts($post_id);
+        if ($success) {
+            try {
+                $projectRoot = dirname(__DIR__, 2);
+                foreach ($data as $row) {
+                    $path = $projectRoot . '/' . str_replace('\\', '/', $row['path']);
+                    if (file_exists($path)) {
+                        unlink($path);
+                    }
+                }
+                return [true, ''];
+            } catch (Exception $e) {
+                return [false, 'Error al eliminar los archivos del post'];
+            }
+        } else {
+            return [false, 'Error al seleccionar los archivos del post'];
         }
     }
 }
