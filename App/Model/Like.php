@@ -30,19 +30,9 @@ class Like extends Model
         return $this->insert(['post_id', 'user_id'], [$post_id, $user_id]);
     }
 
-    private function deleteLike($like_id)
+    private function deleteLike($id)
     {
-        $sql = "DELETE FROM likes WHERE id = :id";
-        try{
-            $stmt = $this->conexion->prepare($sql);
-            $stmt->bindParam(':id', $like_id, \PDO::PARAM_INT);
-            $stmt->execute();
-            if ($stmt->rowCount() > 0) {
-                return [true, ""];
-            }
-        }catch(\PDOException $e){
-            return [false, "Error en el servidor --deletelike" . $e->getMessage()];
-        }
+        return $this->delete($id);
     }
 
 
