@@ -1,10 +1,13 @@
-<?php 
+<?php
+
 namespace App\Model;
 
 use Lib\Model;
 
-class File extends Model{
-    public function __construct(){
+class File extends Model
+{
+    public function __construct()
+    {
         parent::__construct();
     }
 
@@ -23,6 +26,27 @@ class File extends Model{
             }
         } catch (\PDOException $e) {
             return [false, "Error en el servidor:  --selectfiles " . $e->getMessage()];
+        }
+    }
+
+    public function insert($pdfName, $pdfPath, $coverImgName, $coverImgPath, $post_id)
+    {
+        $sql = "INSERT INTO `files` (`name`, `path`, `post_id`, `type`) VALUES 
+                (:pdfName, :pdfPath, :post_id, 'pdf'),
+                (:coverImgName, :coverImgPath, :post_id, 'cover_image')";
+        try {
+            $stmt = $this->conexion->prepare($sql);
+            // Asignar los valores a los parámetros
+            $stmt->bindParam(':pdfName', $pdfName);
+            $stmt->bindParam(':pdfPath', $pdfPath);
+            $stmt->bindParam(':coverImgName', $coverImgName);
+            $stmt->bindParam(':coverImgPath', $coverImgPath);
+            $stmt->bindParam(':post_id', $post_id);
+            // Ejecutar la consulta
+            $stmt->execute();
+            return [true, "Archivo agregado"];
+        } catch (\PDOException $e) {
+            return [false, "Error en el servidor:  --insertFile " . $e->getMessage()];
         }
     }
 }
