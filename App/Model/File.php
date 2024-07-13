@@ -29,7 +29,7 @@ class File extends Model
         }
     }
 
-    public function insert($pdfName, $pdfPath, $coverImgName, $coverImgPath, $post_id)
+    public function insertFile($pdfName, $pdfPath, $coverImgName, $coverImgPath, $post_id)
     {
         $sql = "INSERT INTO `files` (`name`, `path`, `post_id`, `type`) VALUES 
                 (:pdfName, :pdfPath, :post_id, 'pdf'),
@@ -50,7 +50,7 @@ class File extends Model
         }
     }
 
-    public function delete($post_id){
+    public function deleteFile($post_id){
         $sql = "DELETE FROM files WHERE post_id = :post_id";
         try {
             $stmt = $this->conexion->prepare($sql);

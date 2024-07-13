@@ -45,7 +45,7 @@ class FileController extends Controller
     {
         $pdfName = isset($_FILES['pdf']['name']) ? $_FILES['pdf']['name'] : '';
         $coverImgName = isset($_FILES['cover_image']['name']) ? $_FILES['cover_image']['name']  : '';
-        list($success, $data) = $this->file->insert($pdfName, 'public/pdf/' . $pdfName, $coverImgName, 'public/cover_image/' . $coverImgName, $post_id);
+        list($success, $data) = $this->file->insertFile($pdfName, 'public/pdf/' . $pdfName, $coverImgName, 'public/cover_image/' . $coverImgName, $post_id);
         if ($success === true) {
             list($success, $data) = $this->uploadFiles($coverImgName, $pdfName);
             if ($success === true) {

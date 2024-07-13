@@ -97,8 +97,8 @@ class PostsController extends Controller
         $auth_user_id = $user['id'];
         $title = isset($_POST['title']) ? $_POST['title'] : '';
         $description = isset($_POST['description']) ? $_POST['description'] : '';
-        list($success, $data) = $this->posts->insert($title, $description, $auth_user_id);
-        if ($success == true) {
+        list($success, $data) = $this->posts->insertPost($title, $description, $auth_user_id);
+        if ($success === true) {
             list($success, $data) = $this->fileController->crearFiles($data);
             if ($success === true) {
                 http_response_code(201);
