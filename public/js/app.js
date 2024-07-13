@@ -209,7 +209,7 @@ async function listarPostsTendencias() {
     // Solicitar los posts
     let response = await $.ajax({
       url: "api/posts/trends",
-      type: "GET",
+      type: "POST",
       data: {
         search: search,
       },
