@@ -132,6 +132,21 @@ class Posts extends Model
         }
     }
 
+    public function insert($title, $description, $user_id){
+        $sql = "INSERT INTO posts (title, description, user_id) VALUES (:title, :description, :user_id)";
+        try{
+            $stmt = $this->conexion->prepare($sql);
+            $stmt->bindParam(":title", $title, \PDO::PARAM_STR);
+            $stmt->bindParam(":description", $description, \PDO::PARAM_STR);
+            $stmt->bindParam(":user_id", $user_id, \PDO::PARAM_INT);
+            $stmt->execute();
+            $id = $this->conexion->lastInsertId();
+            return [true, $id];
+        }catch(\PDOException $e){
+            return [false, "Error en el servidor --insertpost " . $e->getMessage()];
+        }
+    }
+
     public function deletePost($post_id, $auth_user_id)
     {
         list($success, $data) = $this->selectPostById($post_id, $auth_user_id);

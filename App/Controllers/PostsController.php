@@ -11,6 +11,7 @@ class PostsController extends Controller
 {
 
     private $posts;
+    private $fileController;
     public function __construct()
     {
         parent::__construct();
@@ -51,7 +52,8 @@ class PostsController extends Controller
         }
     }
 
-    public function verMisPostsView(){
+    public function verMisPostsView()
+    {
         $this->view->render('mis-posts');
     }
 
@@ -72,7 +74,8 @@ class PostsController extends Controller
     }
 
 
-    public function verPost($post_id){
+    public function verPost($post_id)
+    {
         $user = Auth::user();
         $auth_user_id = $user['id'];
         list($success, $data) = $this->posts->selectPostById($post_id, $auth_user_id);
@@ -87,20 +90,40 @@ class PostsController extends Controller
         }
     }
 
-     public function eliminarPost($post_id){
+    public function crearPost()
+    {
+        $user = Auth::user();
+        $auth_user_id = $user['id'];
+        $title = isset($_POST['title']) ? $_POST['title'] : '';
+        $description = isset($_POST['description']) ? $_POST['description'] : '';
+        list($success, $data) = $this->posts->insert($title, $description, $auth_user_id);
+        if ($success == true) {
+            $this->fileController = new FileController();
+            list($success, $data) = $this->fileController->crearFiles($data);
+            if ($success === true) {
+                http_response_code(201);
+                echo json_encode($data);
+                return;
+            }
+        }
+        http_response_code(500);
+        echo json_encode(["Error" => $data]);
+    }
+
+    public function eliminarPost($post_id)
+    {
         $user = Auth::user();
         $auth_user_id = $user['id'];
         list($success, $data) = $this->posts->deletePost($post_id, $auth_user_id);
-        if($success === true){
+        if ($success === true) {
             http_response_code(204);
             echo json_encode([]);
-        } elseif($success === false){
+        } elseif ($success === false) {
             http_response_code(500);
             echo json_encode(["Error" => $data]);
-        }elseif($success === null){
+        } elseif ($success === null) {
             http_response_code(404);
             echo json_encode(["Error" => $data]);
         }
     }
-    
 }

@@ -39,6 +39,10 @@ class Api
                 'controller' => 'PostsController',
                 'method' => 'verPost'
             ],
+            'api/post/create' => [
+                'controller' => 'PostsController',
+                'method' => 'crearPost'
+            ],
             'api/posts' => [
                 'controller' => 'PostsController',
                 'method' => 'verPosts'
