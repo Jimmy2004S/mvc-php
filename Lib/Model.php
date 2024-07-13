@@ -93,11 +93,15 @@ class Model extends DB
 
     public function insert($columns = [], $values = [])
     {
+        // Añadimos created_at a las columnas y su valor correspondiente a los valores
+        $columns[] = 'created_at';
+        $values[] = $this->basicCurrentFormatDate();
+
         // Convertimos el array de columnas a una cadena separada por comas
         $columnsStr = implode(', ', $columns);
         // Preparamos las cadenas de valores con los placeholders
         $valuesStr = ':' . implode(', :', $columns);
-        // Construimos la consulta SQL
+
         $sql = "INSERT INTO {$this->table} ({$columnsStr}) VALUES ({$valuesStr})";
         try {
             $stmt = $this->conexion->prepare($sql);
@@ -108,14 +112,15 @@ class Model extends DB
                 $stmt->bindValue(':' . $column, $value, $param_type);
             }
             $stmt->execute();
-            if($stmt->rowCount() > 0 ){
+            if ($stmt->rowCount() > 0) {
                 $id = $this->conexion->lastInsertId();
-                return [ true, $id];
+                return [true, $id];
             }
         } catch (\PDOException $e) {
             return [false, $e->getMessage()];
         }
     }
+
 
 
     public function delete($value, $operator = '=', $column = 'id')

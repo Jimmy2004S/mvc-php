@@ -6,6 +6,8 @@ use Lib\Model;
 
 class Like extends Model
 {
+
+    protected $table = 'likes';
     public function __construct()
     {
         parent::__construct();
@@ -25,19 +27,7 @@ class Like extends Model
 
     private function insertLike($post_id, $user_id)
     {
-        $sql = "INSERT INTO likes (post_id, user_id, created_at) VALUES (:post_id, :user_id, :created_at)";
-        try {
-            $stmt = $this->conexion->prepare($sql);
-            $stmt->bindParam(':post_id', $post_id, \PDO::PARAM_INT);
-            $stmt->bindParam(':user_id', $user_id, \PDO::PARAM_INT);
-            $stmt->bindValue('created_at', $this->basicCurrentFormatDate());
-            $stmt->execute();
-            if ($stmt->rowCount() > 0) {
-                return [true, "like"];
-            }
-        } catch (\PDOException $e) {
-            return [false, "Error en el servidor ---darlike" . $e];
-        }
+        return $this->insert(['post_id', 'user_id'], [$post_id, $user_id]);
     }
 
     private function deleteLike($like_id)
