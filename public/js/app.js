@@ -56,11 +56,41 @@ $(document).ready(function () {
     listarMisPosts();
   });
 
+  //Abrir model para crear post
+  $("#add-post").on("click", function (e) {
+    $("#post_id").val("");
+    $("#post_title").val("");
+    $("#post_description").val("");
+    $("#miModal").modal("show");
+    document.getElementById("btn-create-post").classList.remove("desaparece");
+    document.getElementById("btn-update-post").classList.add("desaparece");
+  });
+
+  //Agregar post
+  $("#post-form input[type=submit]").click(function(e){
+    e.preventDefault(); // Prevenir el envío predeterminado del formulario
+    var parametros = new FormData($('#post-form')[0]);
+    console.log(parametros);
+    crearPost(parametros);
+  })
+
+  // Mostrar la imagen selecionada
+  document
+    .getElementById("cover_image_input")
+    .addEventListener("change", function (event) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        var output = document.getElementById("cover_image_preview");
+        output.src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    });
+
   //Selecionar post
   $(document).on("click", ".select-post", function () {
     let post_id = $(this).closest(".card").attr("post-id");
 
-    $.get('api/user/post/' + post_id)
+    $.get("api/user/post/" + post_id)
       .done(function (response) {
         let post = JSON.parse(response);
         console.log(post);
@@ -86,7 +116,7 @@ $(document).ready(function () {
     if (confirm("Are you sure you want to delete this post?")) {
       let post_id = $(this).closest(".card").attr("post-id");
       $.ajax({
-        url: 'api/post/' + post_id + '/delete',
+        url: "api/post/" + post_id + "/delete",
         type: "DELETE",
         success: function (response) {
           listarMisPosts();
@@ -94,14 +124,14 @@ $(document).ready(function () {
         error: function (xhr, status, error) {
           console.log(xhr.responseText);
         },
-      })
+      });
     }
   });
 
   //Dar like a post
   $(document).on("click", ".like", function () {
     let post_id = $(this).closest(".card").attr("post-id");
-    $.get('api/post/' + post_id + '/like')
+    $.get("api/post/" + post_id + "/like")
       .done(function (response) {
         listarPosts();
       })
@@ -115,7 +145,7 @@ $(document).ready(function () {
   $(document).on("click", ".state", function () {
     let element = $(this)[0].parentElement.parentElement;
     let user_id = $(element).attr("userId");
-    $.get('api/user/' + user_id + '/state' )
+    $.get("api/user/" + user_id + "/state")
       .done(function (response) {
         listarUsers();
       })
@@ -229,7 +259,7 @@ async function renderPosts(posts, misPosts = false) {
     // Solicitar los archivos asociados al post
     try {
       let post_id = element.id;
-      let fileResponse = await $.get('api/post/' + post_id + '/files');
+      let fileResponse = await $.get("api/post/" + post_id + "/files");
       let files = JSON.parse(fileResponse);
       files.forEach((file) => {
         if (file.type == "cover_image") {
@@ -253,6 +283,24 @@ async function renderPosts(posts, misPosts = false) {
   } else {
     $("#all-posts").html(template);
   }
+}
+
+function crearPost(parametros){
+  $.ajax({
+    url: 'api/post/create',
+    method: 'POST',
+    data: parametros,
+    processData: false,
+    contentType: false,
+    success: function(response){
+      console.log(response);
+      listarMisPosts();
+      $("#miModal").modal("hide");
+    },
+    error: function(xhr, status, error){
+      console.log(xhr.responseText);
+    }
+  })
 }
 
 //Admin
