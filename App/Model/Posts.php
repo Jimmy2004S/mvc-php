@@ -8,6 +8,15 @@ use Lib\Util\Auth;
 class Posts extends Model
 {
     protected $table = 'posts';
+    private const SQL_BASE_SELECT = "SELECT p.*, COUNT(l.post_id) AS num_likes, 
+                u.user_name AS author, s.career AS career_student,
+                s.semester AS semester_student,
+                CASE WHEN EXISTS (SELECT 1 FROM likes WHERE post_id = p.id AND user_id = :auth_user_id) THEN TRUE ELSE FALSE END AS user_liked
+                FROM posts p
+                INNER JOIN users u ON u.id = p.user_id
+                LEFT JOIN students s on s.user_id = p.user_id
+                LEFT JOIN likes l ON l.post_id = p.id";
+
     public function __construct()
     {
         parent::__construct();
@@ -15,15 +24,7 @@ class Posts extends Model
 
     public function selectPosts($auth_user_id, $search)
     {
-        $sql = "SELECT p.*, COUNT(l.post_id) AS num_likes, 
-                u.user_name AS author, s.career AS career_student,
-                s.semester AS semester_student,
-                CASE WHEN EXISTS (SELECT 1 FROM likes WHERE post_id = p.id AND user_id = :auth_user_id) THEN TRUE ELSE FALSE END AS user_liked
-                FROM posts p
-                INNER JOIN users u ON u.id = p.user_id
-                LEFT JOIN students s on s.user_id = p.user_id
-                LEFT JOIN likes l ON l.post_id = p.id
-                WHERE s.career LIKE :search OR LOWER(CONCAT('Semestre ', s.semester)) LIKE LOWER(:search) OR u.user_name LIKE :search
+        $sql = self::SQL_BASE_SELECT . " WHERE s.career LIKE :search OR LOWER(CONCAT('Semestre ', s.semester)) LIKE LOWER(:search) OR u.user_name LIKE :search
                 GROUP BY p.id
                 ORDER BY p.created_at DESC";
 
@@ -46,14 +47,7 @@ class Posts extends Model
 
     public function selectPostsLimitByLikes($auth_user_id, $search)
     {
-        $sql = "SELECT p.*, COUNT(l.post_id) AS num_likes, 
-                u.user_name AS author, s.career AS career_student,
-                s.semester AS semester_student,
-                CASE WHEN EXISTS (SELECT 1 FROM likes WHERE post_id = p.id AND user_id = :auth_user_id) THEN TRUE ELSE FALSE END AS user_liked
-                FROM posts p
-                INNER JOIN users u ON u.id = p.user_id
-                LEFT JOIN students s on s.user_id = p.user_id
-                LEFT JOIN likes l ON l.post_id = p.id
+        $sql = self::SQL_BASE_SELECT . " 
                 WHERE s.career LIKE :search OR LOWER(CONCAT('Semestre ', s.semester)) LIKE LOWER(:search) OR u.user_name LIKE :search
                 GROUP BY p.id
                 ORDER BY COUNT(l.post_id) DESC
@@ -104,16 +98,9 @@ class Posts extends Model
         }
     }
 
-    public function selectPostById($post_id , $auth_user_id)
+    public function selectPostById($post_id, $auth_user_id)
     {
-        $sql = "SELECT p.*, COUNT(l.post_id) AS num_likes, 
-        u.user_name AS author, s.career AS career_student,
-        s.semester AS semester_student,
-        CASE WHEN EXISTS (SELECT 1 FROM likes WHERE post_id = p.id AND user_id = :auth_user_id) THEN TRUE ELSE FALSE END AS user_liked
-        FROM posts p
-        INNER JOIN users u ON u.id = p.user_id
-        LEFT JOIN students s on s.user_id = p.user_id
-        LEFT JOIN likes l ON l.post_id = p.id
+        $sql = self::SQL_BASE_SELECT . " 
         WHERE p.id = :post_id
         GROUP BY p.id
         ORDER BY p.created_at DESC";
@@ -133,7 +120,8 @@ class Posts extends Model
         }
     }
 
-    public function insertPost($title, $description, $user_id){
+    public function insertPost($title, $description, $user_id)
+    {
         return $this->insert(['title', 'description', 'user_id'], [$title, $description, $user_id]);
     }
 
@@ -151,5 +139,4 @@ class Posts extends Model
             return [$success, $model];
         }
     }
-
 }
