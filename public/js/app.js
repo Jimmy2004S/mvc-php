@@ -75,16 +75,17 @@ $(document).ready(function () {
   })
 
   // Mostrar la imagen selecionada
-  document
-    .getElementById("cover_image_input")
-    .addEventListener("change", function (event) {
-      var reader = new FileReader();
-      reader.onload = function () {
-        var output = document.getElementById("cover_image_preview");
-        output.src = reader.result;
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    });
+ const coverImageInput = document.getElementById("cover_image_input");
+ if (coverImageInput) {
+   coverImageInput.addEventListener("change", function (event) {
+     var reader = new FileReader();
+     reader.onload = function () {
+       var output = document.getElementById("cover_image_preview");
+       output.src = reader.result;
+     };
+     reader.readAsDataURL(event.target.files[0]);
+   });
+ }
 
   //Selecionar post
   $(document).on("click", ".select-post", function () {
@@ -133,7 +134,7 @@ $(document).ready(function () {
     let post_id = $(this).closest(".card").attr("post-id");
     $.get("api/post/" + post_id + "/like")
       .done(function (response) {
-        listarPosts();
+        cargarFunciones();
       })
       .fail(function (error) {
         console.error("Error:", error.responseText);
