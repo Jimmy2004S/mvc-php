@@ -2,8 +2,8 @@
     "packages": [
         {
             "name": "graham-campbell/result-type",
-            "version": "v1.1.2",
-            "version_normalized": "1.1.2.0",
+            "version": "1.1.x-dev",
+            "version_normalized": "1.1.9999999.9999999-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Result-Type.git",
@@ -23,6 +23,7 @@
                 "phpunit/phpunit": "^8.5.34 || ^9.6.13 || ^10.4.2"
             },
             "time": "2023-11-12T22:16:48+00:00",
+            "default-branch": true,
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -72,19 +73,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jimmy2004S/jenyus-class-base-php.git",
-                "reference": "64f800645539eb541b3aff4e63e781b71e38eef5"
+                "reference": "0762df74b741e5fc821b3d9d640fc0e77b5c7b10"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jimmy2004S/jenyus-class-base-php/zipball/64f800645539eb541b3aff4e63e781b71e38eef5",
-                "reference": "64f800645539eb541b3aff4e63e781b71e38eef5",
+                "url": "https://api.github.com/repos/Jimmy2004S/jenyus-class-base-php/zipball/0762df74b741e5fc821b3d9d640fc0e77b5c7b10",
+                "reference": "0762df74b741e5fc821b3d9d640fc0e77b5c7b10",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
                 "vlucas/phpdotenv": "5.6"
             },
-            "time": "2024-07-16T19:49:31+00:00",
+            "time": "2024-07-16T21:39:33+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "source",
@@ -111,17 +112,17 @@
         },
         {
             "name": "phpoption/phpoption",
-            "version": "1.9.2",
-            "version_normalized": "1.9.2.0",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/php-option.git",
-                "reference": "80735db690fe4fc5c76dfa7f9b770634285fa820"
+                "reference": "416ca2ac2a84555b785a98002d613fe13d1d1c2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/80735db690fe4fc5c76dfa7f9b770634285fa820",
-                "reference": "80735db690fe4fc5c76dfa7f9b770634285fa820",
+                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/416ca2ac2a84555b785a98002d613fe13d1d1c2f",
+                "reference": "416ca2ac2a84555b785a98002d613fe13d1d1c2f",
                 "shasum": ""
             },
             "require": {
@@ -131,12 +132,13 @@
                 "bamarni/composer-bin-plugin": "^1.8.2",
                 "phpunit/phpunit": "^8.5.34 || ^9.6.13 || ^10.4.2"
             },
-            "time": "2023-11-12T21:59:55+00:00",
+            "time": "2023-11-12T22:52:20+00:00",
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "bamarni-bin": {
                     "bin-links": true,
-                    "forward-command": true
+                    "forward-command": false
                 },
                 "branch-alias": {
                     "dev-master": "1.9-dev"
@@ -173,7 +175,7 @@
             ],
             "support": {
                 "issues": "https://github.com/schmittjoh/php-option/issues",
-                "source": "https://github.com/schmittjoh/php-option/tree/1.9.2"
+                "source": "https://github.com/schmittjoh/php-option/tree/master"
             },
             "funding": [
                 {
@@ -189,8 +191,8 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.30.0",
-            "version_normalized": "1.30.0.0",
+            "version": "1.x-dev",
+            "version_normalized": "1.9999999.9999999.9999999-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -212,6 +214,7 @@
                 "ext-ctype": "For best performance"
             },
             "time": "2024-05-31T15:07:36+00:00",
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "thanks": {
@@ -271,17 +274,17 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.30.0",
-            "version_normalized": "1.30.0.0",
+            "version": "1.x-dev",
+            "version_normalized": "1.9999999.9999999.9999999-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "fd22ab50000ef01661e2a31d850ebaa297f8e03c"
+                "reference": "8740a072b86292957feb42703edde77fcfca84fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/fd22ab50000ef01661e2a31d850ebaa297f8e03c",
-                "reference": "fd22ab50000ef01661e2a31d850ebaa297f8e03c",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/8740a072b86292957feb42703edde77fcfca84fb",
+                "reference": "8740a072b86292957feb42703edde77fcfca84fb",
                 "shasum": ""
             },
             "require": {
@@ -293,7 +296,8 @@
             "suggest": {
                 "ext-mbstring": "For best performance"
             },
-            "time": "2024-06-19T12:30:46+00:00",
+            "time": "2024-06-20T08:18:00+00:00",
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "thanks": {
@@ -334,7 +338,7 @@
                 "shim"
             ],
             "support": {
-                "source": "https://github.com/symfony/polyfill-mbstring/tree/v1.30.0"
+                "source": "https://github.com/symfony/polyfill-mbstring/tree/1.x"
             },
             "funding": [
                 {
@@ -354,8 +358,8 @@
         },
         {
             "name": "symfony/polyfill-php80",
-            "version": "v1.30.0",
-            "version_normalized": "1.30.0.0",
+            "version": "1.x-dev",
+            "version_normalized": "1.9999999.9999999.9999999-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php80.git",
@@ -371,6 +375,7 @@
                 "php": ">=7.1"
             },
             "time": "2024-05-31T15:07:36+00:00",
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "thanks": {
