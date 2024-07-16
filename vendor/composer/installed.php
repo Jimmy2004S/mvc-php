@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '557735dda8b31b349fc64e728b9c299b59ca178a',
+        'reference' => '35f05b09e745a6fb3b5e021af6f92a604a404d67',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '557735dda8b31b349fc64e728b9c299b59ca178a',
+            'reference' => '35f05b09e745a6fb3b5e021af6f92a604a404d67',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -26,6 +26,17 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../graham-campbell/result-type',
             'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'jenyus/class-base-php' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '64f800645539eb541b3aff4e63e781b71e38eef5',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../jenyus/class-base-php',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
             'dev_requirement' => false,
         ),
         'phpoption/phpoption' => array(

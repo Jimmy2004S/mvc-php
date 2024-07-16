@@ -66,6 +66,50 @@
             "install-path": "../graham-campbell/result-type"
         },
         {
+            "name": "jenyus/class-base-php",
+            "version": "dev-main",
+            "version_normalized": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Jimmy2004S/jenyus-class-base-php.git",
+                "reference": "64f800645539eb541b3aff4e63e781b71e38eef5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Jimmy2004S/jenyus-class-base-php/zipball/64f800645539eb541b3aff4e63e781b71e38eef5",
+                "reference": "64f800645539eb541b3aff4e63e781b71e38eef5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "vlucas/phpdotenv": "5.6"
+            },
+            "time": "2024-07-16T19:49:31+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-4": {
+                    "Jenyus\\Base\\": "src/Base/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jimmy Jimenez"
+                }
+            ],
+            "description": "El paquete provee una clase base para manejar algunas consultas de modelos de forma dinamica. Ademas de ya traer una estructura base para proyectos mvc",
+            "support": {
+                "issues": "https://github.com/Jimmy2004S/jenyus-class-base-php/issues",
+                "source": "https://github.com/Jimmy2004S/jenyus-class-base-php/tree/main"
+            },
+            "install-path": "../jenyus/class-base-php"
+        },
+        {
             "name": "phpoption/phpoption",
             "version": "1.9.2",
             "version_normalized": "1.9.2.0",

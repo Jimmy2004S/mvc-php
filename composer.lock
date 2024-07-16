@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "108be68e4e2b97fed51d36a10eed0849",
+    "content-hash": "718bee23b714d867757dd4aa14aa733d",
     "packages": [
         {
             "name": "graham-campbell/result-type",
@@ -67,6 +67,47 @@
                 }
             ],
             "time": "2023-11-12T22:16:48+00:00"
+        },
+        {
+            "name": "jenyus/class-base-php",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Jimmy2004S/jenyus-class-base-php.git",
+                "reference": "64f800645539eb541b3aff4e63e781b71e38eef5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Jimmy2004S/jenyus-class-base-php/zipball/64f800645539eb541b3aff4e63e781b71e38eef5",
+                "reference": "64f800645539eb541b3aff4e63e781b71e38eef5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.2",
+                "vlucas/phpdotenv": "5.6"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jenyus\\Base\\": "src/Base/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jimmy Jimenez"
+                }
+            ],
+            "description": "El paquete provee una clase base para manejar algunas consultas de modelos de forma dinamica. Ademas de ya traer una estructura base para proyectos mvc",
+            "support": {
+                "issues": "https://github.com/Jimmy2004S/jenyus-class-base-php/issues",
+                "source": "https://github.com/Jimmy2004S/jenyus-class-base-php/tree/main"
+            },
+            "time": "2024-07-16T19:49:31+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -469,7 +510,7 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,

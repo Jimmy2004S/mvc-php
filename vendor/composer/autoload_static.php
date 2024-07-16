@@ -31,6 +31,10 @@ class ComposerStaticInite875ae8441d070d7dda5f4b47a2117aa
         array (
             'Lib\\' => 4,
         ),
+        'J' => 
+        array (
+            'Jenyus\\Base\\' => 12,
+        ),
         'G' => 
         array (
             'GrahamCampbell\\ResultType\\' => 26,
@@ -70,6 +74,10 @@ class ComposerStaticInite875ae8441d070d7dda5f4b47a2117aa
         'Lib\\' => 
         array (
             0 => __DIR__ . '/../..' . '/Lib',
+        ),
+        'Jenyus\\Base\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jenyus/class-base-php/src/Base',
         ),
         'GrahamCampbell\\ResultType\\' => 
         array (

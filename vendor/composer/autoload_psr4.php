@@ -12,6 +12,7 @@ return array(
     'Routes\\' => array($baseDir . '/Routes'),
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
     'Lib\\' => array($baseDir . '/Lib'),
+    'Jenyus\\Base\\' => array($vendorDir . '/jenyus/class-base-php/src/Base'),
     'GrahamCampbell\\ResultType\\' => array($vendorDir . '/graham-campbell/result-type/src'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
     'DataBase\\' => array($baseDir . '/DataBase'),
