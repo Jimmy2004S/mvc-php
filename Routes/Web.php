@@ -17,6 +17,10 @@ class Web
                 'controller' => 'SessionController',
                 'method' => 'loginView'
             ],
+            'register' => [
+                'controller' => 'SessionController',
+                'method' => 'registerView'
+            ],
             'inicio' => [
                 'controller' => 'HomeController',
                 'method' => 'inicioView'

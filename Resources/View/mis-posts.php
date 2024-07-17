@@ -1,3 +1,4 @@
+<?php include '../resources/view/template/head.php'; ?>
 <?php include '../resources/view/template/navegacion.php'; ?>
 <div class="container d-flex flex-column mt-5">
     <!--Dialog-->

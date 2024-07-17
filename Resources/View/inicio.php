@@ -1,3 +1,4 @@
+<?php include '../resources/view/template/head.php'; ?>
 <?php include '../resources/view/template/navegacion.php'; ?>
 <div class="col-12 container-inicio">
 </div>
