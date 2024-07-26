@@ -72,7 +72,7 @@ class App
     {
         // Verificar autenticacion en las rutas necesarias
         if (isset($route)) {
-            if ($route == "api/login" || $route == "login" || $route == "api/logueado") {
+            if ($route == "api/login" || $route == "login" || $route == "api/logueado" || $route == "register" || $route == "api/user/create") {
                 return;
             }
         }

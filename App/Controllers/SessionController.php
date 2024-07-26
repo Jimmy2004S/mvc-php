@@ -16,6 +16,67 @@ class SessionController extends Controller
         $this->user = new User();
     }
 
+    public function registerView()
+    {
+        $this->view->render('register');
+    }
+
+    public function register()
+    {
+        $nombre = $_POST['nombre'];
+        $apellido = $_POST['apellido'];
+        $email = $_POST['email'];
+        $password = $_POST['password'];
+        $role = $_POST['role'];
+        $bandera = true;
+
+        if ($role === 'Estudiante') {
+            $semestre = $_POST['semester'];
+            $carrera = $_POST['career'];
+            $bandera = false;
+        }
+        if ($role === 'Profesor') {
+            $departamento = $_POST['department'];
+        }
+
+        $nombre = explode(' ', $nombre);
+        $apellido = explode(' ', $apellido);
+        $userName = $nombre[0] . '_' . $apellido[0];
+        
+
+        try{
+            $id = $this->user->insert([
+                'user_name' => $userName,
+                'code' => rand(2023005, 2023999),
+                'email' => $email,
+                'password' => password_hash($password, PASSWORD_DEFAULT),
+                'role_id' => $role === 'Estudiante' ? 1 : 2,
+            ]);
+    
+            if ($id) {
+                if ($bandera == false) {
+                    $this->user->SetTable('students');
+                    $this->user->insert([
+                        'user_id' => $id,
+                        'semester' => $semestre,
+                        'career' => $carrera
+                    ]);
+                } else {
+                    $this->user->SetTable('teachers');
+                    $this->user->insert([
+                        'user_id' => $id,
+                        'department' => $departamento
+                    ]);
+                }
+            }
+            http_response_code(201);
+            echo json_encode(['message' => 'created']);
+        }catch(\PDOException $e){
+            http_response_code(500);
+            echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+        
+    }
     public function loginView()
     {
         $this->view->render('login');

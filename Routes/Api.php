@@ -23,6 +23,10 @@ class Api
                 'controller' => 'SessionController',
                 'method' => 'logueado'
             ],
+            'api/user/create' => [
+                'controller' => 'SessionController',
+                'method' => 'register'
+            ],
             'api/users' => [
                 'controller' => 'AdminController',
                 'method' => 'verUsuarios'
