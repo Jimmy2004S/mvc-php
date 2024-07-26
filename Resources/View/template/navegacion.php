@@ -1,5 +1,4 @@
-<body class="no-padding container-fluid m-0 p-0">
-    <div class="container-fluid px-0">
+    <div class="">
         <div class="modal" id="miModalC">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

@@ -58,14 +58,11 @@ input, textarea {
     background-color: #e5e5f7;
     opacity: 0.8;
     background-image: radial-gradient(#C657D8 0.5px, transparent 0.5px), radial-gradient(#C657D8 0.5px, #e5e5f7 0.5px);
-    margin: 0;
-    padding: 0;
 }
+
     .form{
-        max-width: 50%;
-        height: 80%;
         margin: 5rem auto 5rem auto;
-        padding: 5rem;
+        padding: 80px 100px !important;
         background-color: #fff;
         display: flex;
         flex-direction: column;
@@ -90,14 +87,14 @@ input, textarea {
         }
         
         .form input{
-            max-width: 60%;
-            height: 40px;
+            max-width: 100% !important;
+            height: 50px;
             margin-bottom: 1.4rem;
             font-size: 1.1em;
         }
         
         .form label, input{
-            margin-left: 7rem;
+            margin-left: 7remp;
         }
         
         .form button{
@@ -129,8 +126,8 @@ input, textarea {
         }
         
         .form select{
-            width: 50%;
-            height: 30px;
+            width:50%;
+            height: 50px;
             margin-left: 7rem;
             margin-bottom: 1.5rem;
             font-size: 1em;
@@ -184,7 +181,6 @@ input, textarea {
   
 
 /*Post*/
-
 .modal{
     display: none;
     position: fixed;
@@ -243,5 +239,6 @@ input, textarea {
 .footer{
     background-color: black;
     color: white;
+    padding: 60px 20px;
 }
 
