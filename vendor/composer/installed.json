@@ -7,22 +7,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrahamCampbell/Result-Type.git",
-                "reference": "fbd48bce38f73f8a4ec8583362e732e4095e5862"
+                "reference": "3ba905c11371512af9d9bdd27d99b782216b6945"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/fbd48bce38f73f8a4ec8583362e732e4095e5862",
-                "reference": "fbd48bce38f73f8a4ec8583362e732e4095e5862",
+                "url": "https://api.github.com/repos/GrahamCampbell/Result-Type/zipball/3ba905c11371512af9d9bdd27d99b782216b6945",
+                "reference": "3ba905c11371512af9d9bdd27d99b782216b6945",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2.5 || ^8.0",
-                "phpoption/phpoption": "^1.9.2"
+                "phpoption/phpoption": "^1.9.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5.34 || ^9.6.13 || ^10.4.2"
+                "phpunit/phpunit": "^8.5.39 || ^9.6.20 || ^10.5.28"
             },
-            "time": "2023-11-12T22:16:48+00:00",
+            "time": "2024-07-20T21:45:45+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "source",
@@ -52,7 +52,7 @@
             ],
             "support": {
                 "issues": "https://github.com/GrahamCampbell/Result-Type/issues",
-                "source": "https://github.com/GrahamCampbell/Result-Type/tree/v1.1.2"
+                "source": "https://github.com/GrahamCampbell/Result-Type/tree/v1.1.3"
             },
             "funding": [
                 {
@@ -73,25 +73,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jimmy2004S/jenyus-class-base-php.git",
-                "reference": "0762df74b741e5fc821b3d9d640fc0e77b5c7b10"
+                "reference": "9de6f06c9907c2c459d497ad3d47c894cfdf8fea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jimmy2004S/jenyus-class-base-php/zipball/0762df74b741e5fc821b3d9d640fc0e77b5c7b10",
-                "reference": "0762df74b741e5fc821b3d9d640fc0e77b5c7b10",
+                "url": "https://api.github.com/repos/Jimmy2004S/jenyus-class-base-php/zipball/9de6f06c9907c2c459d497ad3d47c894cfdf8fea",
+                "reference": "9de6f06c9907c2c459d497ad3d47c894cfdf8fea",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
                 "vlucas/phpdotenv": "5.6"
             },
-            "time": "2024-07-16T21:39:33+00:00",
+            "time": "2024-07-18T19:16:45+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "source",
             "autoload": {
                 "psr-4": {
-                    "Jenyus\\Base\\": "src/Base/"
+                    "Jenyus\\Base\\": "src/Base/",
+                    "Jenyus\\Exception\\": "src/Exception/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -117,12 +118,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/php-option.git",
-                "reference": "416ca2ac2a84555b785a98002d613fe13d1d1c2f"
+                "reference": "e3fac8b24f56113f7cb96af14958c0dd16330f54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/416ca2ac2a84555b785a98002d613fe13d1d1c2f",
-                "reference": "416ca2ac2a84555b785a98002d613fe13d1d1c2f",
+                "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/e3fac8b24f56113f7cb96af14958c0dd16330f54",
+                "reference": "e3fac8b24f56113f7cb96af14958c0dd16330f54",
                 "shasum": ""
             },
             "require": {
@@ -130,9 +131,9 @@
             },
             "require-dev": {
                 "bamarni/composer-bin-plugin": "^1.8.2",
-                "phpunit/phpunit": "^8.5.34 || ^9.6.13 || ^10.4.2"
+                "phpunit/phpunit": "^8.5.39 || ^9.6.20 || ^10.5.28"
             },
-            "time": "2023-11-12T22:52:20+00:00",
+            "time": "2024-07-20T21:41:07+00:00",
             "default-branch": true,
             "type": "library",
             "extra": {
@@ -175,7 +176,7 @@
             ],
             "support": {
                 "issues": "https://github.com/schmittjoh/php-option/issues",
-                "source": "https://github.com/schmittjoh/php-option/tree/master"
+                "source": "https://github.com/schmittjoh/php-option/tree/1.9.3"
             },
             "funding": [
                 {

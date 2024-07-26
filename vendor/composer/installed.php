@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '3265d65fb1eff7a9132d6e2197ea761457236c9c',
+        'reference' => '9397c319ca353752ab95ccfe5b800d917e96383d',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '3265d65fb1eff7a9132d6e2197ea761457236c9c',
+            'reference' => '9397c319ca353752ab95ccfe5b800d917e96383d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -22,7 +22,7 @@
         'graham-campbell/result-type' => array(
             'pretty_version' => '1.1.x-dev',
             'version' => '1.1.9999999.9999999-dev',
-            'reference' => 'fbd48bce38f73f8a4ec8583362e732e4095e5862',
+            'reference' => '3ba905c11371512af9d9bdd27d99b782216b6945',
             'type' => 'library',
             'install_path' => __DIR__ . '/../graham-campbell/result-type',
             'aliases' => array(),
@@ -31,7 +31,7 @@
         'jenyus/class-base-php' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '0762df74b741e5fc821b3d9d640fc0e77b5c7b10',
+            'reference' => '9de6f06c9907c2c459d497ad3d47c894cfdf8fea',
             'type' => 'library',
             'install_path' => __DIR__ . '/../jenyus/class-base-php',
             'aliases' => array(
@@ -42,7 +42,7 @@
         'phpoption/phpoption' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '416ca2ac2a84555b785a98002d613fe13d1d1c2f',
+            'reference' => 'e3fac8b24f56113f7cb96af14958c0dd16330f54',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpoption/phpoption',
             'aliases' => array(
