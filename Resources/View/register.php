@@ -38,7 +38,7 @@
                             </select>
                         </div>
                         <div class="form-group w-100 mb-3">
-                            <select name="semestre" class="form-control">
+                            <select name="semester" class="form-control">
                                 <option selected="true" disabled="disabled">Semestre</option>
                                 <?php for ($i = 1; $i <= 10; $i++) { ?>
                                     <option value="<?php echo $i; ?>"><?php echo $i; ?></option>

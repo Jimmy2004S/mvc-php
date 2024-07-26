@@ -142,6 +142,11 @@ $(document).ready(function () {
       });
   });
 
+  //Agregar usuario
+  document
+    .getElementById("form-user-register")
+    .addEventListener("submit", registrarUsuario);
+
   //cambiar estado de usuario
   $(document).on("click", ".state", function () {
     let element = $(this)[0].parentElement.parentElement;
@@ -286,23 +291,54 @@ async function renderPosts(posts, misPosts = false) {
   }
 }
 
-function crearPost(parametros){
+function crearPost(parametros) {
   $.ajax({
-    url: 'api/post/create',
-    method: 'POST',
+    url: "api/post/create",
+    method: "POST",
     data: parametros,
     processData: false,
     contentType: false,
-    success: function(response){
+    success: function (response) {
       console.log(response);
       listarMisPosts();
       $("#miModal").modal("hide");
     },
-    error: function(xhr, status, error){
+    error: function (xhr, status, error) {
+      console.log(xhr.responseText);
+    },
+  });
+}
+
+function inforRoleUser() {
+  let select = document.getElementById("role");
+  if (select.value === "Estudiante") {
+    $("#register-student-infor").removeClass("desaparece");
+    $("#register-teacher-infor").addClass("desaparece");
+  } else if (select.value === "Profesor") {
+    $("#register-student-infor").addClass("desaparece");
+    $("#register-teacher-infor").removeClass("desaparece");
+  }
+}
+
+function registrarUsuario(e) {
+  e.preventDefault(); // Prevenir el envío predeterminado del formulario
+  var parametros = new FormData($("#form-user-register")[0]);
+  
+  $.ajax({
+    url: 'api/user/create',
+    type: 'POST',
+    data: parametros,
+    processData: false,
+    contentType: false,
+    success: function(response) {
+      console.log(response);
+    },
+    error: function(xhr, status, error) {
       console.log(xhr.responseText);
     }
-  })
+  });
 }
+
 
 //Admin
 function listarUsers() {
