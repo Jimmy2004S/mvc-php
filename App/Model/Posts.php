@@ -120,15 +120,6 @@ class Posts extends Model
         }
     }
 
-    public function insertPost($title, $description, $user_id)
-    {
-        return $this->insert([
-            'title' => $title,
-            'description' => $description,
-            'user_id' => $user_id
-        ]);
-    }
-
     public function deletePost($post_id, $auth_user_id)
     {
         list($success, $model) = $this->find($post_id, ['user_id']);

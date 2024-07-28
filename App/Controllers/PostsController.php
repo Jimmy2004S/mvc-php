@@ -5,6 +5,7 @@ namespace App\Controllers;
 use Lib\Controller;
 use App\Model\Posts;
 use App\Resources\PostsResources;
+use Exception;
 use Lib\Util\Auth;
 
 class PostsController extends Controller
@@ -94,20 +95,25 @@ class PostsController extends Controller
     public function crearPost()
     {
         $user = Auth::user();
-        $auth_user_id = $user['id'];
+        $auth_user_id = $user['id'];    
         $title = isset($_POST['title']) ? $_POST['title'] : '';
         $description = isset($_POST['description']) ? $_POST['description'] : '';
-        list($success, $data) = $this->posts->insertPost($title, $description, $auth_user_id);
-        if ($success === true) {
-            list($success, $data) = $this->fileController->crearFiles($data);
-            if ($success === true) {
+
+        try{
+            $id = $this->posts->insert([
+                'title' => $title, 
+                'description' => $description, 
+                'user_id' => $auth_user_id
+            ]);
+    
+            if($id){
+                //$this->fileController->crearFiles($id);
                 http_response_code(201);
-                echo json_encode($data);
-                return;
             }
+        }catch(Exception $e){
+            http_response_code(500);
+            echo json_encode(["Error" => $e]);
         }
-        http_response_code(500);
-        echo json_encode(["Error" => $data]);
     }
 
     public function eliminarPost($post_id)
