@@ -73,19 +73,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jimmy2004S/jenyus-class-base-php.git",
-                "reference": "9de6f06c9907c2c459d497ad3d47c894cfdf8fea"
+                "reference": "09031ba1369ff1fb28a81ee11f4444f2b15d3b80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jimmy2004S/jenyus-class-base-php/zipball/9de6f06c9907c2c459d497ad3d47c894cfdf8fea",
-                "reference": "9de6f06c9907c2c459d497ad3d47c894cfdf8fea",
+                "url": "https://api.github.com/repos/Jimmy2004S/jenyus-class-base-php/zipball/09031ba1369ff1fb28a81ee11f4444f2b15d3b80",
+                "reference": "09031ba1369ff1fb28a81ee11f4444f2b15d3b80",
                 "shasum": ""
             },
             "require": {
                 "php": ">=8.2",
                 "vlucas/phpdotenv": "5.6"
             },
-            "time": "2024-07-18T19:16:45+00:00",
+            "time": "2024-07-27T22:12:02+00:00",
             "default-branch": true,
             "type": "library",
             "installation-source": "source",

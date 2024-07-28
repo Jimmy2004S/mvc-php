@@ -3,7 +3,7 @@
         'name' => '__root__',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '9397c319ca353752ab95ccfe5b800d917e96383d',
+        'reference' => '63e037f2a4858d94b9cb956a750ac75688304314',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         '__root__' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '9397c319ca353752ab95ccfe5b800d917e96383d',
+            'reference' => '63e037f2a4858d94b9cb956a750ac75688304314',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -31,7 +31,7 @@
         'jenyus/class-base-php' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '9de6f06c9907c2c459d497ad3d47c894cfdf8fea',
+            'reference' => '09031ba1369ff1fb28a81ee11f4444f2b15d3b80',
             'type' => 'library',
             'install_path' => __DIR__ . '/../jenyus/class-base-php',
             'aliases' => array(
