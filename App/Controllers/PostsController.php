@@ -107,7 +107,7 @@ class PostsController extends Controller
             ]);
     
             if($id){
-                //$this->fileController->crearFiles($id);
+                $this->fileController->crearFiles($id);
                 http_response_code(201);
             }
         }catch(Exception $e){

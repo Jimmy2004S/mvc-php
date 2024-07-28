@@ -6,6 +6,8 @@ use Lib\Model;
 
 class File extends Model
 {
+    
+    protected $table = "files";
     public function __construct()
     {
         parent::__construct();
@@ -27,25 +29,6 @@ class File extends Model
         } catch (\PDOException $e) {
             return [false, "Error en el servidor:  --selectfiles " . $e->getMessage()];
         }
-    }
-
-    public function insertFile($pdfName, $pdfPath, $coverImgName, $coverImgPath, $post_id)
-    {
-        $value = $this->insert([
-            'name' => $pdfName,
-            'path' => $pdfPath,
-            'post_id' => $post_id,
-            'type' => 'pdf'
-        ]);
-
-        $value = $this->insert([
-            'name' => $coverImgName,
-            'path' => $coverImgPath,
-            'post_id' => $post_id,
-            'type' => 'cover_image'
-        ]);
-
-        return $value;
     }
 
     public function deleteFile($post_id){

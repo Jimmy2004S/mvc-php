@@ -2,10 +2,12 @@
 
 namespace App\Controllers;
 
+use App\Exception\FileUploadException;
 use App\Model\File;
 use Exception;
 use Lib\Controller;
 use Lib\Util\Storage;
+use RuntimeException;
 
 class FileController extends Controller
 {
@@ -45,14 +47,31 @@ class FileController extends Controller
     {
         $pdfName = isset($_FILES['pdf']['name']) ? $_FILES['pdf']['name'] : '';
         $coverImgName = isset($_FILES['cover_image']['name']) ? $_FILES['cover_image']['name']  : '';
-        list($success, $data) = $this->file->insertFile($pdfName, 'public/pdf/' . $pdfName, $coverImgName, 'public/cover_image/' . $coverImgName, $post_id);
-        if ($success === true) {
-            list($success, $data) = $this->uploadFiles($coverImgName, $pdfName);
-            if ($success === true) {
-                return [true, ''];
-            }
+
+        try {
+            $this->file->insert(
+                [
+                    'name' => $pdfName,
+                    'path' => 'public/pdf/' . $pdfName,
+                    'post_id' => $post_id,
+                    'type' => 'pdf'
+                ]
+            );
+            $this->file->insert(
+                [
+                    'name' => $coverImgName,
+                    'path' => 'public/cover_image/' . $coverImgName,
+                    'post_id' => $post_id,
+                    'type' => 'cover_image'
+                ]
+            );
+            $this->uploadFiles($coverImgName, $pdfName);
+        } catch (Exception $e) {
+            throw new RuntimeException($e->getMessage());
+        }catch (FileUploadException $e) {
+            throw new RuntimeException($e->getMessage());
         }
-        return [false, $data];
+        
     }
 
     private function uploadFiles($coverimgName, $pdfName)
@@ -61,19 +80,30 @@ class FileController extends Controller
             $projectRoot = dirname(__DIR__, 2);
             $tmpPdf = $_FILES["pdf"]["tmp_name"];
             $tmpCoverImg = $_FILES["cover_image"]["tmp_name"];
+    
             if ($tmpCoverImg != "") {
-                $path =  $projectRoot . '\public\cover_image';
+                $path = $projectRoot . '\public\cover_image';
+                if (!is_dir($path)) {
+                    throw new FileUploadException("Directory does not exist: " . $path);
+                }
                 move_uploaded_file($tmpCoverImg, $path . '/' . $coverimgName);
             }
             if ($tmpPdf != "") {
-                $path =  $projectRoot . '\public\pdf';
+                $path = $projectRoot . '\public\pdf';
+                if (!is_dir($path)) {
+                    throw new FileUploadException("Directory does not exist: " . $path);
+                }
                 move_uploaded_file($tmpPdf, $path . '/' . $pdfName);
             }
-            return [true, ''];
-        } catch (Exception $e) {
-            return [false, $e->getMessage()];
+            return true;
+        } catch (FileUploadException $e) {
+            throw new \Exception($e->getMessage());
+        } finally {
+            // Restaurar el manejador de errores original
+            restore_error_handler();
         }
     }
+    
 
     public function deleteFiles($post_id)
     {
