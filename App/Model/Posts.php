@@ -2,6 +2,10 @@
 
 namespace App\Model;
 
+use App\Exception\AccessDenied;
+use App\Exception\ForbiddenException;
+use App\Exception\NotFoundException;
+use FontLib\Exception\FontNotFoundException;
 use Lib\Model;
 use Lib\Util\Auth;
 
@@ -27,7 +31,6 @@ class Posts extends Model
         $sql = self::SQL_BASE_SELECT . " WHERE s.career LIKE :search OR LOWER(CONCAT('Semestre ', s.semester)) LIKE LOWER(:search) OR u.user_name LIKE :search
                 GROUP BY p.id
                 ORDER BY p.created_at DESC";
-
         try {
             $stmt = $this->conexion->prepare($sql);
             $stmt->bindParam(':auth_user_id', $auth_user_id, \PDO::PARAM_INT);
@@ -35,13 +38,9 @@ class Posts extends Model
             $stmt->bindParam(':search', $searchWildcard, \PDO::PARAM_STR);
             $stmt->execute();
             $lista = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            if ($lista) {
-                return [true, $lista];
-            } else {
-                return [null, "No hay posts"];
-            }
+            return $lista ?: [];
         } catch (\PDOException $e) {
-            return [false, "Error en el servidor:  --selectposts " . $e->getMessage()];
+            throw new \PDOException($e->getMessage());
         }
     }
 
@@ -60,13 +59,9 @@ class Posts extends Model
             $stmt->bindParam(':search', $searchWildcard, \PDO::PARAM_STR);
             $stmt->execute();
             $lista = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            if ($lista) {
-                return [true, $lista];
-            } else {
-                return [null, "No hay posts"];
-            }
+            return $lista ?: [];
         } catch (\PDOException $e) {
-            return [false, "Error en el servidor:  --selectposts " . $e->getMessage()];
+            throw new \PDOException($e->getMessage());
         }
     }
 
@@ -88,13 +83,9 @@ class Posts extends Model
             $stmt->bindParam(":user_id", $user_id, \PDO::PARAM_INT);
             $stmt->execute();
             $lista = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            if ($lista) {
-                return [true, $lista];
-            } else {
-                return [null, "No hay posts"];
-            }
+            return $lista ?: [];
         } catch (\PDOException $e) {
-            return [false, "Error en el servidor:  --selectpostsbyuser " . $e->getMessage()];
+           throw new \PDOException($e->getMessage());
         }
     }
 
@@ -110,28 +101,28 @@ class Posts extends Model
             $stmt->bindParam(":auth_user_id", $auth_user_id, \PDO::PARAM_INT);
             $stmt->execute();
             $post = $stmt->fetch(\PDO::FETCH_ASSOC);
-            if ($post) {
-                return [true, [$post]];
-            } else {
-                return [null, "Post no encontrado"];
-            }
-        } catch (\Exception $e) {
-            return [false, "Error en el servidor --selectpost " . $e->getMessage()];
+            return $post ?: [];
+        } catch (\PDOException $e) {
+            throw new \PDOException($e->getMessage());
         }
     }
 
     public function deletePost($post_id, $auth_user_id)
     {
-        list($success, $model) = $this->find($post_id, ['user_id']);
-        if ($success === true) {
-            $data = $model->first();
-            if ($data['user_id'] == $auth_user_id) {
+        try{
+            $result = $this->find($post_id, ['user_id']);
+        if ($result) {
+            if ($result['user_id'] == $auth_user_id) {
                 return $this->delete($post_id);
             } else {
-                return [null, "No tienes permisos para eliminar este post"];
+                throw new ForbiddenException();
             }
         } else {
-            return [$success, $model];
+            throw new NotFoundException();
         }
+        }catch(\Exception $e){
+            throw new \Exception($e->getMessage());
+        } 
+        
     }
 }
