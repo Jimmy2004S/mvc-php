@@ -25,15 +25,12 @@ class PostsController extends Controller
         $search = isset($_POST['search']) ? $_POST['search'] : '';
         $user = Auth::user();
         $auth_user_id = $user['id'];
-        list($success, $data) = $this->posts->selectPosts($auth_user_id, $search);
-        if ($success) {
+        try {
+            $data = $this->posts->selectPosts($auth_user_id, $search);
             PostsResources::getResource($data);
-        } elseif ($success === false) {
-            http_response_code(500);
-            echo json_encode(["Error" => $data]);
-        } elseif (empty($success)) {
-            http_response_code(204);
-            echo json_encode([]);
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            echo json_encode(["Error" => $e->getMessage()]);
         }
     }
 
@@ -42,15 +39,12 @@ class PostsController extends Controller
         $search = isset($_POST['search']) ? $_POST['search'] : '';
         $user = Auth::user();
         $auth_user_id = $user['id'];
-        list($success, $data) = $this->posts->selectPostsLimitByLikes($auth_user_id, $search);
-        if ($success) {
+        try {
+            $data = $this->posts->selectPostsLimitByLikes($auth_user_id, $search);
             PostsResources::getResource($data);
-        } elseif ($success === false) {
-            http_response_code(500);
-            echo json_encode(["Error" => $data]);
-        } elseif (empty($success)) {
-            http_response_code(204);
-            echo json_encode([]);
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            echo json_encode(["Error" => $e->getMessage()]);
         }
     }
 
@@ -63,15 +57,12 @@ class PostsController extends Controller
     {
         $user = Auth::user();
         $auth_user_id = $user['id'];
-        list($success, $data) = $this->posts->selectPostsByUserId($auth_user_id);
-        if ($success) {
+        $data = $this->posts->selectPostsByUserId($auth_user_id);
+        try {
             PostsResources::getResource($data);
-        } elseif ($success === false) {
-            http_response_code(500);
-            echo json_encode(["Error" => $data]);
-        } elseif (empty($success)) {
-            http_response_code(204);
-            echo json_encode([]);
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            echo json_encode(["Error" => $e->getMessage()]);
         }
     }
 
@@ -80,39 +71,35 @@ class PostsController extends Controller
     {
         $user = Auth::user();
         $auth_user_id = $user['id'];
-        list($success, $data) = $this->posts->selectPostById($post_id, $auth_user_id);
-        if ($success === true) {
+        try {
+            $data = $this->posts->selectPostById($post_id, $auth_user_id);
             PostsResources::getResource($data);
-        } elseif ($success === false) {
-            http_response_code(500);
-            echo json_encode(["Error" => $data]);
-        } elseif (empty($success)) {
-            http_response_code(204);
-            echo json_encode([]);
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            echo json_encode(["Error" => $e->getMessage()]);
         }
     }
 
     public function crearPost()
     {
         $user = Auth::user();
-        $auth_user_id = $user['id'];    
+        $auth_user_id = $user['id'];
         $title = isset($_POST['title']) ? $_POST['title'] : '';
         $description = isset($_POST['description']) ? $_POST['description'] : '';
 
-        try{
+        try {
             $id = $this->posts->insert([
-                'title' => $title, 
-                'description' => $description, 
+                'title' => $title,
+                'description' => $description,
                 'user_id' => $auth_user_id
             ]);
-    
-            if($id){
+            if ($id) {
                 $this->fileController->crearFiles($id);
                 http_response_code(201);
             }
-        }catch(Exception $e){
-            http_response_code(500);
-            echo json_encode(["Error" => $e]);
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            echo json_encode(["Error" => $e->getMessage()]);
         }
     }
 
@@ -120,24 +107,16 @@ class PostsController extends Controller
     {
         $user = Auth::user();
         $auth_user_id = $user['id'];
-        list($success, $data) = $this->fileController->deleteFiles($post_id);
-        if ($success === true) {
-            list($success, $data) = $this->posts->deletePost($post_id, $auth_user_id);
-            if ($success === true) {
+        try {
+            $response = $this->fileController->deleteFiles($post_id);
+            $response = $this->posts->deletePost($post_id, $auth_user_id);
+            if ($response) {
                 http_response_code(204);
                 echo json_encode([]);
-                return;
             }
-        } 
-        if ($success === null) {
-            http_response_code(404);
-            echo json_encode(["Error" => $data]);
-            return;
-        }
-        if($success === false){
-            http_response_code(500);
-            echo json_encode(["Error" => $data]);
-            return;
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            echo json_encode(["Error" => $e->getMessage()]);
         }
     }
 }
