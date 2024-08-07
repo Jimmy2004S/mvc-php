@@ -14,16 +14,15 @@ class PostsResources extends Resources
         parent::__construct();
     }
 
-    public static function getResource($data)
+    public function processData($data)
     {
-        $instance = new self();
         $json = [];
         foreach ($data as $row) {
             $json[] = [
                 'id'                => $row['id'],
                 'title'             => $row['title'],
                 'description'       => $row['description'],
-                'created_at'        => $instance->formatDate($row['created_at']),
+                'created_at'        => $this->formatDate($row['created_at']),
                 'user_id'           => $row['user_id'],
                 'author'            => $row['author'],
                 'num_likes'         => $row['num_likes'],
@@ -32,6 +31,6 @@ class PostsResources extends Resources
                 'user_liked'        => $row['user_liked']
             ];
         }
-        $instance->jsonResponse($json);
+        $this->jsonResponse($json);
     }
 }
