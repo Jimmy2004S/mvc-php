@@ -67,25 +67,25 @@ $(document).ready(function () {
   });
 
   //Agregar post
-  $("#post-form input[type=submit]").click(function(e){
+  $("#post-form input[type=submit]").click(function (e) {
     e.preventDefault(); // Prevenir el envío predeterminado del formulario
-    var parametros = new FormData($('#post-form')[0]);
+    var parametros = new FormData($("#post-form")[0]);
     console.log(parametros);
     crearPost(parametros);
-  })
+  });
 
   // Mostrar la imagen selecionada
- const coverImageInput = document.getElementById("cover_image_input");
- if (coverImageInput) {
-   coverImageInput.addEventListener("change", function (event) {
-     var reader = new FileReader();
-     reader.onload = function () {
-       var output = document.getElementById("cover_image_preview");
-       output.src = reader.result;
-     };
-     reader.readAsDataURL(event.target.files[0]);
-   });
- }
+  const coverImageInput = document.getElementById("cover_image_input");
+  if (coverImageInput) {
+    coverImageInput.addEventListener("change", function (event) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        var output = document.getElementById("cover_image_preview");
+        output.src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    });
+  }
 
   //Selecionar post
   $(document).on("click", ".select-post", function () {
@@ -141,11 +141,6 @@ $(document).ready(function () {
         console.error("Status:", error.status);
       });
   });
-
-  //Agregar usuario
-  document
-    .getElementById("form-user-register")
-    .addEventListener("submit", registrarUsuario);
 
   //cambiar estado de usuario
   $(document).on("click", ".state", function () {
@@ -323,22 +318,21 @@ function inforRoleUser() {
 function registrarUsuario(e) {
   e.preventDefault(); // Prevenir el envío predeterminado del formulario
   var parametros = new FormData($("#form-user-register")[0]);
-  
+
   $.ajax({
-    url: 'api/user/create',
-    type: 'POST',
+    url: "api/user/create",
+    type: "POST",
     data: parametros,
     processData: false,
     contentType: false,
-    success: function(response) {
+    success: function (response) {
       console.log(response);
     },
-    error: function(xhr, status, error) {
+    error: function (xhr, status, error) {
       console.log(xhr.responseText);
-    }
+    },
   });
 }
-
 
 //Admin
 function listarUsers() {
@@ -388,7 +382,7 @@ function logueado(callback) {
     success: function (response) {
       const user = JSON.parse(response);
       if (user) {
-        callback(user.role_id); // Si el usuario es admin, ejecuta el callback con el rol del usuario
+        callback(user.role_id); // Ejecuta el callback con el rol del usuario
       } else {
         console.log("No hay login");
       }
@@ -400,40 +394,44 @@ function logueado(callback) {
 }
 
 function cargarFunciones() {
+  let uri = window.location.pathname;
+  // Ejecutar funciones según el rol y la URI
   logueado(function (role_id) {
-    let url = window.location.pathname;
-    //Ejecutar funciones segun el rol y la url
-    if (role_id != 1) {
-      if (url === "/inicio" || url === "/") {
+    switch (uri) {
+      case "/inicio":
+      case "/":
         $("#home-link").addClass("active");
         listarPosts();
-        history.replaceState({ page: "inicio" }, "Inicio", "inicio");
-      } else if (url === "/posts/tendencias") {
+        break;
+      case "/posts/tendencias":
         $("#tendencias-link").addClass("active");
         listarPostsTendencias();
-        history.replaceState(
-          { page: "posts/tendencias" },
-          "Tendencias",
-          "posts/tendencias"
-        );
-      } else if (url === "/user/posts") {
+        break;
+      case "/user/posts":
         $("#select-post").removeClass("desaparece");
         $("#delete-post").removeClass("desaparece");
         $("#my-perfil-link").addClass("active");
         listarMisPosts();
-        history.replaceState(
-          { page: "user/posts" },
-          "user/posts",
-          "user/posts"
-        );
-      }
-    } else {
-      if (url === "/admin/inicio") {
-        history.replaceState({ page: "admin/inicio" }, "", "admin/inicio");
-      } else if (url === "/admin/users") {
+        break;
+      case "/admin/inicio":
+        break;
+      case "/admin/users":
         listarUsers();
-        history.replaceState({ page: "admin/users" }, "Users", "admin/users");
-      }
+        break;
+      default:
+        console.log("URL no manejada: " + uri);
     }
   });
+
+  // En caso de no haber session
+  switch (uri) {
+    case "/register":
+      document
+        .getElementById("form-user-register")
+        .addEventListener("submit", registrarUsuario);
+      break;
+    default:
+      console.log("URL no manejada: " + uri);
+  }
+  
 }
