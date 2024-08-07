@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Exception\FileUploadException;
+use App\Exception\FileException;
+use App\Exception\NotFoundException;
 use App\Model\File;
+use App\Resources\FileResources;
 use Exception;
 use Lib\Controller;
-use Lib\Util\Storage;
-use RuntimeException;
 
 class FileController extends Controller
 {
@@ -18,27 +18,15 @@ class FileController extends Controller
         parent::__construct();
         $this->file = new File();
     }
+
     public function listarFilesPost($post_id)
     {
-        list($success, $data) = $this->file->selectFilesPosts($post_id);
-        if ($success) {
-            $json = [];
-            foreach ($data as $row) {
-                $json[] = [
-                    'post_id'           => $row['post_id'],
-                    'file_name'         => $row['name'],
-                    'type'              => $row['type'],
-                    'path'              => Storage::path($row['path'])
-                ];
-            }
-            http_response_code(200);
-            echo json_encode($json);
-        } elseif ($success === false) {
-            http_response_code(500);
-            echo json_encode(["Error" => $data]);
-        } elseif (empty($success)) {
-            http_response_code(204);
-            echo json_encode([]);
+        try {
+            $data = $this->file->where('post_id', $post_id)->get();
+            FileResources::getResource($data);
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            echo json_encode(["Error" => $e->getMessage()]);
         }
     }
 
@@ -65,64 +53,51 @@ class FileController extends Controller
                     'type' => 'cover_image'
                 ]
             );
-            $this->uploadFiles($coverImgName, $pdfName);
+            $this->uploadFile($coverImgName, 'cover_image');
+            $this->uploadFile($pdfName, 'pdf');
         } catch (Exception $e) {
-            throw new RuntimeException($e->getMessage());
-        }catch (FileUploadException $e) {
-            throw new RuntimeException($e->getMessage());
+            throw new Exception($e->getMessage());
         }
-        
     }
 
-    private function uploadFiles($coverimgName, $pdfName)
+    private function uploadFile($fileName, $type)
     {
-        try {
-            $projectRoot = dirname(__DIR__, 2);
-            $tmpPdf = $_FILES["pdf"]["tmp_name"];
-            $tmpCoverImg = $_FILES["cover_image"]["tmp_name"];
-    
-            if ($tmpCoverImg != "") {
-                $path = $projectRoot . '\public\cover_image';
-                if (!is_dir($path)) {
-                    throw new FileUploadException("Directory does not exist: " . $path);
-                }
-                move_uploaded_file($tmpCoverImg, $path . '/' . $coverimgName);
-            }
-            if ($tmpPdf != "") {
-                $path = $projectRoot . '\public\pdf';
-                if (!is_dir($path)) {
-                    throw new FileUploadException("Directory does not exist: " . $path);
-                }
-                move_uploaded_file($tmpPdf, $path . '/' . $pdfName);
-            }
-            return true;
-        } catch (FileUploadException $e) {
-            throw new \Exception($e->getMessage());
-        } finally {
-            // Restaurar el manejador de errores original
-            restore_error_handler();
+        $projectRoot = dirname(__DIR__, 2);
+        $tmpFile = $_FILES[$type]["tmp_name"];
+
+        if ($tmpFile == "") {
+            throw new FileException();
         }
+
+        $path = $projectRoot . '\public\\' . $type;
+        if (!is_dir($path)) {
+            throw new FileException("Directorio no encontrado");
+        }
+
+        move_uploaded_file($tmpFile, $path . '/' . $fileName);
     }
-    
+
 
     public function deleteFiles($post_id)
     {
-        list($success, $data) = $this->file->selectFilesPosts($post_id);
-        if ($success) {
-            try {
+        try {
+            $data = $this->file->where('post_id', $post_id)->get();
+            if ($data) {
                 $projectRoot = dirname(__DIR__, 2);
                 foreach ($data as $row) {
                     $path = $projectRoot . '/' . str_replace('\\', '/', $row['path']);
                     if (file_exists($path)) {
                         unlink($path);
+                        return true;
+                    }else{
+                        throw new FileException("Directorio no encontrado");
                     }
                 }
-                return [true, ''];
-            } catch (Exception $e) {
-                return [false, 'Error al eliminar los archivos del post'];
+            } else {
+                throw new NotFoundException();
             }
-        } else {
-            return [false, 'Error al seleccionar los archivos del post'];
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 }
