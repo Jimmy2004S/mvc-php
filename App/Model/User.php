@@ -13,27 +13,6 @@ class User extends Model
         parent::__construct();
     }
 
-    public function autenticar($email, $password)
-    {
-        list($success, $data) = $this->selectByEmail($email);
-        if ($success === true) {
-            if (password_verify($password, $data['password'])) {
-                list($success, $dataToken) = $this->generarToken($data['id'], $data['role_id']);
-                if ($success === true) {
-                    return [true, $data, $dataToken];
-                } elseif ($success === false) {
-                    return [false, $dataToken, null];
-                }
-            } else {
-                return [null, "Contraseña incorrecta", null];
-            }
-        } elseif ($success === null) {
-            return [null, $data, null];
-        } elseif ($success === false) {
-            return [false, $data, null];
-        }
-    }
-
     public function select()
     {
         $sql = "SELECT * FROM users WHERE NOT role_id =:role_id";
