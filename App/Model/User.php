@@ -91,11 +91,6 @@ class User extends Model
         }
     }
 
-    public function verificarRole($role_id)
-    {
-        return ($role_id == 1) ? "Administrador" : ($role_id == 2 ? "Estudiante" : "Profesor");
-    }
-
     public function revocarTokens($user_id)
     {
         $sql = "DELETE FROM `personal_access_tokens` WHERE `tokenable_id` =:tokenable_id";
@@ -126,26 +121,6 @@ class User extends Model
             return [true, $user];
         } else {
             return [null, "El usuario no esta logueado"];
-        }
-    }
-
-    private function generarToken($userid, $role_id)
-    {
-        $token = bin2hex(random_bytes(32));
-        $sql = "INSERT INTO `personal_access_tokens` (`tokenable_type`, `tokenable_id`, `name`, `token`, `abilities`) 
-        VALUES (:tokenable_type, :tokenable_id, :name, :token, :abilities)";
-        $user_abilitie = $this->verificarRole($role_id);
-        try {
-            $stmt = $this->conexion->prepare($sql);
-            $stmt->bindValue(':tokenable_type', "App\Models\User");
-            $stmt->bindParam(':tokenable_id', $userid);
-            $stmt->bindValue(':name', 'api_token');
-            $stmt->bindParam(':token', $token);
-            $stmt->bindParam(':abilities', $user_abilitie);
-            $stmt->execute();
-            return [true, $token];
-        } catch (\PDOException $e) {
-            return [false, "Error en el servidor --generartoken: " . $e->getMessage()];
         }
     }
 }

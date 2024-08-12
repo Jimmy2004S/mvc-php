@@ -134,7 +134,7 @@ class SessionController extends Controller
 
     private function verificarTipoPersona($role_id)
     {
-        return $this->user->verificarRole($role_id);
+        return ($role_id == 1) ? "Administrador" : ($role_id == 2 ? "Estudiante" : "Profesor");
     }
 
     public function logueado()

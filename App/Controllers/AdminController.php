@@ -25,33 +25,6 @@ class AdminController extends Controller
         $this->view->render('admin/ver-usuarios');
     }
 
-    public function verUsuarios()
-    {
-        list($success, $data) = $this->user->select();
-        if ($success) {
-            $json = array();
-            foreach ($data as $row) {
-                $json[] = array(
-                    'id' => $row['id'],
-                    'code' => $row['code'],
-                    'user_name' => $row['user_name'],
-                    'role' => $this->verificarTipoPersona($row['role_id']),
-                    'email' => $row['email'],
-                    'state' => $row['state'],
-                );
-            }
-            // Convertir a JSON y enviar respuesta al cliente
-            http_response_code(200);
-            echo json_encode($json);
-        } elseif ($success === false) {
-            http_response_code(500);
-            echo json_encode(["Error" => $data]);
-        } elseif (empty($success)) {
-            http_response_code(204);
-            echo json_encode([]);
-        }
-    }
-
     public function verUsuario()
     {
         if (isset($_POST['codigo'])) {
@@ -84,10 +57,5 @@ class AdminController extends Controller
             http_response_code(400);
             echo json_encode(["Error" => "Solicitud no válida"]);
         }
-    }
-
-    private function verificarTipoPersona($role_id)
-    {
-        return $this->user->verificarRole($role_id);
     }
 }

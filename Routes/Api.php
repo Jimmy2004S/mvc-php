@@ -28,8 +28,8 @@ class Api
                 'method' => 'register'
             ],
             'api/users' => [
-                'controller' => 'AdminController',
-                'method' => 'verUsuarios'
+                'controller' => 'UserController',
+                'method' => 'index'
             ],
             'api/user/{user_id}/state' => [
                 'controller' => 'AdminController',
