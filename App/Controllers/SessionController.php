@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Model\User;
+use Exception;
 use Lib\Controller;
 use Lib\Util\Auth;
 
@@ -96,16 +97,15 @@ class SessionController extends Controller
                 $tipo_persona = $this->verificarTipoPersona($user['role_id']);
                 $_SESSION['code'] = $user['code'];
                 $_SESSION['email'] = $user['email'];
-                $_SESSION['token'] = $user['id'] . "|" . '121212312';
                 $_SESSION['user_name'] = $user['user_name'];
                 $_SESSION['tipo_persona'] = $tipo_persona;
                 http_response_code(200);
                 if ($tipo_persona == 'Estudiante' || $tipo_persona == 'Profesor') {
                     $tipo = lcfirst($tipo_persona);
-                    $this->user->generateToken([$tipo, 'user']);
+                    $_SESSION['token'] = $this->user->generateToken([$tipo, 'user']);
                     echo json_encode(['status' => 'success', 'redirect' => '/inicio']);
                 } elseif ($tipo_persona == 'Administrador') {
-                    $this->user->generateToken(['admin']);
+                    $_SESSION['token'] = $this->user->generateToken(['admin']);
                     echo json_encode(['status' => 'success', 'redirect' => '/admin/inicio']);
                 }
             } else {
@@ -120,15 +120,21 @@ class SessionController extends Controller
 
     public function logout()
     {
-        $token = $_SESSION['token'];
-        $token = explode("|", $token);
-        list($success, $data) = $this->user->revocarTokens($token[0]);
-        if ($success === true) {
-            session_destroy();
-            header("Location: /");
-            exit();
-        } elseif ($success === false) {
-            echo "tenemos error: $data";
+
+        try {
+            $token = $_SESSION['token'];
+            $response = $this->user->revokarToken($token);
+            if ($response) {
+                session_destroy();
+                header("Location: /");
+                exit();
+            } else {
+                http_response_code(500);
+                echo json_encode(['status' => 'Error al intentar cerrar sesión']);
+            }
+        } catch (Exception $e) {
+            http_response_code($e->getCode());
+            echo json_encode(["Error" => $e->getMessage()]);
         }
     }
 
