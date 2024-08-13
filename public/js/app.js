@@ -395,7 +395,7 @@ function logueado(callback) {
 
 function cargarFunciones() {
   let uri = window.location.pathname;
-  // Ejecutar funciones según el rol y la URI
+  // Ejecutar funciones según la URI
   logueado(function (role_id) {
     switch (uri) {
       case "/inicio":

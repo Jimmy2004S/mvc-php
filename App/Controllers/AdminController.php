@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Model\User;
 use Lib\Controller;
+use PDOException;
 
 class AdminController extends Controller
 {
@@ -25,37 +26,22 @@ class AdminController extends Controller
         $this->view->render('admin/ver-usuarios');
     }
 
-    public function verUsuario()
-    {
-        if (isset($_POST['codigo'])) {
-            $codigo = $_POST['codigo'];
-            list($success, $data) = $this->user->selectByCodigo($codigo);
-            if ($success === null) {
-                http_response_code(404);
-                echo json_encode(["No fue encontrado"]);
-            }
-            if ($success) {
-                http_response_code(200);
-                echo json_encode($data);
-            } else {
-                http_response_code(500);
-                echo json_encode($data);
-            }
-        }
-    }
-
     public function cambiarEstadoUsuario($user_id)
     {
-        list($success, $data) = $this->user->updateUserState($user_id);
-        if ($success === true) {
-            http_response_code(200);
-            echo json_encode($data);
-        } elseif ($success === false) {
-            http_response_code(500);
-            echo json_encode(["Error" => $data]);
-        } else {
-            http_response_code(400);
-            echo json_encode(["Error" => "Solicitud no válida"]);
+
+        try{
+            $response = $this->user->updateUserState($user_id);
+            if($response){
+                http_response_code(204);
+                echo json_encode([]);
+            }else{
+                http_response_code(500);
+                echo json_encode(["Error" => "Error al cambiar el estado"]);
+            }
+        }catch(PDOException $e){
+            http_response_code($e->getCode());
+            echo json_encode(["Error" => $e->getMessage()]);
         }
+
     }
 }

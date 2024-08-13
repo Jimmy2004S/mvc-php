@@ -3,10 +3,12 @@
 namespace Lib\Util;
 
 use App\Model\User;
+use Exception;
 
 class Auth
 {
 
+    private $id;
     public static function sessionActiva()
     {
         if (!isset($_SESSION['token']) || $_SESSION['token'] == false ||  empty($_SESSION['token'])) {
@@ -28,9 +30,16 @@ class Auth
             $token = $_SESSION['token'];
             $token = explode("|", $token);
             $user = new User();
-            list($success, $data) = $user->selectById($token[0]);
-            if ($success) {
-                return $data;
+            try{
+                $response = $user->find($token[0]);
+                if($response){
+                    return $response;
+                }else{
+                    return false;
+                }
+            }catch(Exception $e){
+                http_response_code($e->getCode());
+                echo json_encode(["error" => $e->getMessage()]);
             }
         }else{
             return false;
