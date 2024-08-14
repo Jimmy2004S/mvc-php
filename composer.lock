@@ -75,12 +75,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Jimmy2004S/jenyus-class-base-php.git",
-                "reference": "d67759dd889b2a3890e3495441982a2478796aac"
+                "reference": "3b110a41c0da9ad2f7c20962d48a19b5561a2564"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Jimmy2004S/jenyus-class-base-php/zipball/d67759dd889b2a3890e3495441982a2478796aac",
-                "reference": "d67759dd889b2a3890e3495441982a2478796aac",
+                "url": "https://api.github.com/repos/Jimmy2004S/jenyus-class-base-php/zipball/3b110a41c0da9ad2f7c20962d48a19b5561a2564",
+                "reference": "3b110a41c0da9ad2f7c20962d48a19b5561a2564",
                 "shasum": ""
             },
             "require": {
@@ -109,7 +109,7 @@
                 "issues": "https://github.com/Jimmy2004S/jenyus-class-base-php/issues",
                 "source": "https://github.com/Jimmy2004S/jenyus-class-base-php/tree/main"
             },
-            "time": "2024-08-14T02:44:22+00:00"
+            "time": "2024-08-14T03:20:01+00:00"
         },
         {
             "name": "phpoption/phpoption",

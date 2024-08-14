@@ -32,11 +32,13 @@ class FileController extends Controller
 
     public function crearFiles($post_id)
     {
-        $pdfName = isset($_FILES['pdf']['name']) ? $_FILES['pdf']['name'] : '';
-        $coverImgName = isset($_FILES['cover_image']['name']) ? $_FILES['cover_image']['name']  : '';
-
-        $this->crearFile($pdfName, $post_id, 'pdf');
-        $this->crearFile($coverImgName, $post_id, 'cover_image');
+        if (isset($_FILES['pdf']['name']) && isset($_FILES['cover_image']['name'])) {
+            $this->crearFile($_FILES['pdf']['name'], $post_id, 'pdf');
+            $this->crearFile($_FILES['cover_image']['name'], $post_id, 'cover_image');
+            return;
+        } else {
+            throw new FileException("Debe seleccionar un archivo para cada tipo", 400);
+        }
     }
 
     public function crearFile($fileName, $post_id, $type)
@@ -58,6 +60,7 @@ class FileController extends Controller
 
     private function uploadFile($fileName, $type)
     {
+
         $projectRoot = dirname(__DIR__, 2);
         $tmpFile = $_FILES[$type]["tmp_name"];
 
@@ -66,11 +69,13 @@ class FileController extends Controller
         }
 
         $path = $projectRoot . '\public\\' . $type;
+
         if (!is_dir($path)) {
             throw new FileException("Directorio no encontrado");
         }
 
         move_uploaded_file($tmpFile, $path . '/' . $fileName);
+        return true;
     }
 
 
@@ -79,21 +84,12 @@ class FileController extends Controller
         try {
             $data = $this->file->where('post_id', $post_id)->get();
             if ($data) {
-                $projectRoot = dirname(__DIR__, 2);
                 foreach ($data as $row) {
                     // Utiliza "/" para construir la ruta
-                    $path = $projectRoot . '/' . str_replace('\\', '/', $row['path']);
-
-                    if (file_exists($path)) {
-                        unlink($path);
-                    } else {
-                        return false;
-                    }
+                    $this->deleteFile($row['path']);
                 }
-
                 return true;
             } else {
-
                 throw new NotFoundException();
             }
         } catch (Exception $e) {
@@ -101,5 +97,54 @@ class FileController extends Controller
         }
     }
 
-    public function actualizarPostFiles() {}
+    public function deleteFile($path)
+    {
+        $projectRoot = dirname(__DIR__, 2);
+        $path = $projectRoot . '/' . str_replace('\\', '/', $path);
+        if (file_exists($path)) {
+            unlink($path);
+        } else {
+            return false;
+        }
+    }
+
+    public function actualizarPostFiles($post_id)
+    {
+        if (isset($_FILES['cover_image']['name'])) {
+            $file = $this->file->where('post_id', $post_id, '=', ['name', 'path', 'id'])->get();
+            
+            $coverImageName = $_FILES['cover_image']['name'];
+    
+            // Si el archivo existe y el nombre del archivo es diferente al que ya está almacenado
+            if ($file && $file[1]['name'] !== $coverImageName) {
+                // Actualizar el registro en la base de datos
+                $updateResult = $this->actualizarfile($coverImageName, $file[1]['id'], 'cover_image');
+    
+                if ($updateResult) {
+                    $this->deleteFile($file[1]['path']);  // Eliminar el archivo anterior
+                    $this->uploadFile($coverImageName, 'cover_image');  // Subir el nuevo archivo
+                }
+    
+                return $updateResult;  // Retorna el resultado de la actualización
+            }
+        }
+        return false;  // Retorna falso si no hay archivo para actualizar o no es necesario actualizar
+    }
+    
+    public function actualizarfile($fileName, $file_id, $type)
+    {
+        try {
+            // Actualiza el registro en la base de datos
+            $updateResult = $this->file->update([
+                'name' => $fileName,
+                'path' => "public/$type/$fileName",
+                'type' => $type
+            ], $file_id);
+    
+            return $updateResult;
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+    
 }

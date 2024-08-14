@@ -140,9 +140,14 @@ class PostsController extends Controller
             ], $post_id);
 
             if ($id) {
-                $this->fileController->actualizarPostFiles();
+                $response = $this->fileController->actualizarPostFiles($post_id);
+                http_response_code(201);
+                echo json_encode([$response]);
             }
+            
         } catch (Exception $e) {
+            http_response_code($e->getCode());
+            echo json_encode(["Error" => $e->getMessage()]);
         }
     }
 }

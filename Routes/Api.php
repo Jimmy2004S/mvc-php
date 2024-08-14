@@ -66,6 +66,10 @@ class Api
             'api/post/{post_id}/delete' => [
                 'controller' => 'PostsController',
                 'method' => 'eliminarPost'
+            ],
+            'api/post/{post_id}/update' => [
+                'controller' => 'PostsController',
+                'method' => 'actualizar'
             ]
         ];
     }
