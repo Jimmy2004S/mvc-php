@@ -61,6 +61,8 @@ $(document).ready(function () {
     $("#post_id").val("");
     $("#post_title").val("");
     $("#post_description").val("");
+    $("#cover_image_preview").attr("src", "img/no-photo.jpg");
+    $("#pdf_input").removeClass("desaparece");
     $("#miModal").modal("show");
     document.getElementById("btn-create-post").classList.remove("desaparece");
     document.getElementById("btn-update-post").classList.add("desaparece");
@@ -70,8 +72,15 @@ $(document).ready(function () {
   $("#post-form input[type=submit]").click(function (e) {
     e.preventDefault(); // Prevenir el envío predeterminado del formulario
     var parametros = new FormData($("#post-form")[0]);
-    console.log(parametros);
-    crearPost(parametros);
+    let action = $(this).val();
+    if(action == "publicar"){
+      crearPost(parametros);
+    }
+    if(action == "actualizar"){
+      let post_id = $("#post_id").val()
+      actualizarPost(parametros, post_id);
+    }
+
   });
 
   // Mostrar la imagen selecionada
@@ -91,15 +100,34 @@ $(document).ready(function () {
   $(document).on("click", ".select-post", function () {
     let post_id = $(this).closest(".card").attr("post-id");
 
-    $.get("api/user/post/" + post_id)
-      .done(function (response) {
-        let post = JSON.parse(response);
-        console.log(post);
-        post.forEach((element) => {
+    //Realizar una unica solicitud
+    $.when(
+      $.get("api/user/post/" + post_id),
+      $.get("api/post/" + post_id + "/files")
+    )
+      .done(function (postResponse, filesResponse) {
+        let post = JSON.parse(postResponse[0]);
+        let files = JSON.parse(filesResponse[0]);
+
+        if (post.length > 0) {
+          let element = post[0];
           $("#post_id").val(element.id);
           $("#post_title").val(element.title);
           $("#post_description").val(element.description);
-        });
+        }
+
+        let coverImage = files.filter((file) => file.type === "cover_image")[0];
+        let pdf = files.filter((file) => file.type === "pdf")[0];
+
+        // Mostrar la imagen de portada si existe
+        if (coverImage) {
+          $("#cover_image_preview").attr("src", coverImage.path);
+        } else {
+          $("#cover_image_preview").attr("src", "img/no-photo.jpg");
+        }
+
+        // Mostrar el nombre del PDF si existe
+        $("#pdf_input").addClass("desaparece");
         $("#miModal").modal("show");
         document.getElementById("btn-create-post").classList.add("desaparece");
         document
@@ -304,6 +332,25 @@ function crearPost(parametros) {
   });
 }
 
+function actualizarPost(parametros, post_id) {
+  $.ajax({
+    url: "api/post/" + post_id + "/update",
+    method: "POST",
+    data: parametros,
+    processData: false,
+    contentType: false,
+    success: function (response) {
+      console.log(response);
+      listarMisPosts();
+      $("#miModal").modal("hide");
+    },
+    error: function (xhr, status, error) {
+      console.log(xhr.responseText);
+    },
+  });
+}
+
+
 function inforRoleUser() {
   let select = document.getElementById("role");
   if (select.value === "Estudiante") {
@@ -433,5 +480,4 @@ function cargarFunciones() {
     default:
       console.log("URL no manejada: " + uri);
   }
-  
 }

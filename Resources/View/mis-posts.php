@@ -26,9 +26,8 @@
                             <input type="hidden" readonly name="created_at">
                             <input type="text" id="post_title" name="title" required placeholder="Titulo del proyecto...">
                             <textarea class="form-control" id="post_description" name="description" required placeholder="Descripción..." rows="3" spellcheck="false"></textarea>
-                            <div>
-                                <p id="pdf_name"></p>
-                                <input type="file" required value="{{nombre_archivo}}" name="pdf" accept="application/pdf">
+                            <div class="mt-4" style="gap: 0px">
+                                <input id="pdf_input" type="file" required value="{{nombre_archivo}}" name="pdf" accept="application/pdf">
                             </div>
                         </div>
                     </div>
