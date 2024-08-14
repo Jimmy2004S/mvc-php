@@ -73,7 +73,7 @@ class PostsController extends Controller
         $auth_user_id = $user['id'];
         try {
             $data = $this->posts->selectPostById($post_id, $auth_user_id);
-            PostsResources::getResource($data);
+            PostsResources::getResource([$data]);
         } catch (Exception $e) {
             http_response_code($e->getCode());
             echo json_encode(["Error" => $e->getMessage()]);
@@ -108,15 +108,41 @@ class PostsController extends Controller
         $user = Auth::user();
         $auth_user_id = $user['id'];
         try {
-            $response = $this->fileController->deleteFiles($post_id);
-            $response = $this->posts->deletePost($post_id, $auth_user_id);
-            if ($response) {
+
+            $fileResponse = $this->fileController->deleteFiles($post_id);
+
+            $postResponse = $this->posts->deletePost($post_id, $auth_user_id);
+
+            if ($postResponse && $fileResponse) {
                 http_response_code(204);
                 echo json_encode([]);
+                return;
             }
+
+            if(!$fileResponse){
+                http_response_code(400);
+                echo json_encode(["Error" => "No se pudo eliminar el archivo"]);
+                return;
+            }
+                
         } catch (Exception $e) {
             http_response_code($e->getCode());
             echo json_encode(["Error" => $e->getMessage()]);
+        }
+    }
+
+    public function actualizar($post_id)
+    {
+        try {
+            $id = $this->posts->update([
+                'title' => $_POST['title'],
+                'description' => $_POST['description']
+            ], $post_id);
+
+            if ($id) {
+                $this->fileController->actualizarPostFiles();
+            }
+        } catch (Exception $e) {
         }
     }
 }

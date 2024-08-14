@@ -85,7 +85,7 @@ class Posts extends Model
             $lista = $stmt->fetchAll(\PDO::FETCH_ASSOC);
             return $lista ?: [];
         } catch (\PDOException $e) {
-           throw new \PDOException($e->getMessage());
+            throw new \PDOException($e->getMessage());
         }
     }
 
@@ -109,20 +109,20 @@ class Posts extends Model
 
     public function deletePost($post_id, $auth_user_id)
     {
-        try{
+        try {
             $result = $this->find($post_id, ['user_id']);
-        if ($result) {
-            if ($result['user_id'] == $auth_user_id) {
-                return $this->delete($post_id);
+            if ($result) {
+
+                if ($result['user_id'] == $auth_user_id) {
+                    return $this->delete($post_id);
+                } else {
+                    throw new ForbiddenException();
+                }
             } else {
-                throw new ForbiddenException();
+                throw new NotFoundException();
             }
-        } else {
-            throw new NotFoundException();
-        }
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
-        } 
-        
+        }
     }
 }
